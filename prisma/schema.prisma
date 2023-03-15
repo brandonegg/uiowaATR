@@ -48,7 +48,7 @@ model AuditoryResource {
     name         String
     description  String
     manufacturer String
-    format       Platform
+    platform     Platform
     ages         RangeInput
     skills       Skill[]
     skill_level  SkillLevel

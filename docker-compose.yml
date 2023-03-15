@@ -10,7 +10,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - atr_mongodb_container:/data/db
+      - mongodb_container:/data/db
 
 volumes:
-  atr_mongodb_container:
+  mongodb_container:
