@@ -43,16 +43,17 @@ type RangeInput {
 }
 
 model AuditoryResource {
-    id           String @id @default(auto()) @map("_id") @db.ObjectId
-    icon         String
-    name         String
-    description  String
-    manufacturer String
-    platform     Platform
-    ages         RangeInput
-    skills       Skill[]
-    skill_level  SkillLevel
-    cost         Float
+    id            String @id @default(auto()) @map("_id") @db.ObjectId
+    icon          String
+    name          String
+    description   String
+    manufacturer  String
+    platforms     Platform[]
+    ages          RangeInput
+    skills        Skill[]
+    skill_levels  SkillLevel[]
+    cost          Float
+    download_link String
 }
 
 // Necessary for Next auth
