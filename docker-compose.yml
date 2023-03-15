@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  atr_mongodb:
+    image: mongo:latest
+    restart: always
+    environment:
+      - MONGO_ROOT_USERNAME
+      - MONGO_ROOT_PASSWORD
+    ports:
+      - 27017:27017
+    volumes:
+      - atr_mongodb_container:/data/db
+
+volumes:
+  atr_mongodb_container:
