@@ -37,23 +37,29 @@ enum SkillLevel {
     ADVANCED
 }
 
+enum PaymentType {
+    FREE
+    SUBSCRIPTION_WEEKLY
+    SUBSCRIPTION_MONTHLY
+}
+
 type RangeInput {
     min Int
     max Int
 }
 
 model AuditoryResource {
-    id            String @id @default(auto()) @map("_id") @db.ObjectId
-    icon          String
-    name          String
-    description   String
-    manufacturer  String
-    platforms     Platform[]
-    ages          RangeInput
-    skills        Skill[]
-    skill_levels  SkillLevel[]
-    cost          Float
-    download_link String
+    id              String @id @default(auto()) @map("_id") @db.ObjectId
+    icon            String
+    name            String
+    description     String
+    manufacturer    String
+    platforms       Platform[]
+    ages            RangeInput
+    skills          Skill[]
+    skill_levels    SkillLevel[]
+    payment_options PaymentType[]
+    download_link   String
 }
 
 // Necessary for Next auth
