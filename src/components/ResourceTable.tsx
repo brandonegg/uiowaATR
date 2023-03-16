@@ -1,6 +1,6 @@
 import { type PaymentType } from '@prisma/client';
 import { CurrencyDollarIcon, ArrowPathRoundedSquareIcon } from '@heroicons/react/24/solid';
-import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
+import { ClipboardDocumentListIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -51,12 +51,21 @@ const ResourceDescription = () => {
 const ResourceSkills = () => {
     const SkillRanking = () => {
         return (
-            <div className='flex flex-row space-x-2'>
-                <div className="rounded-lg px-[1px] border-green-600 border-2 bg-green-300">
-                    <h2 className="text-neutral-900 italic text-sm font-bold text-right">Beginner</h2>
+            <div className='flex flex-row space-x-2 overflow-x-auto'>
+                <div className="rounded-lg px-[3px] border-green-600 border-2 bg-green-300">
+                    <h2 className="text-neutral-900 italic text-sm text-right">Beginner</h2>
                 </div>
-                <div className="rounded-lg px-[1px] border-orange-600 border-2 bg-orange-300">
-                    <h2 className="text-neutral-900 text-sm font-bold italic text-right">Intermediate</h2>
+                <div className="rounded-lg px-[3px] border-orange-600 border-2 bg-orange-300">
+                    <h2 className="text-neutral-900 text-sm italic text-right">Intermediate</h2>
+                </div>
+                <div className="rounded-lg px-[3px] border-orange-600 border-2 bg-orange-300">
+                    <h2 className="text-neutral-900 text-sm italic text-right">Intermediate</h2>
+                </div>
+                <div className="rounded-lg px-[3px] border-orange-600 border-2 bg-orange-300">
+                    <h2 className="text-neutral-900 text-sm italic text-right">Intermediate</h2>
+                </div>
+                <div className="rounded-lg px-[3px] border-orange-600 border-2 bg-orange-300">
+                    <h2 className="text-neutral-900 text-sm italic text-right">Intermediate</h2>
                 </div>
             </div>
         )
@@ -94,7 +103,7 @@ const ResourceTable = () => {
                 <td className="max-w-xs">
                     <ResourceInfo />
                 </td>
-                <td className="align-center">
+                <td className="w-1/4 align-center">
                     <ResourceSkills />
                 </td>
                 <td className="align-top">
@@ -107,7 +116,7 @@ const ResourceTable = () => {
     return(
     <div className="px-4 w-full">
         <div className="mx-auto max-w-6xl rounded-xl overflow-hidden border border-neutral-400">
-            <table className="w-full bg-neutral-200 drop-shadow-md">
+            <table className="w-full table-fixed bg-neutral-200 drop-shadow-md">
                 <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 rounded-xl overflow-hidden">
                     <tr>
                         <th className="w-1/3 max-w-xs">
@@ -121,7 +130,7 @@ const ResourceTable = () => {
                             </span>
                         </th>
                         <th>
-                            <span className="text-white block px-4 py-2 text-left">
+                            <span className="text-gray-300 block px-4 py-2 text-left">
                                 Description
                             </span>
                         </th>

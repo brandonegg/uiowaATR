@@ -11,10 +11,14 @@ interface NavBarLinkProps {
 
 const NavBarLink = ({href, label, dropdown}: NavBarLinkProps) => {
     return (
-        <li>
-            <Link href={href} className="space-x-[4px] flex flex-row">
-                <span className="font-bold text-lg py-2">{label}</span>
-                {dropdown ? <ChevronDownIcon className="w-4"/> : <></>}
+        <li className="">
+            <Link href={href} className="h-14 block hover:border-b-2 border-neutral-800 box-border">
+                <div className="h-full flex flex-row space-x-[4px]">
+                    <div className="inline-block my-auto">
+                        <span className="inline-block font-bold text-lg py-2 align-text-middle">{label}</span>
+                    </div>
+                    {dropdown ? <ChevronDownIcon className="w-4"/> : <></>}
+                </div>
             </Link>
         </li>
     );
@@ -22,7 +26,7 @@ const NavBarLink = ({href, label, dropdown}: NavBarLinkProps) => {
 
 const NavBar = () => {
     return (
-        <nav className="bg-gradient-to-b from-yellow-500 to-yellow-300 w-full shadow-black drop-shadow-md">
+        <nav className="bg-gradient-to-b from-yellow-400 to-yellow-300 w-full shadow-black drop-shadow-md">
             <li className="mx-auto max-w-5xl flex flex-row sm:justify-between px-4">
                 <ul id="left-nav-links" className="flex flex-row space-x-10">
                     <NavBarLink href='/' label='Home'/>
