@@ -1,4 +1,4 @@
-import { type Platform, type PaymentType, type AuditoryResource, type Skill, type SkillLevel } from '@prisma/client';
+import { type PlatformLink, type PaymentType, type AuditoryResource, type Skill, type SkillLevel } from '@prisma/client';
 import { CurrencyDollarIcon, ArrowPathRoundedSquareIcon } from '@heroicons/react/24/solid';
 import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
@@ -17,9 +17,9 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
             )
         }
     
-        const PlatformInfo = ({platforms}: {platforms: Platform[]}) => {
-            const platformsStr = platforms.map((platform) => {
-                return translateEnumPlatform(platform);
+        const PlatformInfo = ({platformLinks}: {platformLinks: PlatformLink[]}) => {
+            const platformsStr = platformLinks.map((platformLink) => {
+                return translateEnumPlatform(platformLink.platform);
             }).join(', ');
             
             return (
@@ -32,7 +32,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
                 <div className="h-full my-auto">
                 <Link href="https://google.com">
                     <div className="w-20 sm:w-28 flex space-y-2 flex-col justify-center">
-                        <Image className="w-full rounded-xl drop-shadow-lg border border-neutral-400" src="/resource_logos/word_success.png" alt="Word Success logo" width={512} height={512}/>
+                        <Image className="w-full rounded-xl drop-shadow-lg border border-neutral-400" src={resource.icon} alt={`${resource.name} logo`} width={512} height={512}/>
                         <span 
                         className="block bg-neutral-900 hover:bg-neutral-500 border border-neutral-900 text-center py-[1px] text-white rounded-lg">
                             more info
@@ -44,7 +44,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
                     <div className="">
                         <h2 className="text-xs italic text-gray-600">{resource.manufacturer}</h2>
                         <h1 className="font-bold text-xl">{resource.name}</h1>
-                        <PlatformInfo platforms={resource.platforms}/>
+                        <PlatformInfo platformLinks={resource.platform_links}/>
                         <PriceIcons type={resource?.payment_options[0] ?? 'FREE'} />
                     </div>
                 </div>
