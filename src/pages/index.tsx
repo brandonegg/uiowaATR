@@ -16,8 +16,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>under construction</h1>
-        <ResourceTable />
+        <div className="my-6">
+          <ResourceTable />
+        </div>
       </main>
     </>
   );

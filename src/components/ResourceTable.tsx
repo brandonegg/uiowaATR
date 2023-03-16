@@ -39,8 +39,30 @@ const ResourceInfo = () => {
 
 const ResourceDescription = () => {
     return (
-        <div className="p-2">
-            <p>Description here</p>
+        <div className="flex flex-col p-2">
+            <p>App with four different exercises that range from selecting the spoken word alone, in a senter (either in first, medial, or last position), and with or without background noise.</p>
+        </div>
+    )
+}
+
+const ResourceSkills = () => {
+    const SkillRanking = () => {
+        return (
+            <div className='w-full border border-neutral-800 rounded-lg overflow-hidden'>
+                <div className="p-2 bg-gradient-to-r from-green-600 via-orange-500 to-red-800">
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div className="m-2 flex justify-between flex-col">
+            <SkillRanking />
+            <div>
+                <ul>
+                    <li>test</li>
+                </ul>
+            </div>
         </div>
     )
 }
@@ -49,10 +71,13 @@ const ResourceTable = () => {
     const ResourceEntry = () => {
         return (
             <tr className="divide-x-[1px] divide-slate-300">
-                <td>
+                <td className="max-w-xs">
                     <ResourceInfo />
                 </td>
-                <td>
+                <td className="align-center">
+                    <ResourceSkills />
+                </td>
+                <td className="align-top">
                     <ResourceDescription />
                 </td>
             </tr>
@@ -61,13 +86,18 @@ const ResourceTable = () => {
 
     return(
     <div className="px-4 w-full">
-        <div className="rounded-xl overflow-hidden border border-neutral-400">
-            <table className="table-fixed w-full bg-neutral-200 drop-shadow-md">
+        <div className="mx-auto max-w-6xl rounded-xl overflow-hidden border border-neutral-400">
+            <table className="w-full bg-neutral-200 drop-shadow-md">
                 <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 rounded-xl overflow-hidden">
                     <tr>
-                        <th className="w-1/2">
+                        <th className="w-1/2 lg:w-1/3 max-w-xs">
                             <span className="text-gray-300 block px-4 py-2 text-left">
                                 Resource
+                            </span>
+                        </th>
+                        <th className="w-1/4 max-w-xs">
+                            <span className="text-gray-300 block px-4 py-2 text-left">
+                                Skills
                             </span>
                         </th>
                         <th>
