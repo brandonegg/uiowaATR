@@ -1,10 +1,15 @@
 import { PaymentType } from '@prisma/client';
+import { CurrencyDollarIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image';
 import Link from 'next/link';
 
 const ResourceInfo = () => {
     const PriceIcons = ({type}: {type: PaymentType}) => {
-
+        return (
+            <div>
+                <CurrencyDollarIcon className="h-6 w-6 text-lime-800"/>
+            </div>
+        )
     }
     
     return (
@@ -23,9 +28,7 @@ const ResourceInfo = () => {
             <div className="grow">
                 <h1 className="font-bold text-xl">Word Success</h1>
                 <p>Apple and Android</p>
-                <div className="">
-
-                </div>
+                <PriceIcons type={PaymentType.SUBSCRIPTION_WEEKLY} />
             </div>
         </div>
     )
