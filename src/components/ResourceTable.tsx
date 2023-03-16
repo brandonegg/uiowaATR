@@ -1,13 +1,14 @@
 import { PaymentType } from '@prisma/client';
-import { CurrencyDollarIcon } from '@heroicons/react/24/solid'
+import { CurrencyDollarIcon, ArrowPathRoundedSquareIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image';
 import Link from 'next/link';
 
 const ResourceInfo = () => {
     const PriceIcons = ({type}: {type: PaymentType}) => {
         return (
-            <div>
-                <CurrencyDollarIcon className="h-6 w-6 text-lime-800"/>
+            <div className="space-x-1" title="Weekly recurring subscription">
+                <ArrowPathRoundedSquareIcon className="inline h-6 w-6" />
+                <CurrencyDollarIcon className="inline h-6 w-6 text-lime-800"/>
             </div>
         )
     }
@@ -25,10 +26,12 @@ const ResourceInfo = () => {
                     </div>
                 </Link>
             </div>
-            <div className="grow">
-                <h1 className="font-bold text-xl">Word Success</h1>
-                <p>Apple and Android</p>
-                <PriceIcons type={PaymentType.SUBSCRIPTION_WEEKLY} />
+            <div className="grow grid place-items-center">
+                <div className="">
+                    <h1 className="font-bold text-xl">Word Success</h1>
+                    <p>Apple and Android</p>
+                    <PriceIcons type={PaymentType.SUBSCRIPTION_WEEKLY} />
+                </div>
             </div>
         </div>
     )
