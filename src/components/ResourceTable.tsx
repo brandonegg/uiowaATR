@@ -1,5 +1,6 @@
 import { PaymentType } from '@prisma/client';
 import { CurrencyDollarIcon, ArrowPathRoundedSquareIcon } from '@heroicons/react/24/solid'
+import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -28,6 +29,7 @@ const ResourceInfo = () => {
             </div>
             <div className="grow grid place-items-center">
                 <div className="">
+                    <h2 className="text-xs italic text-gray-600">Advanced Bionics, LLC</h2>
                     <h1 className="font-bold text-xl">Word Success</h1>
                     <p>Apple and Android</p>
                     <PriceIcons type={PaymentType.SUBSCRIPTION_WEEKLY} />
@@ -48,21 +50,38 @@ const ResourceDescription = () => {
 const ResourceSkills = () => {
     const SkillRanking = () => {
         return (
-            <div className='w-full border border-neutral-800 rounded-lg overflow-hidden'>
-                <div className="p-2 bg-gradient-to-r from-green-600 via-orange-500 to-red-800">
+            <div className='flex flex-row space-x-2'>
+                <div className="rounded-lg px-[1px] border-green-600 border-2 bg-green-300">
+                    <h2 className="text-neutral-900 italic text-sm font-bold text-right">Beginner</h2>
+                </div>
+                <div className="rounded-lg px-[1px] border-orange-600 border-2 bg-orange-300">
+                    <h2 className="text-neutral-900 text-sm font-bold italic text-right">Intermediate</h2>
                 </div>
             </div>
         )
     }
 
+    const Skill = ({label}: {label:string}) => {
+        return (
+            <li className="space-x-2 flex flex-row px-2 py-[1px]">
+                <ClipboardDocumentListIcon className="w-4" />
+                <div className="inline">
+                    <h3>{label}</h3>
+                </div>
+            </li>
+        )
+    }
+
     return (
-        <div className="m-2 flex justify-between flex-col">
-            <SkillRanking />
-            <div>
-                <ul>
-                    <li>test</li>
+        <div className="m-2 flex space-y-4 flex-col">
+            <div className='rounded-lg bg-gray-100 drop-shadow border border-neutral-900'>
+                <ul className="divide-y-2">
+                    <Skill label="Word Recognition" />
+                    <Skill label="Sentences" />
+                    <Skill label="Music" />
                 </ul>
             </div>
+            <SkillRanking />
         </div>
     )
 }
@@ -90,7 +109,7 @@ const ResourceTable = () => {
             <table className="w-full bg-neutral-200 drop-shadow-md">
                 <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 rounded-xl overflow-hidden">
                     <tr>
-                        <th className="w-1/2 lg:w-1/3 max-w-xs">
+                        <th className="w-1/3 max-w-xs">
                             <span className="text-gray-300 block px-4 py-2 text-left">
                                 Resource
                             </span>
@@ -107,8 +126,7 @@ const ResourceTable = () => {
                         </th>
                     </tr>
                 </thead>
-                <tbody className="divide-y-[1px] divide-slate-300">
-                    <ResourceEntry />
+                <tbody className="divide-y-[1px] divide-slate-300 overflow-y-scroll">
                     <ResourceEntry />
                 </tbody>
             </table>
