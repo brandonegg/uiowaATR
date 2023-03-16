@@ -48,18 +48,22 @@ type RangeInput {
     max Int
 }
 
+type PlatformLink {
+    platform Platform
+    link String
+}
+
 model AuditoryResource {
     id              String @id @default(auto()) @map("_id") @db.ObjectId
     icon            String
     name            String
     description     String
     manufacturer    String
-    platforms       Platform[]
     ages            RangeInput
     skills          Skill[]
     skill_levels    SkillLevel[]
     payment_options PaymentType[]
-    download_link   String
+    platform_links  PlatformLink[]
 }
 
 // Necessary for Next auth
