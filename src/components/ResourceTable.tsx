@@ -58,15 +58,6 @@ const ResourceSkills = () => {
                 <div className="rounded-lg px-[3px] border-orange-600 border-2 bg-orange-300">
                     <h2 className="text-neutral-900 text-sm italic text-right">Intermediate</h2>
                 </div>
-                <div className="rounded-lg px-[3px] border-orange-600 border-2 bg-orange-300">
-                    <h2 className="text-neutral-900 text-sm italic text-right">Intermediate</h2>
-                </div>
-                <div className="rounded-lg px-[3px] border-orange-600 border-2 bg-orange-300">
-                    <h2 className="text-neutral-900 text-sm italic text-right">Intermediate</h2>
-                </div>
-                <div className="rounded-lg px-[3px] border-orange-600 border-2 bg-orange-300">
-                    <h2 className="text-neutral-900 text-sm italic text-right">Intermediate</h2>
-                </div>
             </div>
         )
     }
