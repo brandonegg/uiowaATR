@@ -1,17 +1,20 @@
 import { type NextPage } from "next";
 import Image from 'next/image';
 import Link from "next/link";
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 interface NavBarLinkProps {
     href: string;
     label: string;
+    dropdown?: boolean;
 }
 
-const NavBarLink = ({href, label}: NavBarLinkProps) => {
+const NavBarLink = ({href, label, dropdown}: NavBarLinkProps) => {
     return (
         <li>
-            <Link href={href}>
-                <span className="inline-block py-2">{label}</span>
+            <Link href={href} className="space-x-[4px] flex flex-row">
+                <span className="font-bold text-lg py-2">{label}</span>
+                {dropdown ? <ChevronDownIcon className="w-4"/> : <></>}
             </Link>
         </li>
     );
@@ -19,18 +22,18 @@ const NavBarLink = ({href, label}: NavBarLinkProps) => {
 
 const NavBar = () => {
     return (
-        <nav className="bg-amber-400 flex flex-row justify-between px-4">
-            <ul id="left-nav-links" className="flex flex-row space-x-4">
-                <NavBarLink href='/' label='Home'/>
-                <NavBarLink href='/' label='Resources'/>
-                <NavBarLink href='/' label='About'/>
-            </ul>
+        <nav className="bg-yellow-400 w-full drop-shadow-md">
+            <li className="mx-auto max-w-5xl flex flex-row sm:justify-between px-4">
+                <ul id="left-nav-links" className="flex flex-row space-x-10">
+                    <NavBarLink href='/' label='Home'/>
+                    <NavBarLink dropdown href='/' label='Resources'/>
+                    <NavBarLink href='/' label='About'/>
+                </ul>
 
-            <ul id="right-nav-links" className="flex flex-row space-x-4">
-                <NavBarLink href='/' label='Home'/>
-                <NavBarLink href='/' label='Home'/>
-                <NavBarLink href='/' label='Contact Us'/>
-            </ul>
+                <ul id="right-nav-links" className="hidden sm:flex flex-row space-x-4">
+                    <NavBarLink href='/' label='Contact Us'/>
+                </ul>
+            </li>
         </nav>
     )
 }
@@ -41,11 +44,8 @@ const Header: NextPage = () => {
             <div>
                 <Image alt="Ear listening" src="listening-ear.svg" width={64} height={64}/>
             </div>
-            <div id="header-title" className="grow grid place-items-center">
-                <h1 className="text-center text-xl font-bold">Center for Auditory Training Resources</h1>
-            </div>
-            <div>
-                <Image alt="Ear listening" src="listening-ear.svg" width={64} height={64}/>
+            <div id="header-title" className="w-64 grid place-items-center">
+                <h1 className="text-center text-2xl font-bold">Center for Auditory Training Resources</h1>
             </div>
         </div>
         <NavBar/>
