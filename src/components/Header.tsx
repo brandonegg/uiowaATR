@@ -22,7 +22,7 @@ const NavBarLink = ({href, label, dropdown}: NavBarLinkProps) => {
 
 const NavBar = () => {
     return (
-        <nav className="bg-yellow-400 w-full drop-shadow-md">
+        <nav className="bg-gradient-to-b from-yellow-500 to-yellow-300 w-full shadow-black drop-shadow-md">
             <li className="mx-auto max-w-5xl flex flex-row sm:justify-between px-4">
                 <ul id="left-nav-links" className="flex flex-row space-x-10">
                     <NavBarLink href='/' label='Home'/>
@@ -40,12 +40,12 @@ const NavBar = () => {
 
 const Header: NextPage = () => {
     return <>
-        <div id="logo-row" className="flex flex-row p-4 bg-neutral-800 z-50 drop-shadow-xl">
+        <div id="logo-row" className="flex flex-row p-4 justify-center bg-neutral-800 z-50 drop-shadow-xl">
             <div>
                 <Image alt="Ear listening" src="listening-ear.svg" width={64} height={64}/>
             </div>
             <div id="header-title" className="w-64 grid place-items-center">
-                <h1 className="text-center text-2xl font-bold text-white">Center for Auditory Training Resources</h1>
+                <h1 className="text-center text-2xl font-bold text-neutral-300">Center for Auditory Training Resources</h1>
             </div>
         </div>
         <NavBar/>
