@@ -31,7 +31,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
             <div className="p-4 space-x-4 flex flex-row">
                 <div className="h-full my-auto">
                 <Link href="https://google.com">
-                    <div className="w-28 flex space-y-2 flex-col justify-center">
+                    <div className="w-20 sm:w-28 flex space-y-2 flex-col justify-center">
                         <Image className="w-full rounded-xl drop-shadow-lg border border-neutral-400" src="/resource_logos/word_success.png" alt="Word Success logo" width={512} height={512}/>
                         <span 
                         className="block bg-neutral-900 hover:bg-neutral-500 border border-neutral-900 text-center py-[1px] text-white rounded-lg">
@@ -116,7 +116,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
             <td className="w-1/4 align-center">
                 <ResourceSkills skills={resource.skills} skillLevels={resource.skill_levels} />
             </td>
-            <td className="align-top">
+            <td className="align-top hidden sm:table-cell">
                 <ResourceDescription description={resource.description} />
             </td>
         </tr>
@@ -130,7 +130,7 @@ const ResourceTable = ({resources}: {resources?: AuditoryResource[]}) => {
     }) ?? [];
 
     return(
-    <div className="px-4 w-full">
+    <div className="sm:px-4 w-full">
         <div className="mx-auto max-w-6xl rounded-xl overflow-hidden border border-neutral-400">
             <table className="w-full table-fixed bg-neutral-200 drop-shadow-md">
                 <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 rounded-xl overflow-hidden">
@@ -145,7 +145,7 @@ const ResourceTable = ({resources}: {resources?: AuditoryResource[]}) => {
                                 Skills
                             </span>
                         </th>
-                        <th>
+                        <th className="hidden sm:table-cell">
                             <span className="text-gray-300 block px-4 py-2 text-left">
                                 Description
                             </span>
