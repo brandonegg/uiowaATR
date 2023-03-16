@@ -30,7 +30,7 @@ const NavBar = () => {
             <li className="mx-auto max-w-5xl flex flex-row sm:justify-between px-4">
                 <ul id="left-nav-links" className="flex flex-row space-x-10">
                     <NavBarLink href='/' label='Home'/>
-                    <NavBarLink dropdown href='/' label='Resources'/>
+                    <NavBarLink dropdown href='/resources' label='Resources'/>
                     <NavBarLink href='/' label='About'/>
                 </ul>
 

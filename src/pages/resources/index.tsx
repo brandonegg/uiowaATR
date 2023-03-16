@@ -1,8 +1,10 @@
-import { type NextPage } from "next";
 import Head from "next/head";
+import ResourceTable from "~/components/ResourceTable";
+import { api } from "~/utils/api";
 
-const Home: NextPage = () => {
-  
+const Resources = () => {
+  const query = api.auditoryResource.getAll.useQuery();
+
   return (
     <>
       <Head>
@@ -12,11 +14,11 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <div className="my-6">
-          <p>Nothing yet</p>
+          <ResourceTable resources={query.data} />
         </div>
       </main>
     </>
   );
-};
+}
 
-export default Home;
+export default Resources;
