@@ -5,8 +5,7 @@ import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   
-  //const query = api.auditoryResource.getAll.useQuery();
-  //console.log(query.data);
+  const query = api.auditoryResource.getAll.useQuery();
 
   return (
     <>
@@ -17,7 +16,7 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <div className="my-6">
-          <ResourceTable />
+          <ResourceTable resources={query.data} />
         </div>
       </main>
     </>
