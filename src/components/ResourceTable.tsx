@@ -136,8 +136,9 @@ const PagesNavigation = ({currentPage, pageCount, resultsPerPage, updateResultsP
     const PageButton = ({number}: {number: number}) => {
       return (
         <li>
-          <Link href={{ pathname: `/resources`, query: {page: number} }}>
-            <span className={"text-lg " + (currentPage === number ? "text-neutral-900" : "text-neutral-500")}>{number}</span>
+          <Link className={"block py px-[9px] m-1 rounded " + (currentPage !== number ? "hover:bg-neutral-400 hover:text-white" : "bg-neutral-800 text-white")}
+                href={{ pathname: `/resources`, query: {page: number} }}>
+            <span className={"text-lg text-center"}>{number}</span>
           </Link>
         </li>
       )
@@ -174,7 +175,7 @@ const PagesNavigation = ({currentPage, pageCount, resultsPerPage, updateResultsP
                 <h1 className="text-md"> Results Per Page</h1>
             </div>
         </div>
-        <ul className="my-auto flex flex-row space-x-4">
+        <ul className="my-auto flex flex-row bg-white rounded border-gray-400 hover:border-gray-500 border shadow">
           {pages}
         </ul>
       </div>
