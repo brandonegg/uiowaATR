@@ -7,7 +7,9 @@ import ResourceTable from "~/components/ResourceTable";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
+import { parseQueryData } from "~/utils/parseSearchForm";
 
+/*
 export async function getStaticProps() {
   const ssg = createProxySSGHelpers({
     router: appRouter,
@@ -25,53 +27,7 @@ export async function getStaticProps() {
     revalidate: 1,
   };
 }
-
-interface ViewDetails {
-  page?: number;
-}
-
-interface SearchQuery {
-  age?: RangeInput,
-  platforms?: Platform[],
-  skill_levels?: SkillLevel[],
-  skills?: Skill[],
-}
-
-const parseQueryData = (query: ParsedUrlQuery): SearchQuery & ViewDetails => {
-  const view = {
-    page: Number(query["page"] ?? 1),
-  }
-  const filter: SearchQuery = {};
-
-  if (query["ages"]) {
-    const ages: number[] = [];
-
-    if (Array.isArray(query["ages"])) {
-      const validRanges = query["ages"].filter((value) => {
-        return value.split("-").length == 2;
-      });
-
-      validRanges.forEach((value) => {
-        const split = value.split("-");
-        ages.push(Number(split[0]));
-        ages.push(Number(split[1]));
-      });
-    } else {
-      const split = query["ages"].split("-");
-      ages.push(Number(split[0]));
-      ages.push(Number(split[1]));
-    }
-
-    filter.age = {
-      min: Math.min(...ages),
-      max: Math.max(...ages),
-    }
-  }
-
-  if (query["platforms"])
-
-  return {...filter, ...view};
-}
+*/
 
 const Resources = () => {
   const router = useRouter()
@@ -79,7 +35,13 @@ const Resources = () => {
   const queryData = parseQueryData(router.query);
   const currentPage = queryData.page;
 
-  const query = api.auditoryResource.getAll.useQuery();
+  const query = api.auditoryResource.search.useQuery({
+    ages: queryData.age,
+    platforms: queryData.platforms,
+    skill_levels: queryData.skill_levels,
+    skills: queryData.skills,
+  });
+
   if (!query.data) {
     return <></>
   }

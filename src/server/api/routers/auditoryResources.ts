@@ -1,4 +1,4 @@
-import { Platform } from "@prisma/client";
+import { SkillLevel, Skill, Platform } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -28,11 +28,12 @@ export const auditoryResourceRouter = createTRPCRouter({
         min: z.number().int(),
         max: z.number().int(),
       }).optional(),
-      platforms: z.string().array().optional()
+      platforms: z.nativeEnum(Platform).array().optional(),
+      skill_levels: z.nativeEnum(SkillLevel).array().optional(),
+      skills: z.nativeEnum(Skill).array().optional(),
     }))
     .query(({ctx}) => {
-      return {
-        test: "hello",
-      };
+
+      return ctx.prisma.auditoryResource.findMany();
     }),
 });
