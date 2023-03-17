@@ -18,6 +18,6 @@ export const auditoryResourceRouter = createTRPCRouter({
     }),
 
   getAll: publicProcedure.query(({ ctx }) => {
-      return ctx.prisma.auditoryResource.findMany({ take:10 });
+      return ctx.prisma.auditoryResource.findMany();
   }),
 });

@@ -123,15 +123,45 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     )
 }
 
-const ResourceTable = ({resources}: {resources?: AuditoryResource[]}) => {
+const PagesNavigation = ({currentPage, pageCount}: {currentPage: number, pageCount: number}) => {
+    const PageButton = ({number}: {number: number}) => {
+      return (
+        <li>
+          <Link href={{ pathname: `/resources`, query: {page: number} }}>
+            <span className={"text-lg " + (currentPage === number ? "text-neutral-900" : "text-neutral-500")}>{number}</span>
+          </Link>
+        </li>
+      )
+    }
+  
+    const pages = Array.from(Array(pageCount).keys()).map((pageNumber) => {
+      return (
+        <PageButton key={pageNumber} number={pageNumber+1} />
+      )
+    });
+  
+    return (
+      <div className="flex flex-row justify-between px-4 py-2 bg-amber-100">
+        <h1 className="font-bold text-lg">Pages</h1>
+        <ul className="flex flex-row space-x-4">
+          {pages}
+        </ul>
+      </div>
+    )
+  }
 
-    const resourceElements = resources?.map((resource, index) => {
+const ResourceTable = ({resources, currentPage}: {resources?: AuditoryResource[], currentPage: number}) => {
+    const resourcesPerPage = 10;
+    const totalPages = Math.ceil((resources?.length ?? 0) / resourcesPerPage);
+    const pageResources = resources?.slice(resourcesPerPage*(currentPage-1), (resourcesPerPage*currentPage)) ?? [];
+    const resourceElements = pageResources?.map((resource, index) => {
         return (<ResourceEntry key={index} resource={resource} />);
     }) ?? [];
 
     return(
     <div className="w-full">
         <div className="mx-auto rounded-xl overflow-hidden border border-neutral-400">
+            <PagesNavigation currentPage={currentPage} pageCount={totalPages} />
             <table className="w-full table-fixed bg-neutral-200 drop-shadow-md">
                 <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 rounded-xl overflow-hidden">
                     <tr>

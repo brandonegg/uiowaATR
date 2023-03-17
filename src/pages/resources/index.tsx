@@ -1,6 +1,7 @@
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import ResourceTable from "~/components/ResourceTable";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
@@ -25,7 +26,13 @@ export async function getStaticProps() {
 }
 
 const Resources = () => {
+  const router = useRouter()
   const query = api.auditoryResource.getAll.useQuery();
+  if (!query.data) {
+    return <></>
+  }
+
+  const currentPage = Number(router.query["page"] ?? 1)
 
   return (
     <>
@@ -36,15 +43,7 @@ const Resources = () => {
       </Head>
       <main>
         <div className="my-6 sm:px-4 max-w-6xl mx-auto">
-          <div className="flex flex-row justify-between mb-4 p-4 bg-amber-100 rounded-xl border border-neutral-300">
-            <h1 className="font-bold">Pages</h1>
-            <ul className="flex flex-row">
-              <li>
-                <Link href="" />
-              </li>
-            </ul>
-          </div>
-          <ResourceTable resources={query.data} />
+          <ResourceTable resources={query.data} currentPage={currentPage} />
         </div>
       </main>
     </>
