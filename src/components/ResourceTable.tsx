@@ -10,13 +10,31 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline';
 const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     const ResourceInfo = ({resource}: {resource: AuditoryResource}) => {
         const PriceIcons = ({type}: {type: PaymentType}) => {
-    
-            return (
-                <div className="space-x-1" title="Weekly recurring subscription">
-                    <ArrowPathRoundedSquareIcon className="inline h-6 w-6" />
-                    <CurrencyDollarIcon className="inline h-6 w-6 text-lime-800"/>
-                </div>
-            )
+            switch(type) {
+                case "FREE": {
+                    return (
+                        <div className="pt-2 space-x-1" title="Free">
+                            <span className="bg-amber-100 italic rounded-lg border border-neutral-900 text-black px-2 py-[1px]">
+                                free
+                            </span>
+                        </div>
+                    )
+                }
+                case "SUBSCRIPTION_MONTHLY": {
+                    <div className="space-x-1" title="Monthly recurring subscription">
+                        <ArrowPathRoundedSquareIcon className="inline h-6 w-6" />
+                        <CurrencyDollarIcon className="inline h-6 w-6 text-lime-800"/>
+                    </div>
+                }
+                case "SUBSCRIPTION_WEEKLY": {
+                    return (
+                        <div className="space-x-1" title="Weekly recurring subscription">
+                            <ArrowPathRoundedSquareIcon className="inline h-6 w-6" />
+                            <CurrencyDollarIcon className="inline h-6 w-6 text-lime-800"/>
+                        </div>
+                    )
+                }
+            }
         }
     
         const PlatformInfo = ({platformLinks}: {platformLinks: PlatformLink[]}) => {
@@ -102,11 +120,13 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     
         return (
             <div className="m-2 flex space-y-4 flex-col">
-                <div className='rounded-lg bg-gray-100 drop-shadow border border-neutral-900'>
-                    <ul className="divide-y-2">
-                        {skillsComponents}
-                    </ul>
-                </div>
+                { skillsComponents.length > 0 ?
+                    <div className='rounded-lg bg-gray-100 drop-shadow border border-neutral-900'>
+                        <ul className="divide-y-2">
+                            {skillsComponents}
+                        </ul>
+                    </div> : <></>
+                }
                 <SkillRanking skillLevels={skillLevels} />
             </div>
         )
@@ -117,7 +137,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
             <td className="max-w-xs">
                 <ResourceInfo resource={resource} />
             </td>
-            <td className="w-1/4 align-center">
+            <td className="w-1/4 align-top">
                 <ResourceSkills skills={resource.skills} skillLevels={resource.skill_levels} />
             </td>
             <td className="align-top hidden sm:table-cell">

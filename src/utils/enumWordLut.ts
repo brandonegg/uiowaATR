@@ -27,25 +27,25 @@ export const translateEnumPlatform = (value: Platform) => {
 export const translateEnumSkill = (value: Skill) => {
     switch(value) {
         case "ENVIRONMENT": {
-            return "not done";
+            return "Environmental Sounds";
         }
         case "BACKGROUND": {
             return "not done";
         }
         case "DISCOURSE": {
-            return "not done";
+            return "Discourse Level";
         }
         case "MUSIC": {
-            return "Music"
+            return "Music Appreciation"
         }
         case "PHONEMES": {
-            return "not done";
+            return "Word Recognition (phonemes)";
         }
         case "SENTENCES": {
             return "Sentences"
         }
         case "WORDS": {
-            return "Word Recognition"
+            return "Words (stressed syllables)"
         }
     }
 }
