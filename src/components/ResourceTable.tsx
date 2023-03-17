@@ -3,7 +3,7 @@ import { CurrencyDollarIcon, ArrowPathRoundedSquareIcon } from '@heroicons/react
 import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
-import { translateEnumPlatform } from '~/utils/enumWordLut';
+import { translateEnumPlatform, translateEnumSkill } from '~/utils/enumWordLut';
 import { type ChangeEvent, type Dispatch, type SetStateAction, useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
@@ -95,14 +95,16 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
                 </li>
             )
         }
+
+        const skillsComponents = skills.map((skill, index) => {
+            return <Skill key={index} label={translateEnumSkill(skill)}/>
+        });
     
         return (
             <div className="m-2 flex space-y-4 flex-col">
                 <div className='rounded-lg bg-gray-100 drop-shadow border border-neutral-900'>
                     <ul className="divide-y-2">
-                        <Skill label="Word Recognition" />
-                        <Skill label="Sentences" />
-                        <Skill label="Music" />
+                        {skillsComponents}
                     </ul>
                 </div>
                 <SkillRanking skillLevels={skillLevels} />
