@@ -1,17 +1,60 @@
-// GOOD TUTORIAL
+import { type InferGetStaticPropsType, type GetStaticPropsContext } from "next";
+import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { appRouter } from "~/server/api/root";
+import { prisma } from "~/server/db";
+import { api } from "~/utils/api";
 
-export default function Resource() {
-    return (
-        <>
-          Hello
-        </>
-    );
-  }
+const ResourceViewPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { id } = props;
+  const resourceQuery = api.auditoryResource.byId.useQuery({ id });
+
+  return <>
+    <div>
+      {resourceQuery.data?.name ?? 'loading..'}
+    </div>
+  </>
+};
   
-export async function getStaticPaths() {
-  // Return a list of possible value for id
+export const getStaticPaths = async () => {
+  //const amountPerPage = 10;
+  const resources = (await prisma.auditoryResource.findMany({
+    select: {
+      id: true,
+    }
+  }));
+  //const pages = Math.ceil(objectCount / amountPerPage);
+
+  return {
+    paths: resources.map((resource) => ({
+      params: {
+        id: resource.id,
+      }
+    })),
+    fallback: 'blocking',
+  }
+};
+
+export async function getStaticProps(
+  context: GetStaticPropsContext<{ id: string }>,
+) {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: {
+      prisma,
+      session: null,
+    },
+  });
+  const id = context.params?.id as string;
+
+  await ssg.auditoryResource.byId.prefetch({id});
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+      id,
+    },
+    revalidate: 1,
+  };
 }
 
-export async function getStaticProps({ params }) {
-  // Fetch necessary data for the blog post using params.id
-}
+export default ResourceViewPage

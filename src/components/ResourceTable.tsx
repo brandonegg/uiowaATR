@@ -30,7 +30,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
         return (
             <div className="p-4 space-x-4 flex flex-row">
                 <div className="h-full my-auto">
-                <Link href="https://google.com">
+                <Link href={`resources/${resource.id}`}>
                     <div className="w-20 sm:w-28 flex space-y-2 flex-col justify-center">
                         <Image className="w-full rounded-xl drop-shadow-lg border border-neutral-400" src={resource.icon} alt={`${resource.name} logo`} width={512} height={512}/>
                         <span 
@@ -130,8 +130,8 @@ const ResourceTable = ({resources}: {resources?: AuditoryResource[]}) => {
     }) ?? [];
 
     return(
-    <div className="sm:px-4 w-full">
-        <div className="mx-auto max-w-6xl rounded-xl overflow-hidden border border-neutral-400">
+    <div className="w-full">
+        <div className="mx-auto rounded-xl overflow-hidden border border-neutral-400">
             <table className="w-full table-fixed bg-neutral-200 drop-shadow-md">
                 <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 rounded-xl overflow-hidden">
                     <tr>
