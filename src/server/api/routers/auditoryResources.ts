@@ -32,8 +32,18 @@ export const auditoryResourceRouter = createTRPCRouter({
       skill_levels: z.nativeEnum(SkillLevel).array().optional(),
       skills: z.nativeEnum(Skill).array().optional(),
     }))
-    .query(({ctx}) => {
+    .query(({ input, ctx}) => {
 
-      return ctx.prisma.auditoryResource.findMany();
+      return ctx.prisma.auditoryResource.findMany({
+        where: {
+          // ages: input.ages ? {min: 0, max: 100}, TODO: Make this so ranges work.
+          skill_levels: {
+            hasEvery: input.skill_levels ?? Object.values(SkillLevel),
+          },
+          skills: {
+            hasEvery: input.skills ?? Object.values(Skill),
+          }
+        }
+      })
     }),
 });
