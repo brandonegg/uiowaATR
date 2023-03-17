@@ -167,14 +167,12 @@ const ChoiceQuestion = ({question, formData, updateFormData}: {question: Questio
 const SearchForm = ({questions}: {questions: Question<QuestionTypes>[]}) => {    
     const [formData, setFormData] = useState<(Record<string, QuestionTypes[]>)>({});
     
-    console.log(formData);
-
     const questionComponents = questions.map((question, index) => {
         return <ChoiceQuestion key={index} question={question} formData={formData} updateFormData={setFormData} />
     })
 
     return (
-        <form action="/" className="py-4 flex flex-col">
+        <form action="/resources" className="py-4 flex flex-col">
             {questionComponents}
             <button className="mt-4 font-bold text-xl py-2 px-4 bg-white mx-auto rounded-xl border border-neutral-400 hover:border-neutral-800">search</button>
         </form>

@@ -1,3 +1,4 @@
+import { Platform } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -20,4 +21,18 @@ export const auditoryResourceRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
       return ctx.prisma.auditoryResource.findMany();
   }),
+
+  search: publicProcedure
+    .input(z.object({
+      ages: z.object({
+        min: z.number().int(),
+        max: z.number().int(),
+      }).optional(),
+      platforms: z.string().array().optional()
+    }))
+    .query(({ctx}) => {
+      return {
+        test: "hello",
+      };
+    }),
 });
