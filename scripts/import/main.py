@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 
 MONGO_URL = "mongodb://localhost:27017/atr_db?replicaSet=test"
-DATA_PATH = "/home/beggr/Documents/at_overview.xlsx"
 
 def upload_to_mongo(resources, ar_col):
     ar_col.insert_many(resources)
@@ -34,7 +33,7 @@ def get_platform_links(row):
     return [{"link": platforms[key], "platform": key} for key in platforms.index]
 
 def main(path: str):
-    df = pd.read_excel(DATA_PATH, header=[0,1])
+    df = pd.read_excel(path, header=[0,1])
     
     mongo_client = pymongo.MongoClient("mongodb://localhost:27017/atr_db?replicaSet=test")
     mongo_db = mongo_client["atr_db"]
