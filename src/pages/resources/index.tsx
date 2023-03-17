@@ -1,6 +1,5 @@
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import ResourceTable from "~/components/ResourceTable";
 import { appRouter } from "~/server/api/root";

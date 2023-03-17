@@ -4,6 +4,8 @@ import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import { translateEnumPlatform } from '~/utils/enumWordLut';
+import { type ChangeEvent, type Dispatch, type SetStateAction, useState } from 'react';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     const ResourceInfo = ({resource}: {resource: AuditoryResource}) => {
@@ -123,7 +125,14 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     )
 }
 
-const PagesNavigation = ({currentPage, pageCount}: {currentPage: number, pageCount: number}) => {
+interface PagesNavigationProps {
+    currentPage: number;
+    pageCount: number;
+    resultsPerPage: number;
+    updateResultsPerPage: Dispatch<SetStateAction<number>>;
+}
+
+const PagesNavigation = ({currentPage, pageCount, resultsPerPage, updateResultsPerPage}: PagesNavigationProps) => {
     const PageButton = ({number}: {number: number}) => {
       return (
         <li>
@@ -139,11 +148,33 @@ const PagesNavigation = ({currentPage, pageCount}: {currentPage: number, pageCou
         <PageButton key={pageNumber} number={pageNumber+1} />
       )
     });
+
+    const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        updateResultsPerPage(parseInt(event.target.value));
+    };
   
     return (
-      <div className="flex flex-row justify-between px-4 py-2 bg-amber-100">
-        <h1 className="font-bold text-lg">Pages</h1>
-        <ul className="flex flex-row space-x-4">
+      <div className="flex flex-row justify-between pl-2 pr-4 py-2 bg-amber-100">
+        <div className="flex flex-row w-64 space-x-2">
+            <div className="relative inline-flex">
+                <select
+                    className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    value={resultsPerPage}
+                    onChange={handleChange}
+                >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <ChevronDownIcon className="h-4 w-4"/>
+                </div>
+            </div>
+            <div className="m-auto">
+                <h1 className="text-md"> Results Per Page</h1>
+            </div>
+        </div>
+        <ul className="my-auto flex flex-row space-x-4">
           {pages}
         </ul>
       </div>
@@ -151,7 +182,7 @@ const PagesNavigation = ({currentPage, pageCount}: {currentPage: number, pageCou
   }
 
 const ResourceTable = ({resources, currentPage}: {resources?: AuditoryResource[], currentPage: number}) => {
-    const resourcesPerPage = 10;
+    const [resourcesPerPage, setResourcesPerPage] = useState<number>(10);
     const totalPages = Math.ceil((resources?.length ?? 0) / resourcesPerPage);
     const pageResources = resources?.slice(resourcesPerPage*(currentPage-1), (resourcesPerPage*currentPage)) ?? [];
     const resourceElements = pageResources?.map((resource, index) => {
@@ -161,7 +192,7 @@ const ResourceTable = ({resources, currentPage}: {resources?: AuditoryResource[]
     return(
     <div className="w-full">
         <div className="mx-auto rounded-xl overflow-hidden border border-neutral-400">
-            <PagesNavigation currentPage={currentPage} pageCount={totalPages} />
+            <PagesNavigation updateResultsPerPage={setResourcesPerPage} resultsPerPage={resourcesPerPage} currentPage={currentPage} pageCount={totalPages} />
             <table className="w-full table-fixed bg-neutral-200 drop-shadow-md">
                 <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 rounded-xl overflow-hidden">
                     <tr>
