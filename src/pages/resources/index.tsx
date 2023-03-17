@@ -1,11 +1,6 @@
-import { Platform, RangeInput, Skill, SkillLevel } from "@prisma/client";
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
 import ResourceTable from "~/components/ResourceTable";
-import { appRouter } from "~/server/api/root";
-import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
 
@@ -55,7 +50,7 @@ const Resources = () => {
       </Head>
       <main>
         <div className="my-6 sm:px-4 max-w-6xl mx-auto">
-          <ResourceTable resources={query.data} currentPage={currentPage} />
+          <ResourceTable query={router.query} resources={query.data} currentPage={currentPage} />
         </div>
       </main>
     </>

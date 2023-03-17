@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { translateEnumPlatform, translateEnumSkill } from '~/utils/enumWordLut';
 import { type ChangeEvent, type Dispatch, type SetStateAction, useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { ParsedUrlQuery, ParsedUrlQueryInput } from 'querystring';
 
 const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     const ResourceInfo = ({resource}: {resource: AuditoryResource}) => {
@@ -148,22 +149,26 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
 }
 
 interface PagesNavigationProps {
+    query?: ParsedUrlQuery;
     currentPage: number;
     pageCount: number;
     resultsPerPage: number;
     updateResultsPerPage: Dispatch<SetStateAction<number>>;
 }
 
-const PagesNavigation = ({currentPage, pageCount, resultsPerPage, updateResultsPerPage}: PagesNavigationProps) => {
+const PagesNavigation = ({query, currentPage, pageCount, resultsPerPage, updateResultsPerPage}: PagesNavigationProps) => {
     const PageButton = ({number}: {number: number}) => {
-      return (
+        const redirectQueryData: ParsedUrlQueryInput = {...query};
+        redirectQueryData.page = number;
+
+        return (
         <li>
-          <Link className={"block py px-[9px] m-1 rounded " + (currentPage !== number ? "hover:bg-neutral-400 hover:text-white" : "bg-neutral-800 text-white")}
-                href={{ pathname: `/resources`, query: {page: number} }}>
+            <Link className={"block py px-[9px] m-1 rounded " + (currentPage !== number ? "hover:bg-neutral-400 hover:text-white" : "bg-neutral-800 text-white")}
+                href={{ pathname: `/resources`, query: {...redirectQueryData} }}>
             <span className={"text-lg text-center"}>{number}</span>
-          </Link>
+            </Link>
         </li>
-      )
+        )
     }
   
     const pages = Array.from(Array(pageCount).keys()).map((pageNumber) => {
@@ -204,8 +209,9 @@ const PagesNavigation = ({currentPage, pageCount, resultsPerPage, updateResultsP
     )
   }
 
-const ResourceTable = ({resources, currentPage}: {resources?: AuditoryResource[], currentPage: number}) => {
+const ResourceTable = ({resources, currentPage, query}: {resources?: AuditoryResource[], currentPage: number, query?: ParsedUrlQuery}) => {
     const [resourcesPerPage, setResourcesPerPage] = useState<number>(10);
+    
     const totalPages = Math.ceil((resources?.length ?? 0) / resourcesPerPage);
     const pageResources = resources?.slice(resourcesPerPage*(currentPage-1), (resourcesPerPage*currentPage)) ?? [];
     const resourceElements = pageResources?.map((resource, index) => {
@@ -215,7 +221,7 @@ const ResourceTable = ({resources, currentPage}: {resources?: AuditoryResource[]
     return(
     <div className="w-full">
         <div className="mx-auto rounded-xl overflow-hidden border border-neutral-400">
-            <PagesNavigation updateResultsPerPage={setResourcesPerPage} resultsPerPage={resourcesPerPage} currentPage={currentPage} pageCount={totalPages} />
+            <PagesNavigation query={query} updateResultsPerPage={setResourcesPerPage} resultsPerPage={resourcesPerPage} currentPage={currentPage} pageCount={totalPages} />
             <table className="w-full table-fixed bg-neutral-200 drop-shadow-md">
                 <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 rounded-xl overflow-hidden">
                     <tr>

@@ -38,10 +38,10 @@ export const auditoryResourceRouter = createTRPCRouter({
         where: {
           // ages: input.ages ? {min: 0, max: 100}, TODO: Make this so ranges work.
           skill_levels: {
-            hasEvery: input.skill_levels ?? Object.values(SkillLevel),
+            hasEvery: input.skill_levels ?? [],
           },
           skills: {
-            hasEvery: input.skills ?? Object.values(Skill),
+            hasEvery: input.skills ?? [],
           }
         }
       })

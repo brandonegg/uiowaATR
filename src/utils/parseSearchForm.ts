@@ -12,7 +12,9 @@ export interface SearchQuery {
     skills?: Skill[],
 }
 
-export const parseQueryData = (query: ParsedUrlQuery): SearchQuery & ViewDetails => {
+export type ParsedQueryData = SearchQuery & ViewDetails;
+
+export const parseQueryData = (query: ParsedUrlQuery): ParsedQueryData => {
     const view = {
         page: Number(query["page"] ?? 1),
     }
