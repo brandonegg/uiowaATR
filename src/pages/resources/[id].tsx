@@ -4,17 +4,6 @@ import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 
-const ResourceViewPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { id } = props;
-  const resourceQuery = api.auditoryResource.byId.useQuery({ id });
-
-  return <>
-    <div>
-      {resourceQuery.data?.name ?? 'loading..'}
-    </div>
-  </>
-};
-  
 export const getStaticPaths = async () => {
   //const amountPerPage = 10;
   const resources = (await prisma.auditoryResource.findMany({
@@ -56,5 +45,16 @@ export async function getStaticProps(
     revalidate: 1,
   };
 }
+
+const ResourceViewPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { id } = props;
+  const resourceQuery = api.auditoryResource.byId.useQuery({ id });
+
+  return <>
+    <div>
+      {resourceQuery.data?.name ?? 'loading..'}
+    </div>
+  </>
+};
 
 export default ResourceViewPage

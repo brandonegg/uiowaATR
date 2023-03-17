@@ -1,7 +1,28 @@
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import Head from "next/head";
 import Link from "next/link";
 import ResourceTable from "~/components/ResourceTable";
+import { appRouter } from "~/server/api/root";
+import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
+
+export async function getStaticProps() {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: {
+      prisma,
+      session: null,
+    },
+  });
+  await ssg.auditoryResource.getAll.prefetch();
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    revalidate: 1,
+  };
+}
 
 const Resources = () => {
   const query = api.auditoryResource.getAll.useQuery();
