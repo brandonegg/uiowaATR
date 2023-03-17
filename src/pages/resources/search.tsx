@@ -1,7 +1,7 @@
-import { type PaymentType, type Platform, type RangeInput, type Skill, type SkillLevel } from "@prisma/client"
-import { useState } from "react";
+import { type PaymentType, type Platform, type Skill, type SkillLevel } from "@prisma/client"
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
-type QuestionTypes = Platform | Skill | SkillLevel | PaymentType | RangeInput;
+type QuestionTypes = Platform | Skill | SkillLevel | PaymentType | string;
 
 interface Option<T> {
     label: string,
@@ -9,29 +9,32 @@ interface Option<T> {
 }
 
 interface Question<T> {
+    for: string,
     header: string,
     options: Option<T>[]
 }
 
 const questions: Question<QuestionTypes>[] = [
     {
+        for: "ages",
         header: "Age of Patient",
         options: [
             {
                 label: "Child",
-                value: {min: 0, max: 9}
+                value: "0-9",
             },
             {
                 label: "Teen",
-                value: {min: 10, max:20}
+                value: "10-20",
             },
             {
                 label: "Adult",
-                value: {min: 21, max: 100}
+                value: "21-100",
             },
         ],
     },
     {
+        for: "platforms",
         header: "Desired Platforms",
         options: [
             {
@@ -53,6 +56,7 @@ const questions: Question<QuestionTypes>[] = [
         ]
     },
     {
+        for: "skill_levels",
         header: "Skill Level",
         options: [
             {
@@ -70,6 +74,7 @@ const questions: Question<QuestionTypes>[] = [
         ]
     },
     {
+        for: "skills",
         header: "Skills Practiced",
         options: [
             {
@@ -100,47 +105,78 @@ const questions: Question<QuestionTypes>[] = [
     }
 ]
 
-const ChoiceQuestion = ({question}: {question: Question<QuestionTypes>}) => {
-    const Option = ({option}: {option: Option<QuestionTypes>}) => {
-        const [selected, setSelected] = useState<boolean>(false);
-
+const ChoiceQuestion = ({question, formData, updateFormData}: {question: Question<QuestionTypes>, formData: Record<string, QuestionTypes[]>, updateFormData: Dispatch<SetStateAction<Record<string, QuestionTypes[]>>>}) => {    
+    const OptionToggle = ({option}: {option: Option<QuestionTypes>}) => {
+        const selected = formData[question.for]?.includes(option.value) ?? false;
+        
         const handleToggle = () => {
-            setSelected(!selected);
+            const newFormData = {
+                ...formData
+            };
+
+            if (!newFormData[question.for]) {
+                newFormData[question.for] = [option.value];
+            } else if (newFormData[question.for]?.includes(option.value)) {
+                newFormData[question.for] = newFormData[question.for]?.filter(function(item) {
+                    return item !== option.value
+                }) ?? [];
+            } else {
+                newFormData[question.for] = [...newFormData[question.for] ?? [], option.value];
+            }
+
+            updateFormData(newFormData);
         }
 
         return (
-            <div>
-                <button onChange={handleToggle} className={"w-64 shadow rounded-lg border border-neutral-400 " + (selected ? "bg-amber-200" : "bg-white")} type="button" onClick={handleToggle}>
-                    <span className="text-xl">{option.label}</span>
-                    <input onChange={()=>{return;}} className="hidden" name={option.label} checked={selected} type="checkbox" value={option.value.toString()} />
-                </button>
-            </div>
+            <button type="button" onClick={handleToggle} className={"w-64 shadow rounded-lg border border-neutral-400 " + (selected ? "bg-amber-200" : "bg-white")}>
+                {option.label}
+            </button>
         )
     }
 
-    const optionsComponents = question.options.map((option, index) => {
-        return <Option key={index} option={option} />
+    useEffect(() => {
+        if (!formData[question.for]) {
+            const newFormData = {...formData};
+            newFormData[question.for] = [];
+
+            updateFormData(newFormData);
+        }
+    });
+
+    const htmlOptions: JSX.Element[] = []
+    const optionButtons: JSX.Element[] = []
+
+    question.options.forEach((option, index) => {
+        optionButtons.push(<OptionToggle key={index} option={option} />)
+        htmlOptions.push(<option key={index} selected={formData[question.for]?.includes(option.value)} value={option.value.toString()}>{option.label}</option>)
     });
     
     return (
         <div className="text-center border-b border-neutral-400 py-4 mx-auto">
-            <h1 className="font-bold text-xl mb-2">{question.header}</h1>
-            <div className="space-y-2">
-                {optionsComponents}
+            <label htmlFor={question.for} className="font-bold text-xl mb-2">{question.header}</label>
+            <select className="hidden" name={question.for} multiple>
+                {htmlOptions}
+            </select>
+            <div className="flex flex-col">
+                {optionButtons}
             </div>
         </div>
     )
 }
 
-const SearchForm = ({questions}: {questions: Question<QuestionTypes>[]}) => {
+const SearchForm = ({questions}: {questions: Question<QuestionTypes>[]}) => {    
+    const [formData, setFormData] = useState<(Record<string, QuestionTypes[]>)>({});
+    
+    console.log(formData);
+
     const questionComponents = questions.map((question, index) => {
-        return <ChoiceQuestion key={index} question={question} />
+        return <ChoiceQuestion key={index} question={question} formData={formData} updateFormData={setFormData} />
     })
 
     return (
-        <form className="py-4 flex flex-col">
+        <form action="/" className="py-4 flex flex-col">
             {questionComponents}
-            <button className="pt-4 font-bold text-xl">Search</button>
+            <button className="mt-4 font-bold text-xl py-2 px-4 bg-white mx-auto rounded-xl border border-neutral-400 hover:border-neutral-800">search</button>
         </form>
     )
 }
