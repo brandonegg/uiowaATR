@@ -44,7 +44,7 @@ const NavBar = () => {
 
 const Header: NextPage = () => {
     return <>
-        <div id="logo-row" className="flex flex-row p-4 justify-center bg-neutral-800 z-50 drop-shadow-xl">
+        <div id="logo-row" className="flex flex-row p-4 justify-center border-b border-yellow bg-neutral-800 z-50 drop-shadow-xl">
             <div>
                 <Image alt="Ear listening" src="/listening-ear.svg" width={64} height={64}/>
             </div>

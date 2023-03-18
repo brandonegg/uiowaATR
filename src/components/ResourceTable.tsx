@@ -8,49 +8,49 @@ import { type ChangeEvent, type Dispatch, type SetStateAction, useState } from '
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { type ParsedUrlQuery, type ParsedUrlQueryInput } from 'querystring';
 
-const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
-    const ResourceInfo = ({resource}: {resource: AuditoryResource}) => {
-        const PriceIcons = ({type}: {type: PaymentType}) => {
-            switch(type) {
-                case "FREE": {
-                    return (
-                        <div className="pt-2 space-x-1" title="Free">
-                            <span className="bg-amber-100 italic rounded-lg border border-neutral-900 text-black px-2 py-[1px]">
-                                free
-                            </span>
-                        </div>
-                    )
-                }
-                case "SUBSCRIPTION_MONTHLY": {
-                    <div className="space-x-1" title="Monthly recurring subscription">
+export const ResourceInfo = ({resource, showMoreInfo}: {resource: AuditoryResource, showMoreInfo?: boolean}) => {
+    const PriceIcons = ({type}: {type: PaymentType}) => {
+        switch(type) {
+            case "FREE": {
+                return (
+                    <div className="pt-2 space-x-1" title="Free">
+                        <span className="bg-amber-100 italic rounded-lg border border-neutral-900 text-black px-2 py-[1px]">
+                            free
+                        </span>
+                    </div>
+                )
+            }
+            case "SUBSCRIPTION_MONTHLY": {
+                <div className="space-x-1" title="Monthly recurring subscription">
+                    <ArrowPathRoundedSquareIcon className="inline h-6 w-6" />
+                    <CurrencyDollarIcon className="inline h-6 w-6 text-lime-800"/>
+                </div>
+            }
+            case "SUBSCRIPTION_WEEKLY": {
+                return (
+                    <div className="space-x-1" title="Weekly recurring subscription">
                         <ArrowPathRoundedSquareIcon className="inline h-6 w-6" />
                         <CurrencyDollarIcon className="inline h-6 w-6 text-lime-800"/>
                     </div>
-                }
-                case "SUBSCRIPTION_WEEKLY": {
-                    return (
-                        <div className="space-x-1" title="Weekly recurring subscription">
-                            <ArrowPathRoundedSquareIcon className="inline h-6 w-6" />
-                            <CurrencyDollarIcon className="inline h-6 w-6 text-lime-800"/>
-                        </div>
-                    )
-                }
+                )
             }
         }
-    
-        const PlatformInfo = ({platformLinks}: {platformLinks: PlatformLink[]}) => {
-            const platformsStr = platformLinks.map((platformLink) => {
-                return translateEnumPlatform(platformLink.platform);
-            }).join(', ');
-            
-            return (
-                <p>{platformsStr}</p>
-            )
-        }
+    }
+
+    const PlatformInfo = ({platformLinks}: {platformLinks: PlatformLink[]}) => {
+        const platformsStr = platformLinks.map((platformLink) => {
+            return translateEnumPlatform(platformLink.platform);
+        }).join(', ');
         
         return (
-            <div className="p-4 space-x-4 flex flex-row">
-                <div className="h-full my-auto">
+            <p>{platformsStr}</p>
+        )
+    }
+    
+    return (
+        <div className="p-4 space-x-4 flex flex-row">
+            <div className="h-full my-auto">
+                {showMoreInfo ?
                 <Link href={`resources/${resource.id}`}>
                     <div className="w-20 sm:w-28 flex space-y-2 flex-col justify-center">
                         <Image className="bg-white w-full rounded-xl drop-shadow-lg border border-neutral-400" src={`/resource_logos/${resource.icon}`} alt={`${resource.name} logo`} width={512} height={512}/>
@@ -58,21 +58,27 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
                         className="block bg-neutral-900 hover:bg-neutral-500 border border-neutral-900 text-center py-[1px] text-white rounded-lg">
                             more info
                         </span>
-                        </div>
-                    </Link>
-                </div>
-                <div className="grid place-items-center">
-                    <div className="">
-                        <h2 className="text-xs italic text-gray-600">{resource.manufacturer}</h2>
-                        <h1 className="font-bold text-xl">{resource.name}</h1>
-                        <PlatformInfo platformLinks={resource.platform_links}/>
-                        <PriceIcons type={resource?.payment_options[0] ?? 'FREE'} />
                     </div>
+                </Link>
+                :
+                <div className="w-20 sm:w-28 flex space-y-2 flex-col justify-center">
+                    <Image className="bg-white w-full rounded-xl drop-shadow-lg border border-neutral-400" src={`/resource_logos/${resource.icon}`} alt={`${resource.name} logo`} width={512} height={512}/>
+                </div>
+                }
+            </div>
+            <div className="grid place-items-center">
+                <div className="">
+                    <h2 className="text-xs italic text-gray-600">{resource.manufacturer}</h2>
+                    <h1 className="font-bold text-xl">{resource.name}</h1>
+                    <PlatformInfo platformLinks={resource.platform_links}/>
+                    <PriceIcons type={resource?.payment_options[0] ?? 'FREE'} />
                 </div>
             </div>
-        )
-    }
-    
+        </div>
+    )
+}
+
+const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     const ResourceDescription = ({description}: {description: string}) => {
         return (
             <div className="flex flex-col p-2">
@@ -136,7 +142,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     return (
         <tr className="divide-x-[1px] divide-slate-300">
             <td className="max-w-xs">
-                <ResourceInfo resource={resource} />
+                <ResourceInfo showMoreInfo resource={resource} />
             </td>
             <td className="w-1/4 align-top">
                 <ResourceSkills skills={resource.skills} skillLevels={resource.skill_levels} />

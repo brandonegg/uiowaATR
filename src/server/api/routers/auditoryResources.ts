@@ -1,4 +1,4 @@
-import { SkillLevel, Skill, Platform } from "@prisma/client";
+import { SkillLevel, Skill, Platform, AuditoryResource } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -15,7 +15,7 @@ export const auditoryResourceRouter = createTRPCRouter({
         }
       });
       
-      return { ...resource };
+      return { ...resource } as AuditoryResource;
     }),
 
   getAll: publicProcedure.query(({ ctx }) => {

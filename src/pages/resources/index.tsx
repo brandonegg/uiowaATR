@@ -4,26 +4,6 @@ import ResourceTable from "~/components/ResourceTable";
 import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
 
-/*
-export async function getStaticProps() {
-  const ssg = createProxySSGHelpers({
-    router: appRouter,
-    ctx: {
-      prisma,
-      session: null,
-    },
-  });
-  await ssg.auditoryResource.getAll.prefetch();
-
-  return {
-    props: {
-      trpcState: ssg.dehydrate(),
-    },
-    revalidate: 1,
-  };
-}
-*/
-
 const Resources = () => {
   const router = useRouter()
 

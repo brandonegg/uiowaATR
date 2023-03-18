@@ -12,7 +12,6 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <div className="my-6">
-          <p>Nothing yet</p>
         </div>
       </main>
     </>
