@@ -1,5 +1,5 @@
 import { type InferGetStaticPropsType, type GetStaticPropsContext } from "next";
-import { GlobeAltIcon } from '@heroicons/react/24/solid';
+import { GlobeAltIcon, DocumentIcon } from '@heroicons/react/24/solid';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
@@ -50,39 +50,46 @@ export async function getStaticProps(
 }
 
 const PlatformLinkButton = ({platformLink}: {platformLink: PlatformLink}) => {
-  switch (platformLink.platform) {
-    case "APP_ANDROID": {
-      return (
-        <Link href={platformLink.link}>
-          <a target="_blank" rel="noopener noreferrer">
-            <Image className="w-full" src={`/google-play-badge.png`} alt={`Download on the Apple AppStore`} width={512} height={216}/>
-          </a>
-        </Link>
-      )
-    }
-    case "APP_IOS": {
-      return (
-        <Link href={platformLink.link}>
+  const Inner = () => {
+    switch (platformLink.platform) {
+      case "APP_ANDROID": {
+        return (
+          <Image className="w-full" src={`/google-play-badge.png`} alt={`Download on the Apple AppStore`} width={512} height={216}/>
+        )
+      }
+      case "APP_IOS": {
+        return (
           <Image className="w-full" src={`/app-store-badge.png`} alt={`Download on the Apple AppStore`} width={512} height={216}/>
-        </Link>
-      )
-    }
-    case "PDF": {
-      return (
-        <Link href={platformLink.link}>
-          <div className="bg-amber-300 border-2 px-2 h-12 align-middle border-neutral-900 rounded-lg flex flex-row space-x-2">
+        )
+      }
+      case "PDF": {
+        return (
+          <div className="hover:bg-amber-200 bg-amber-300 border-2 px-2 h-16 align-middle border-neutral-900 rounded-lg flex flex-row space-x-2">
+            <DocumentIcon className="w-6" />
+            <span className="font-bold text-sm my-auto">
+              Document
+            </span>
+          </div>
+        )
+      }
+      case "WEBSITE": {
+        return (
+          <div className="hover:bg-amber-200 bg-amber-300 border-2 px-2 h-14 align-middle border-neutral-900 rounded-lg flex flex-row space-x-2">
             <GlobeAltIcon className="w-6" />
             <span className="font-bold text-sm my-auto">
               Website
             </span>
           </div>
-        </Link>
-      )
-    }
-    case "WEBSITE": {
-      return <></>;
+        )
+      }
     }
   }
+
+  return (
+    <Link href={platformLink.link} target="_blank" rel="noopener noreferrer">
+      <Inner />
+    </Link>
+  )
 }
 
 const DownloadButtons = ({platformLinks}: {platformLinks: PlatformLink[]}) => {
@@ -93,7 +100,7 @@ const DownloadButtons = ({platformLinks}: {platformLinks: PlatformLink[]}) => {
   });
   
   return (
-    <div className="w-48 mx-auto">
+    <div className="w-48 mx-auto flex flex-col space-y-2">
       {buttons}
     </div>
   )
