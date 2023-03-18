@@ -53,7 +53,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
                 <div className="h-full my-auto">
                 <Link href={`resources/${resource.id}`}>
                     <div className="w-20 sm:w-28 flex space-y-2 flex-col justify-center">
-                        <Image className="w-full rounded-xl drop-shadow-lg border border-neutral-400" src={resource.icon} alt={`${resource.name} logo`} width={512} height={512}/>
+                        <Image className="bg-white w-full rounded-xl drop-shadow-lg border border-neutral-400" src={`/resource_logos/${resource.icon}`} alt={`${resource.name} logo`} width={512} height={512}/>
                         <span 
                         className="block bg-neutral-900 hover:bg-neutral-500 border border-neutral-900 text-center py-[1px] text-white rounded-lg">
                             more info
