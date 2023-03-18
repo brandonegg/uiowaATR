@@ -36,12 +36,28 @@ export const auditoryResourceRouter = createTRPCRouter({
 
       return ctx.prisma.auditoryResource.findMany({
         where: {
-          // ages: input.ages ? {min: 0, max: 100}, TODO: Make this so ranges work.
+          ages: {
+            is: {
+              min: {
+                lte: input.ages?.min,
+              },
+              max: {
+                gte: input.ages?.max,
+              }
+            }
+          },
           skill_levels: {
             hasEvery: input.skill_levels ?? [],
           },
           skills: {
             hasEvery: input.skills ?? [],
+          },
+          platform_links: {
+            some: {
+              platform: {
+                in: input.platforms,
+              }
+            }
           }
         }
       })
