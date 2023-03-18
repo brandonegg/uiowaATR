@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { translateEnumPlatform, translateEnumSkill } from '~/utils/enumWordLut';
 import { type ChangeEvent, type Dispatch, type SetStateAction, useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { ParsedUrlQuery, ParsedUrlQueryInput } from 'querystring';
+import { type ParsedUrlQuery, type ParsedUrlQueryInput } from 'querystring';
 
 const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     const ResourceInfo = ({resource}: {resource: AuditoryResource}) => {

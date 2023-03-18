@@ -1,4 +1,4 @@
-import { Skill, type Platform } from "@prisma/client";
+import { type Skill, type Platform } from "@prisma/client";
 
 /**
  * Takes a platform enum and translates it to readable form.
