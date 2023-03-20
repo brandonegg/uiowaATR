@@ -30,22 +30,22 @@ export const translateEnumSkill = (value: Skill) => {
             return "Environmental Sounds";
         }
         case "BACKGROUND": {
-            return "not done";
+            return "Background";
         }
         case "DISCOURSE": {
-            return "Discourse Level";
+            return "Discourse/Complex";
         }
         case "MUSIC": {
             return "Music Appreciation"
         }
         case "PHONEMES": {
-            return "Word Recognition (phonemes)";
+            return "Phonemes";
         }
         case "SENTENCES": {
             return "Sentences"
         }
         case "WORDS": {
-            return "Words (stressed syllables)"
+            return "Words"
         }
     }
 }
