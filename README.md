@@ -1,6 +1,6 @@
 # Auditory Training Resources
 <p align="center">
-  <img src="assets/atr_table.png" width="400" />
+  <img src="assets/atr_table.png" width="800" />
 </p>
 
 ## Purpose
