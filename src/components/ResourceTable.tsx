@@ -85,7 +85,7 @@ export const ResourceDescription = ({manufacturer, description}: {manufacturer: 
                 <p>{description}</p>
             </div>
             { manufacturer?.required ? 
-            <div className="bg-neutral-600 border-t-[2px] border-neutral-700 p-2">
+            <div className="bg-neutral-600 border-t-[4px] border-neutral-700 p-2">
                 <h3 className="text-sm font-bold text-neutral-100">IMPORTANT</h3>
                 <p className="text-sm text-neutral-300">
                     This resource requires additional hardware from the manufacturer.
