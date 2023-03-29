@@ -19,7 +19,7 @@ const NavBarLink = ({href, label, dropdown}: NavBarLinkProps) => {
         const options = dropdownOptions.map((dropdownOption, index) => {
             return (
                 <Link key={index} href={dropdownOption.href}>
-                    <span className="block w-full px-4 py-2 bg-gradient-to-t hover:from-neutral-700 from-neutral-900 hover:to-neutral-500 to-neutral-700 text-white">{dropdownOption.label}</span>
+                    <span className="block w-full px-4 py-2 bg-gradient-to-t hover:from-neutral-500 from-neutral-900 hover:to-neutral-500 to-neutral-700 text-white">{dropdownOption.label}</span>
                 </Link>
             )
         });
@@ -51,6 +51,10 @@ const NavBar = () => {
         {
             label: "search",
             href: "/resources/survey",
+        },
+        {
+            label: "view all",
+            href: "/resources"
         }
     ]
 
