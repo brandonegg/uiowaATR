@@ -2,8 +2,9 @@ import typer
 import pymongo
 import pandas as pd
 import numpy as np
+import math
 
-MONGO_URL = "mongodb://localhost:27017/atr_db?replicaSet=test"
+MONGO_URL = "mongodb://localhost:27017/"
 MONGO_DB = "dev"
 
 def upload_to_mongo(resources, ar_col):
@@ -20,6 +21,19 @@ def get_entry(row, col, default_val=np.nan):
         return default_val
     return row.loc[col]['entry']
 
+def get_manufacturer(row, col):
+    '''
+    Get entry column for a manufacturer.
+    '''
+    if row.loc[col]['entry'] is np.nan:
+        return None
+
+    required = row.loc[col]['required']
+    return {
+        "name": row.loc[col]['entry'],
+        "required": isinstance(required, str)
+    }
+
 def get_selected_options(row, col):
     return row.loc[col].dropna(inplace=False).index.to_list()
 
@@ -35,7 +49,7 @@ def get_platform_links(row):
 
 def main(path: str):
     df = pd.read_excel(path, header=[0,1])
-    
+
     mongo_client = pymongo.MongoClient(MONGO_URL)
     mongo_db = mongo_client[MONGO_DB]
     ar_col = mongo_db["AuditoryResource"]
@@ -48,7 +62,7 @@ def main(path: str):
         resource["name"] = get_entry(df.iloc[i], 'Resource:', "n/a")
         resource["icon"] = get_entry(df.iloc[i], 'Icon:', "")
         resource["description"] = get_entry(df.iloc[i], 'Description:', "n/a")
-        resource["manufacturer"] = get_entry(df.iloc[i], 'Manufacturer:', "")
+        resource["manufacturer"] = get_manufacturer(df.iloc[i], 'Manufacturer:')
         resource["platform_links"] = get_platform_links(df.iloc[i])
         resource["ages"] = get_range(df.iloc[i], 'Age Group:')
         resource["skills"] = get_selected_options(df.iloc[i], 'Skills:')
@@ -57,7 +71,7 @@ def main(path: str):
 
         print(f"Finished parsing resource on line {i+2}:")
         print(resource)
-        print(f"--------------------------------\n")
+        print("--------------------------------\n")
 
         resources.append(resource)
 

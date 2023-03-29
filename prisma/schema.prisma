@@ -53,12 +53,17 @@ type PlatformLink {
     link String
 }
 
+type Manufacturer {
+    name String
+    required Boolean
+}
+
 model AuditoryResource {
     id              String @id @default(auto()) @map("_id") @db.ObjectId
     icon            String
     name            String
     description     String
-    manufacturer    String
+    manufacturer    Manufacturer?
     ages            RangeInput
     skills          Skill[]
     skill_levels    SkillLevel[]

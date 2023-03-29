@@ -68,7 +68,7 @@ export const ResourceInfo = ({resource, showMoreInfo}: {resource: AuditoryResour
             </div>
             <div className="grid place-items-center">
                 <div className="">
-                    <h2 className="text-xs italic text-gray-600">{resource.manufacturer}</h2>
+                    <h2 className="text-xs italic text-gray-600">{resource.manufacturer?.name}</h2>
                     <h1 className="font-bold text-xl">{resource.name}</h1>
                     <PlatformInfo platformLinks={resource.platform_links}/>
                     <PriceIcons type={resource?.payment_options[0] ?? 'FREE'} />
