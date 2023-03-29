@@ -218,7 +218,7 @@ const PagesNavigation = ({query, currentPage, pageCount, resultsPerPage, updateR
                 <h1 className="text-md"> Results Per Page</h1>
             </div>
         </div>
-        <ul className="my-auto flex flex-row bg-white rounded border-gray-400 hover:border-gray-500 border shadow">
+        <ul className="max-w-[10rem] sm:max-w-none overflow-x-auto my-auto flex flex-row bg-white rounded border-gray-400 hover:border-gray-500 border shadow">
           {pages}
         </ul>
       </div>
