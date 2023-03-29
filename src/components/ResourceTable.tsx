@@ -80,7 +80,7 @@ export const ResourceInfo = ({resource, showMoreInfo}: {resource: AuditoryResour
 
 export const ResourceDescription = ({manufacturer, description}: {manufacturer: null | Manufacturer, description: string}) => {
     return (
-        <div className="flex flex-col">
+        <div className="h-full flex flex-col">
             <div className="p-2">
                 <p>{description}</p>
             </div>
@@ -150,7 +150,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
     }
 
     return (
-        <tr className="divide-x-[1px] divide-slate-300">
+        <tr className="divide-x-[1px] divide-slate-400">
             <td className="max-w-xs">
                 <ResourceInfo showMoreInfo resource={resource} />
             </td>
@@ -258,7 +258,7 @@ const ResourceTable = ({resources, currentPage, query}: {resources?: AuditoryRes
                         </th>
                     </tr>
                 </thead>
-                <tbody className="divide-y-[1px] divide-slate-300 overflow-y-scroll">
+                <tbody className="divide-y-[1px] divide-slate-400 overflow-y-scroll">
                     {resourceElements}
                 </tbody>
             </table>
