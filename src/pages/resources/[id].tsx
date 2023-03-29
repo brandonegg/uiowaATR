@@ -4,7 +4,7 @@ import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
-import { ResourceInfo } from "~/components/ResourceTable";
+import { ResourceDescription, ResourceInfo } from "~/components/ResourceTable";
 import { type PlatformLink } from "@prisma/client";
 import Image from 'next/image';
 import Link from "next/link";
@@ -125,10 +125,8 @@ const ResourceViewPage = (props: InferGetStaticPropsType<typeof getStaticProps>)
       </div>
       <div className="flex pb-5 flex-col justify-left">
         <ResourceInfo resource={resourceQuery.data} />
-        <div className="mx-4 text-left border border-neutral-400 rounded-xl p-4 bg-neutral-200 shadow">
-          <p>
-            {resourceQuery.data.description}
-          </p>
+        <div className="mx-4 text-left border border-neutral-400 rounded-xl overflow-hidden bg-neutral-200 shadow">
+          <ResourceDescription manufacturer={resourceQuery.data.manufacturer} description={resourceQuery.data.description} />
         </div>
         <div className="ml-4 mt-4 mr-auto border-2 border-neutral-900 rounded-lg bg-neutral-600">
           <span className="text-neutral-200 text-sm px-2 py-2">Ages {resourceQuery.data.ages.min}{resourceQuery.data.ages.max >= 100 ? "+" : `-${resourceQuery.data.ages.max}`}</span>
