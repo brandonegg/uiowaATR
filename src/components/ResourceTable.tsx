@@ -86,7 +86,7 @@ export const ResourceDescription = ({manufacturer, description}: {manufacturer: 
             <div className="bg-neutral-600 border-t-[4px] border-neutral-700 p-2">
                 <h3 className="text-sm font-bold text-neutral-100">IMPORTANT</h3>
                 <p className="text-sm text-neutral-300">
-                    This resource requires the patient to have a {manufacturer.name} device.
+                    This resource requires the patient to have a {manufacturer.name} device
                 </p>
             </div>
             : undefined}
