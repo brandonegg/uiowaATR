@@ -69,9 +69,9 @@ const Footer: NextPage = () => {
             <div className="bg-yellow-400 border-t-[1px] border-neutral-400 p-[4px]"></div>
 
             {/** Main footer area */}
-            <div className="mx-auto max-w-5xl p-4 flex flex-row justify-between">
+            <div className="mx-auto max-w-5xl p-4 flex flex-col-reverse sm:flex-row justify-between">
                 {/** Wendell Johnson Info */}
-                <div className="flex-col">
+                <div className="flex-col mt-8 sm:mt-0">
                     <Image alt="University of Iowa logo" width={128} height={64} src="/IOWA-gold-text.png" />
                     <div className="px-2 text-neutral-100">
                         <p className="text-yellow-300 italic">Wendell Johnson Speech and Hearing Center</p>
