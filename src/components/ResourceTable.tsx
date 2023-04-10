@@ -158,7 +158,7 @@ const ResourceEntry = ({resource}: {resource: AuditoryResource}) => {
             <td className="w-1/4 align-top">
                 <ResourceSkills skills={resource.skills} skillLevels={resource.skill_levels} />
             </td>
-            <td className="align-top hidden sm:table-cell">
+            <td className="align-top hidden md:table-cell">
                 <ResourceDescription manufacturer={resource.manufacturer} description={resource.description} />
             </td>
         </tr>
@@ -275,7 +275,7 @@ const ResourceTable = ({resources, resourcesPerPage, currentPage, totalPages, qu
                                 Skills
                             </span>
                         </th>
-                        <th className="hidden sm:table-cell">
+                        <th className="hidden md:table-cell">
                             <span className="text-gray-300 block px-4 py-2 text-left">
                                 Description
                             </span>

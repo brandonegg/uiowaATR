@@ -34,7 +34,7 @@ const Resources = () => {
         <meta name="description" content="University of Iowa Center for Auditory Training Resources" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="my-6 sm:px-4 max-w-6xl mx-auto">
+      <main className="my-6 md:px-4 max-w-6xl mx-auto">
         <div className="mb-4 p-4 space-y-2">
           <h1 className="text-3xl font-bold">All Resources</h1>
           <div className="">
