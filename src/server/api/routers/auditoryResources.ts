@@ -1,4 +1,4 @@
-import { SkillLevel, Skill, Platform, AuditoryResource } from "@prisma/client";
+import { SkillLevel, Skill, Platform, type AuditoryResource } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -24,6 +24,8 @@ export const auditoryResourceRouter = createTRPCRouter({
 
   search: publicProcedure
     .input(z.object({
+      take: z.number().int(),
+      skip: z.number().int(),
       ages: z.object({
         min: z.number().int(),
         max: z.number().int(),
@@ -32,34 +34,47 @@ export const auditoryResourceRouter = createTRPCRouter({
       skill_levels: z.nativeEnum(SkillLevel).array().optional(),
       skills: z.nativeEnum(Skill).array().optional(),
     }))
-    .query(({ input, ctx}) => {
-
-      return ctx.prisma.auditoryResource.findMany({
-        where: {
-          ages: {
-            is: {
-              min: {
-                lte: input.ages?.min,
-              },
-              max: {
-                gte: input.ages?.max,
-              }
+    .query(async ({ input, ctx}) => {
+      const search = {
+        ages: {
+          is: {
+            min: {
+              lte: input.ages?.min,
+            },
+            max: {
+              gte: input.ages?.max,
             }
-          },
-          skill_levels: {
-            hasEvery: input.skill_levels ?? [],
-          },
-          skills: {
-            hasEvery: input.skills ?? [],
-          },
-          platform_links: {
-            some: {
-              platform: {
-                in: input.platforms,
-              }
+          }
+        },
+        skill_levels: {
+          hasEvery: input.skill_levels ?? [],
+        },
+        skills: {
+          hasEvery: input.skills ?? [],
+        },
+        platform_links: {
+          some: {
+            platform: {
+              in: input.platforms,
             }
           }
         }
-      })
+      }
+
+      const [count, resources] = await ctx.prisma.$transaction([
+        ctx.prisma.auditoryResource.count({
+          where: search,
+        }),
+        ctx.prisma.auditoryResource.findMany({
+          skip: input.skip,
+          take: input.take,
+          where: search,
+        })
+      ]);
+
+      return {
+        count,
+        resources,
+      }
     }),
 });

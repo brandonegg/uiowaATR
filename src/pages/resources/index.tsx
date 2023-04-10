@@ -12,16 +12,20 @@ const Resources = () => {
   const queryData = parseQueryData(router.query);
   const currentPage = queryData.page;
 
-  const query = api.auditoryResource.search.useQuery({
-    ages: queryData.age,
-    platforms: queryData.platforms,
-    skill_levels: queryData.skill_levels,
-    skills: queryData.skills,
+  const resourceQuery = api.auditoryResource.search.useQuery({
+      skip: (queryData.page - 1) * queryData.perPage,
+      take: queryData.perPage,
+      ages: queryData.age,
+      platforms: queryData.platforms,
+      skill_levels: queryData.skill_levels,
+      skills: queryData.skills,
   });
-
-  if (!query.data) {
-    return <></>
+  
+  if (!resourceQuery.data) {
+      return <></>
   }
+
+  const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
 
   return (
     <>
@@ -43,7 +47,7 @@ const Resources = () => {
             <p className="inline"> for specific resource recommendations.</p>
           </div>
         </div>
-        <ResourceTable query={router.query} resources={query.data} currentPage={currentPage} />
+        <ResourceTable resourcesPerPage={queryData.perPage} resources={resourceQuery.data.resources} totalPages={totalPages} query={router.query} currentPage={currentPage} />
       </main>
     </>
   );

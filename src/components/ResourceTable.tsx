@@ -4,9 +4,10 @@ import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import { translateEnumPlatform, translateEnumSkill } from '~/utils/enumWordLut';
-import { type ChangeEvent, type Dispatch, type SetStateAction, useState } from 'react';
+import { type ChangeEvent } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { type ParsedUrlQuery, type ParsedUrlQueryInput } from 'querystring';
+import { useRouter } from 'next/router';
 
 export const ResourceInfo = ({resource, showMoreInfo}: {resource: AuditoryResource, showMoreInfo?: boolean}) => {
     const PriceIcons = ({type}: {type: PaymentType}) => {
@@ -169,10 +170,10 @@ interface PagesNavigationProps {
     currentPage: number;
     pageCount: number;
     resultsPerPage: number;
-    updateResultsPerPage: Dispatch<SetStateAction<number>>;
 }
 
-const PagesNavigation = ({query, currentPage, pageCount, resultsPerPage, updateResultsPerPage}: PagesNavigationProps) => {
+const PagesNavigation = ({query, currentPage, pageCount, resultsPerPage}: PagesNavigationProps) => {
+    const router = useRouter();
     const PageButton = ({number}: {number: number}) => {
         const redirectQueryData: ParsedUrlQueryInput = {...query};
         redirectQueryData.page = number;
@@ -194,7 +195,28 @@ const PagesNavigation = ({query, currentPage, pageCount, resultsPerPage, updateR
     });
 
     const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        updateResultsPerPage(parseInt(event.target.value));
+        if (!query) {
+            router.push({
+                pathname: '/resources',
+                query: {
+                    perPage: event.target.value,
+                }
+            }).catch((reason) => {
+                console.error(reason);
+            });
+
+            return;
+        }
+
+        query['perPage'] = event.target.value;
+        router.push({
+            pathname: '/resources',
+            query: {
+                ...query,
+            }
+        }).catch((reason) => {
+            console.error(reason);
+        });
     };
   
     return (
@@ -225,21 +247,23 @@ const PagesNavigation = ({query, currentPage, pageCount, resultsPerPage, updateR
     )
   }
 
-const ResourceTable = ({resources, currentPage, query}: {resources?: AuditoryResource[], currentPage: number, query?: ParsedUrlQuery}) => {
-    const [resourcesPerPage, setResourcesPerPage] = useState<number>(10);
-    
-    const totalPages = Math.ceil((resources?.length ?? 0) / resourcesPerPage);
-    const pageResources = resources?.slice(resourcesPerPage*(currentPage-1), (resourcesPerPage*currentPage)) ?? [];
-    const resourceElements = pageResources?.map((resource, index) => {
-        return (<ResourceEntry key={index} resource={resource} />);
+const ResourceTable = ({resources, resourcesPerPage, currentPage, totalPages, query}: {
+    resources: AuditoryResource[],
+    resourcesPerPage: number,
+    currentPage: number,
+    totalPages: number,
+    query: ParsedUrlQuery
+}) => {
+    const resourceElements = resources.map((resource, index) => {
+       return (<ResourceEntry key={index} resource={resource} />);
     }) ?? [];
 
     return(
     <div className="w-full">
-        <div className="mx-auto rounded-xl overflow-hidden border border-neutral-400">
-            <PagesNavigation query={query} updateResultsPerPage={setResourcesPerPage} resultsPerPage={resourcesPerPage} currentPage={currentPage} pageCount={totalPages} />
-            <table className="w-full table-fixed bg-neutral-200 drop-shadow-md">
-                <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 rounded-xl overflow-hidden">
+        <div className="mx-auto rounded-xl overflow-hidden border border-neutral-400 drop-shadow-md overflow-hidden">
+            <PagesNavigation query={query} resultsPerPage={resourcesPerPage} currentPage={currentPage} pageCount={totalPages} />
+            <table className="w-full table-fixed bg-neutral-200 border-b border-neutral-400">
+                <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 drop-shadow-md">
                     <tr>
                         <th className="w-1/3 max-w-xs">
                             <span className="text-gray-300 block px-4 py-2 text-left">
@@ -262,6 +286,9 @@ const ResourceTable = ({resources, currentPage, query}: {resources?: AuditoryRes
                     {resourceElements}
                 </tbody>
             </table>
+            {(resources && resources.length > 4) ?
+                <PagesNavigation query={query} resultsPerPage={resourcesPerPage} currentPage={currentPage} pageCount={totalPages} />
+            : undefined}
         </div>
     </div>
     );

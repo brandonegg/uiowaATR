@@ -3,6 +3,7 @@ import { type ParsedUrlQuery } from "querystring";
 
 export interface ViewDetails {
     page: number;
+    perPage: number;
 }
   
 export interface SearchQuery {
@@ -17,6 +18,7 @@ export type ParsedQueryData = SearchQuery & ViewDetails;
 export const parseQueryData = (query: ParsedUrlQuery): ParsedQueryData => {
     const view = {
         page: Number(query["page"] ?? 1),
+        perPage: Number(query["perPage"] ?? 10),
     }
     const filter: SearchQuery = {};
 
