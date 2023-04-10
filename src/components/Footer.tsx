@@ -64,12 +64,12 @@ const FooterLabeledSection = ({title, children}: {
 
 const Footer: NextPage = () => {
     return (
-        <div className="w-full mt-12">
+        <div className="w-full mt-12 bg-neutral-800">
             {/** yellow stripe */}
             <div className="bg-yellow-400 border-t-[1px] border-neutral-400 p-[4px]"></div>
 
             {/** Main footer area */}
-            <div className="p-4 bg-neutral-800 flex flex-row justify-between">
+            <div className="mx-auto max-w-5xl p-4 flex flex-row justify-between">
                 {/** Wendell Johnson Info */}
                 <div className="flex-col">
                     <Image alt="University of Iowa logo" width={128} height={64} src="/IOWA-gold-text.png" />
