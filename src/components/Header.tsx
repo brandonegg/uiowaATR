@@ -59,7 +59,7 @@ const NavBar = () => {
     ]
 
     return (
-        <nav className="border-b border-neutral-400 bg-gradient-to-b from-amber-300 to-amber-300 w-full shadow-black drop-shadow-md">
+        <nav className="sticky top-0 z-50 border-b border-neutral-400 bg-gradient-to-b from-amber-300 to-amber-300 w-full shadow-black drop-shadow-md">
             <li className="mx-auto max-w-5xl flex flex-row sm:justify-between px-4">
                 <ul id="left-nav-links" className="flex flex-row space-x-10">
                     <NavBarLink href='/' label='Home'/>
@@ -77,7 +77,7 @@ const NavBar = () => {
 
 const Header: NextPage = () => {
     return <>
-        <div id="logo-row" className="flex flex-row p-4 justify-center border-b border-yellow bg-neutral-800 z-50 drop-shadow-xl">
+        <div id="logo-row" className="flex flex-row p-4 justify-center border-b border-yellow bg-neutral-800 drop-shadow-xl">
             <div>
                 <Image alt="Ear listening" src="/listening-ear.svg" width={64} height={64}/>
             </div>
