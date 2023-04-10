@@ -35,7 +35,7 @@ const Resources = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="my-6 md:px-4 max-w-6xl mx-auto">
-        <div className="mb-4 p-4 space-y-2">
+        <div className="sm:mb-4 mb-2 sm:p-4 p-2 space-y-2">
           <h1 className="text-3xl font-bold">All Resources</h1>
           <div className="">
             <p className="inline">Fill out the </p>
