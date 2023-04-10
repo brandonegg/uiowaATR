@@ -1,4 +1,4 @@
-import { type PlatformLink, type PaymentType, type AuditoryResource, type Skill, type SkillLevel, Manufacturer } from '@prisma/client';
+import { type PlatformLink, type PaymentType, type AuditoryResource, type Skill, type SkillLevel, type Manufacturer } from '@prisma/client';
 import { CurrencyDollarIcon, ArrowPathRoundedSquareIcon } from '@heroicons/react/24/solid';
 import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
