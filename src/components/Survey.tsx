@@ -125,8 +125,8 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
             <section className="">
                 {!isLastPage ? 
                 <div className="space-x-4">
-                    <button onClick={backClick} className="inline mx-auto bottom-0 mt-8 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">back</button>
-                    <button onClick={nextClick} className="inline mx-auto bottom-0 mt-8 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">next</button>
+                    <button onClick={backClick} className="inline mx-auto bottom-0 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">back</button>
+                    <button onClick={nextClick} className="inline mx-auto bottom-0 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">next</button>
                 </div>
                 :
                 <div className="flex flex-col space-y-2 mt-4">
@@ -139,10 +139,11 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
     };
 
     return (
-        <div className="p-8 h-full flex flex-col justify-between text-center">
-            <section>
-                <h2></h2>
-                <h1>{question.question}</h1>
+        <div className="h-full flex flex-col justify-between text-center">
+            <section className="mt-4">
+                <h2 className="text-neutral-400 italic text-xl">{question.header}</h2>
+                <h1 className="text-neutral-900 font-bold text-xl">{question.question}</h1>
+                <h3 className="text-neutral-600 text-sm">Select all that apply from below</h3>
             </section>
 
             <section className="flex flex-col space-y-1 justify-center">
@@ -157,7 +158,9 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
                     No Preference
                 </button>
             : undefined}
-            <AdvanceButtons />
+            <div className="mb-4">
+                <AdvanceButtons />
+            </div>
         </div>
     )
 }
