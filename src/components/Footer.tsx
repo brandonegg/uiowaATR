@@ -88,7 +88,7 @@ const Footer: NextPage = () => {
             <div className="bg-yellow-400 border-t-[1px] border-neutral-400 p-[4px]"></div>
 
             {/** Main footer area */}
-            <div className="mx-auto max-w-5xl p-4 flex flex-col-reverse sm:flex-row justify-between">
+            <div className="mx-auto max-w-5xl p-4 flex flex-col-reverse md:flex-row justify-between">
                 {/** Wendell Johnson Info */}
                 <div className="flex-col mt-8 sm:mt-0">
                     <Image alt="University of Iowa logo" width={128} height={64} src="/IOWA-gold-text.png" />
@@ -100,7 +100,7 @@ const Footer: NextPage = () => {
                 </div>
 
                 {/** Header and tabs */}
-                <div className="flex flex-row text-neutral-200 sm:px-4 divide-x divide-neutral-500">
+                <div className="flex flex-row text-neutral-200 mx-auto md:mx-0 sm:px-4 divide-x divide-neutral-500">
                     <FooterLabeledSection title="Quick Links">
                         <div className="flex flex-col pt-4 space-y-2">
                             {links.map((quickLink, index) => {
