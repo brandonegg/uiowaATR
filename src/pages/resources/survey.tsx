@@ -1,25 +1,12 @@
-import { type PaymentType, type Platform, type Skill, type SkillLevel } from "@prisma/client"
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
-
-type QuestionTypes = Platform | Skill | SkillLevel | PaymentType | string;
-
-interface Option<T> {
-    label: string,
-    value: T,
-}
-
-interface Question<T> {
-    for: string,
-    header: string,
-    question: string,
-    options: Option<T>[]
-}
+import { GuidedSurvey, type Question, type QuestionTypes, type Option } from "~/components/Survey";
 
 const questions: Question<QuestionTypes>[] = [
     {
         for: "ages",
         header: "Age of Patient",
         question: "How old is the patient?",
+        optional: true,
         options: [
             {
                 label: "Child (0-10)",
@@ -39,6 +26,7 @@ const questions: Question<QuestionTypes>[] = [
         for: "platforms",
         header: "Desired Platforms",
         question: "What platform(s) does the resource need to be on?",
+        optional: true,
         options: [
             {
                 label: "Apple (iOS)",
@@ -62,6 +50,7 @@ const questions: Question<QuestionTypes>[] = [
         for: "skill_levels",
         header: "Skill Level",
         question: "What skill level(s) should the resource have?",
+        optional: true,
         options: [
             {
                 label: "Beginner",
@@ -81,6 +70,7 @@ const questions: Question<QuestionTypes>[] = [
         for: "skills",
         header: "Skills Practiced",
         question: "What skill(s) would you like the resource to cover?",
+        optional: true,
         options: [
             {
                 label: "Phonemes",
@@ -185,17 +175,25 @@ const SearchForm = ({questions}: {questions: Question<QuestionTypes>[]}) => {
     )
 }
 
+// const SearchPage = () => {
+//     return <>
+//         <div className="w-full max-w-xl mx-auto mt-4 mb-4 rounded-xl overflow-hidden border border-neutral-400 bg-neutral-200 drop-shadow-md">
+//             <div className="px-4 py-2 bg-gradient-to-t from-neutral-900 to-neutral-700 mx-auto overflow-hidden">
+//                 <h1 className="text-gray-300 font-bold">Search</h1>
+//             </div>
+//             <div>
+//                 <SearchForm questions={questions} />
+//             </div>
+//         </div>
+//     </>
+// }
+
 const SearchPage = () => {
-    return <>
+    return (
         <div className="w-full max-w-xl mx-auto mt-4 mb-4 rounded-xl overflow-hidden border border-neutral-400 bg-neutral-200 drop-shadow-md">
-            <div className="px-4 py-2 bg-gradient-to-t from-neutral-900 to-neutral-700 mx-auto overflow-hidden">
-                <h1 className="text-gray-300 font-bold">Search</h1>
-            </div>
-            <div>
-                <SearchForm questions={questions} />
-            </div>
+            <GuidedSurvey questions={questions} />
         </div>
-    </>
+    )
 }
 
 export default SearchPage
