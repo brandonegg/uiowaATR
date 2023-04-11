@@ -30,13 +30,17 @@ const Home: NextPage = () => {
             backgroundPosition: `center`,
           }} className="h-96">
             <div style={{
+              WebkitBackdropFilter: `blur(15px) contrast(50%)`,
               backdropFilter: `blur(15px) contrast(50%)`,
             }} className="h-full w-full grid place-items-center">
               <div className="space-y-8">
                 <h1 className="mx-auto text-center font-extrabold text-4xl max-w-lg text-yellow-200">Welcome to the Resource Center for Auditory Training!</h1>
                 <div className="flex flex-col w-96 mx-auto p-4 bg-neutral-900 border space-y-4 border-neutral-500 rounded-md shadow-lg shadow-neutral-800/50">
                   <p className="text-center text-lg text-neutral-100">Looking for resource recommendations?</p>
-                  <Link href="/resources/survey" className="font-bold border border-neutral-300 mx-auto bg-yellow-400 hover:bg-yellow-100 p-2 rounded-md">start survey</Link>
+                  <Link href="/resources/survey" className="flex flex-inline font-bold border border-neutral-300 mx-auto bg-yellow-400 hover:bg-yellow-100 p-2 rounded-md animate-expand_in_out">
+                    Start Survey
+                    <ArrowUpRightIcon className="inline w-5" />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -60,8 +64,9 @@ const Home: NextPage = () => {
         <div className="max-w-5xl mx-auto pt-12">
           <h1 className="font-extrabold text-4xl text-center">Want to learn more?</h1>
           <div className="flex flex-col pt-8">
-            <Link href="/about" className="shadow-lg shadow-black/50 mx-auto px-4 py-2 bg-yellow-200 rounded-md border border-neutral-900">
+            <Link href="/about" className="flex flex-inline ease-out duration-200 hover:shadow-md hover:bg-yellow-300 shadow-lg shadow-black/50 mx-auto px-4 py-2 bg-yellow-200 rounded-md border border-neutral-900">
               About
+              <ArrowUpRightIcon className="inline w-5" />
             </Link>
           </div>
         </div>
