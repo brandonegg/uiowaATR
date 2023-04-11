@@ -35,7 +35,7 @@ const GreetingPage = ({updatePage}: {
 /**
  * Single question component for a guided survey
  */
-const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateFormData, submitForm}: {
+const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateFormData}: {
     isLastPage: boolean,
     page: number,
     question: Question<QuestionTypes>,
@@ -99,20 +99,12 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
                 :
                 <div className="flex flex-col space-y-2 mt-4">
                     <button onClick={backClick} className="mx-auto bottom-0 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">back</button>
-                    <button onClick={nextClick} className="mx-auto bottom-0 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">submit</button>
+                    <button form="survey-form" type="submit" className="mx-auto bottom-0 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">submit</button>
                 </div>
                 }
             </section>
         )
     };
-
-    const htmlOptions: JSX.Element[] = []
-    const optionButtons: JSX.Element[] = []
-
-    question.options.forEach((option, index) => {
-        optionButtons.push(<OptionToggle key={index} option={option} />)
-        htmlOptions.push(<option key={index} selected={formData[question.for]?.includes(option.value)} value={option.value.toString()}>{option.label}</option>)
-    });
 
     return (
         <div className="p-8 h-full flex flex-col justify-between text-center">
@@ -121,13 +113,12 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
                 <h1>{question.question}</h1>
             </section>
 
-            {/** Hidden selector html */}
-            <select className="hidden" name={question.for} multiple>
-                {htmlOptions}
-            </select>
-
             <section className="flex flex-col space-y-1 justify-center">
-                {optionButtons}
+                {question.options.map((option, index) => {
+                    return (
+                        <OptionToggle key={index} option={option} />
+                    );
+                })}
             </section>
             <AdvanceButtons />
         </div>
@@ -181,15 +172,33 @@ const GuidedSurvey = ({questions}: {
             );
         }
 
-        const question = questions[pageNumber];
+        const question = questions[pageNumber-1];
         if (!question) {
             return null;
         }
 
-        const isLastPage = pageNumber === questions.length - 1
+        const isLastPage = pageNumber === questions.length
     
         return (
             <QuestionPage isLastPage={isLastPage} page={page} formData={formData} updateFormData={setFormData} updatePage={updatePage} question={question} />
+        );
+    }
+
+    /**
+     * Renders the hidden html form selectors
+     */
+    const HTMLQuestion = ({question}: {question: Question<QuestionTypes>}) => {
+        return (
+            <select className="hidden" name={question.for} multiple>
+                {question.options.map((option, index) => {
+                        return (
+                            <option key={index} selected={formData[question.for]?.includes(option.value)} value={option.value.toString()}>
+                                {option.label}
+                            </option>
+                        );
+                    })
+                }
+            </select>
         );
     }
 
@@ -203,6 +212,13 @@ const GuidedSurvey = ({questions}: {
             </div>
 
             <PageTransition key={page} lastPage={lastPage} currentPage={currentPage}/>
+
+            {/** Hidden html */}
+            <form action="/resources" id='survey-form' className="hidden">
+                {questions.map((question, index) => {
+                    return <HTMLQuestion key={index} question={question} />
+                })}
+            </form>
         </div>
     )
 }
