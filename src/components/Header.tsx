@@ -64,11 +64,11 @@ const NavBar = () => {
                 <ul id="left-nav-links" className="flex flex-row space-x-10">
                     <NavBarLink href='/' label='Home'/>
                     <NavBarLink dropdown={resourcesDropDown} href='/resources' label='Resources'/>
-                    <NavBarLink href='/' label='About'/>
+                    <NavBarLink href='/about' label='About'/>
                 </ul>
 
                 <ul id="right-nav-links" className="hidden sm:flex flex-row space-x-4">
-                    <NavBarLink href='/' label='Contact Us'/>
+                    <NavBarLink href='/contact' label='Contact Us'/>
                 </ul>
             </li>
         </nav>
