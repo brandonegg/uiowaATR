@@ -35,8 +35,8 @@ const Home: NextPage = () => {
             }} className="h-full w-full grid place-items-center">
               <div className="space-y-8">
                 <h1 className="mx-auto text-center font-extrabold text-4xl max-w-lg text-yellow-200">Welcome to the Resource Center for Auditory Training!</h1>
-                <div className="flex flex-col w-96 mx-auto p-4 bg-neutral-900 border space-y-4 border-neutral-500 rounded-md shadow-lg shadow-neutral-800/50">
-                  <p className="text-center text-lg text-neutral-100">Looking for resource recommendations?</p>
+                <div className="flex flex-col w-[400px] mx-auto p-4 bg-neutral-900 border space-y-4 border-neutral-500 rounded-md shadow-lg shadow-neutral-800/50">
+                  <p className="text-center text-lg text-neutral-100 text-xl">Looking for resource recommendations?</p>
                   <Link href="/resources/survey" className="flex flex-inline font-bold border border-neutral-300 mx-auto bg-yellow-400 hover:bg-yellow-100 p-2 rounded-md animate-expand_in_out">
                     Start Survey
                     <ArrowUpRightIcon className="inline w-5" />
