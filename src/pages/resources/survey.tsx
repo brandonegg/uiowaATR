@@ -48,26 +48,6 @@ const questions: Question<QuestionTypes>[] = [
         ]
     },
     {
-        for: "skill_levels",
-        header: "Skill Level",
-        question: "What skill level(s) should the resource have?",
-        optional: true,
-        options: [
-            {
-                label: "Beginner",
-                value: "BEGINNER",
-            },
-            {
-                label: "Intermediate",
-                value: "INTERMEDIATE",
-            },
-            {
-                label: "Advanced",
-                value: "ADVANCED",
-            }
-        ]
-    },
-    {
         for: "skills",
         header: "Skills Practiced",
         question: "What skill(s) would you like the resource to cover?",
@@ -98,7 +78,27 @@ const questions: Question<QuestionTypes>[] = [
                 value: "ENVIRONMENT",
             },
         ]
-    }
+    },
+    {
+        for: "skill_levels",
+        header: "Skill Level",
+        question: "What skill level(s) should the resource have?",
+        optional: true,
+        options: [
+            {
+                label: "Beginner",
+                value: "BEGINNER",
+            },
+            {
+                label: "Intermediate",
+                value: "INTERMEDIATE",
+            },
+            {
+                label: "Advanced",
+                value: "ADVANCED",
+            }
+        ]
+    },
 ]
 
 const ChoiceQuestion = ({question, formData, updateFormData}: {question: Question<QuestionTypes>, formData: Record<string, QuestionTypes[]>, updateFormData: Dispatch<SetStateAction<Record<string, QuestionTypes[]>>>}) => {    

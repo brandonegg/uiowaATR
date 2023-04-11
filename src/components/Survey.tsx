@@ -72,7 +72,7 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
 
         if (dontCare) {
             return (
-                <button disabled type="button" onClick={handleToggle} className={"mx-auto w-64 py-2 shadow rounded-lg border border-neutral-400 " + (selected ? "bg-amber-200" : "bg-white")}>
+                <button disabled type="button" onClick={handleToggle} className={"line-through mx-auto w-64 py-2 shadow rounded-lg border border-neutral-400 " + (selected ? "bg-amber-200" : "bg-white")}>
                     {option.label}
                 </button>
             )
@@ -162,12 +162,16 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
     )
 }
 
-const PageTransition = ({lastPage, currentPage}: {
+/**
+ * Wrapper for last and current page to enable the transition animation
+ */
+const PageTransition = ({backwards, lastPage, currentPage}: {
+    backwards: boolean,
     lastPage: JSX.Element | null,
     currentPage: JSX.Element,
 }) => {
     return (
-        <div className={"h-[450px] w-[200%] flex flex-row-reverse translate-x-[-50%] animate-slide_survey_page"}>    
+        <div className={"h-[500px] w-[200%] flex " + (backwards ? "flex-row animate-slide_survey_page_backwards" : "flex-row-reverse translate-x-[-50%] animate-slide_survey_page")}>    
             <div className="relative w-1/2 h-full grid place-items-center">
                 {currentPage}
             </div>
@@ -242,6 +246,7 @@ const GuidedSurvey = ({questions}: {
 
     const lastPage = <SurveyPage pageNumber={previousPage} />;
     const currentPage = <SurveyPage pageNumber={page} />;
+    const backwards = (previousPage ?? -1) >= page;
 
     return (
         <div>
@@ -249,7 +254,7 @@ const GuidedSurvey = ({questions}: {
                 <h1 className="text-gray-300 font-bold">Search</h1>
             </div>
 
-            <PageTransition key={page} lastPage={lastPage} currentPage={currentPage}/>
+            <PageTransition backwards={backwards} key={page} lastPage={lastPage} currentPage={currentPage}/>
 
             {/** Hidden html */}
             <form action="/resources" id='survey-form' className="hidden">
