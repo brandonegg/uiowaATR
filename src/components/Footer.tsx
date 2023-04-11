@@ -74,7 +74,7 @@ const FooterLabeledSection = ({title, children}: {
     children: JSX.Element[] | JSX.Element,
 }) => {
     return (
-        <div className="flex flex-col px-8">
+        <div className="flex flex-col px-2 sm:px-8">
             <h1 className="font-bold text-xl text-neutral-400">{title}</h1>
             {children}
         </div>
@@ -100,7 +100,7 @@ const Footer: NextPage = () => {
                 </div>
 
                 {/** Header and tabs */}
-                <div className="flex flex-row text-neutral-200 px-4 divide-x divide-neutral-500">
+                <div className="flex flex-row text-neutral-200 sm:px-4 divide-x divide-neutral-500">
                     <FooterLabeledSection title="Quick Links">
                         <div className="flex flex-col pt-4 space-y-2">
                             {links.map((quickLink, index) => {
