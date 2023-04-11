@@ -12,6 +12,7 @@ export interface Question<T> {
     for: string,
     header: string,
     question: string,
+    maxSelect?: number,
     optional: true,
     options: Option<T>[]
 }
@@ -35,14 +36,19 @@ const GreetingPage = ({updatePage}: {
 /**
  * Single question component for a guided survey
  */
-const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateFormData}: {
+const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateFormData, dontCareData, setDontCareData}: {
     isLastPage: boolean,
     page: number,
     question: Question<QuestionTypes>,
     updatePage: (pageNumber: number) => void,
     formData: Record<string, QuestionTypes[]>,
     updateFormData: Dispatch<SetStateAction<Record<string, QuestionTypes[]>>>,
+    dontCareData: Record<string, boolean>,
+    setDontCareData: Dispatch<SetStateAction<Record<string, boolean>>>,
+
 }) => {
+    const dontCare = dontCareData[question.for] ?? false;
+
     const OptionToggle = ({option}: {option: Option<QuestionTypes>}) => {
         const selected = formData[question.for]?.includes(option.value) ?? false;
         
@@ -64,6 +70,14 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
             updateFormData(newFormData);
         }
 
+        if (dontCare) {
+            return (
+                <button disabled type="button" onClick={handleToggle} className={"mx-auto w-64 py-2 shadow rounded-lg border border-neutral-400 " + (selected ? "bg-amber-200" : "bg-white")}>
+                    {option.label}
+                </button>
+            )
+        }
+
         return (
             <button type="button" onClick={handleToggle} className={"mx-auto w-64 py-2 shadow rounded-lg border border-neutral-400 " + (selected ? "bg-amber-200" : "bg-white")}>
                 {option.label}
@@ -79,6 +93,24 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
             updateFormData(newFormData);
         }
     });
+
+    const dontCareToggle = () => {
+        if (formData[question.for]) {
+            const newFormData = {
+                ...formData
+            };
+
+            newFormData[question.for] = [];
+            updateFormData(newFormData);
+        }
+
+        const newDontCareData = {
+            ...dontCareData
+        }
+
+        newDontCareData[question.for] = !dontCare;
+        setDontCareData(newDontCareData);
+    }
 
     const nextClick = () => {
         updatePage(page + 1);
@@ -120,6 +152,11 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
                     );
                 })}
             </section>
+            {question.optional ?
+                <button type="button" onClick={dontCareToggle} className={"mx-auto w-64 py-2 shadow rounded-lg border border-neutral-400 " + (dontCare ? "bg-amber-200" : "bg-white")}>
+                    No Preference
+                </button>
+            : undefined}
             <AdvanceButtons />
         </div>
     )
@@ -152,6 +189,7 @@ const GuidedSurvey = ({questions}: {
 }) => {
     const [page, setPage] = useState<number>(0);
     const [formData, setFormData] = useState<(Record<string, QuestionTypes[]>)>({});
+    const [dontCareData, setDoneCareData] = useState<(Record<string, boolean>)>({});
     const [previousPage, setPreviousPage] = useState<number | undefined>(undefined);
 
     const updatePage = (pageNumber: number) => {
@@ -180,7 +218,7 @@ const GuidedSurvey = ({questions}: {
         const isLastPage = pageNumber === questions.length
     
         return (
-            <QuestionPage isLastPage={isLastPage} page={page} formData={formData} updateFormData={setFormData} updatePage={updatePage} question={question} />
+            <QuestionPage dontCareData={dontCareData} setDontCareData={setDoneCareData} isLastPage={isLastPage} page={page} formData={formData} updateFormData={setFormData} updatePage={updatePage} question={question} />
         );
     }
 

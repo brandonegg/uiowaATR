@@ -6,6 +6,7 @@ const questions: Question<QuestionTypes>[] = [
         for: "ages",
         header: "Age of Patient",
         question: "How old is the patient?",
+        maxSelect: 1,
         optional: true,
         options: [
             {
