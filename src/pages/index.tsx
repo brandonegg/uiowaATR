@@ -11,7 +11,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="my-6">
+        <div className="p-2">
+          <h1 className="mx-auto text-center font-extrabold text-4xl max-w-lg text-neutral-600">Welcome to the Resource Center for Auditory Training!</h1>
         </div>
       </main>
     </>

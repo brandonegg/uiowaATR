@@ -78,11 +78,11 @@ const NavBar = () => {
 const Header: NextPage = () => {
     return <>
         <div id="logo-row" className="flex flex-row p-4 justify-center border-b border-yellow bg-neutral-800 drop-shadow-xl">
-            <div>
+            <div className="shadow-md shadow-yellow-500/50 bg-yellow-100 rounded-xl p-2">
                 <Image alt="Ear listening" src="/listening-ear.svg" width={64} height={64}/>
             </div>
             <div id="header-title" className="w-64 grid place-items-center">
-                <h1 className="text-center text-2xl font-bold text-neutral-300">Center for Auditory Training Resources</h1>
+                <h1 className="text-center text-2xl font-bold text-neutral-200">Center for Auditory Training Resources</h1>
             </div>
         </div>
         <NavBar/>
