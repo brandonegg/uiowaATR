@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Header from "~/components/Header";
 import Footer from "~/components/Footer";
+import Head from "next/head";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -14,6 +15,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
+      <Head>
+        <title>ATR</title>
+        <meta name="description" content="University of Iowa Center for Auditory Training Resources" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
       <Component {...pageProps} />
       <Footer />
