@@ -1,10 +1,31 @@
 import { type NextPage } from "next/types";
 import Image from 'next/image';
+import Link from "next/link";
 
 interface QuickLink {
     label: string,
     href: string,
 }
+
+const links: QuickLink[] = [
+    {
+        label: "University of Iowa",
+        href: "https://uiowa.edu/",
+    },
+    {
+        label: "Wendell Johnson",
+        href: "https://www.facilities.uiowa.edu/named-building/wendell-johnson-speech-and-hearing-center",
+    }
+]
+
+const QuickLink = ({label, href}: QuickLink) => {
+    return (
+        <a className="hover:underline space-x-2" target="_blank" href={href}>
+            <Image className="inline" alt="external link" width={16} height={16} src="/open-external-link-icon.svg" />
+            <span className="inline">{label}</span>
+        </a>
+    )
+};
 
 interface ContactInfo {
     name: string,
@@ -55,9 +76,7 @@ const FooterLabeledSection = ({title, children}: {
     return (
         <div className="flex flex-col px-8">
             <h1 className="font-bold text-xl text-neutral-400">{title}</h1>
-            <div className="flex flex-col divide-y divide-neutral-500">
-                {children}
-            </div>
+            {children}
         </div>
     )
 }
@@ -83,13 +102,22 @@ const Footer: NextPage = () => {
                 {/** Header and tabs */}
                 <div className="flex flex-row text-neutral-200 px-4 divide-x divide-neutral-500">
                     <FooterLabeledSection title="Quick Links">
+                        <div className="flex flex-col pt-4 space-y-2">
+                            {links.map((quickLink, index) => {
+                                return (
+                                    <QuickLink key={index} {...quickLink}/>
+                                )
+                            })}
+                        </div>
                     </FooterLabeledSection>
                     <FooterLabeledSection title="Contact">
-                        {contacts.map((contactInfo, index) => {
-                            return (
-                                <ContactInfo key={index} {...contactInfo} />
-                            )
-                        })}
+                        <div className="flex flex-col divide-y divide-neutral-500">
+                            {contacts.map((contactInfo, index) => {
+                                return (
+                                    <ContactInfo key={index} {...contactInfo} />
+                                )
+                            })}
+                        </div>
                     </FooterLabeledSection>
                 </div>
             </div>
