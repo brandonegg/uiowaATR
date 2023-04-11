@@ -41,7 +41,7 @@ const Home: NextPage = () => {
               </div>
             </div>
         </div>
-        <div className="p-12 bg-neutral-900 text-white">
+        <div className="p-4 sm:p-12 bg-neutral-900 text-white">
           <div className="max-w-5xl flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-white mx-auto">
             <h1 className="grow h-full my-auto pr-auto text-4xl p-4 text-yellow-200">Our Purpose</h1>
             <section className="px-4 text-neutral-300">
@@ -49,7 +49,7 @@ const Home: NextPage = () => {
             </section>
           </div>
         </div>
-        <div className="p-12 bg-yellow-100 text-white">
+        <div className="p-4 sm:p-12 bg-yellow-100 text-white">
           <div className="max-w-5xl flex flex-col-reverse md:flex-row md:divide-y-0 md:divide-x divide-neutral-700 mx-auto">
             <section className="px-4 text-neutral-800">
               <p className="pt-2">You can use the <TextLink href="/resources">resources</TextLink> tab to scroll through the list of all resources, or the <TextLink href="/resources/survey">search</TextLink> tab to filter resources based on your preferences and skill level. We also have an <TextLink href="/about">About</TextLink> tab to learn more about the creators of this website and a <TextLink href="/contact">Contact Us</TextLink> tab to submit any comments or questions you have about the site and auditory training in general. We hope you find this website helpful in your auditory training journey, and we are here to support you every step of the way.</p>
