@@ -63,11 +63,25 @@ const Home: NextPage = () => {
         </div>
         <div className="max-w-5xl mx-auto pt-12">
           <h1 className="font-extrabold text-4xl text-center">Want to learn more?</h1>
-          <div className="flex flex-col pt-8">
-            <Link href="/about" className="flex flex-inline ease-out duration-200 hover:shadow-md hover:bg-yellow-300 shadow-lg shadow-black/50 mx-auto px-4 py-2 bg-yellow-200 rounded-md border border-neutral-900">
-              About
-              <ArrowUpRightIcon className="inline w-5" />
-            </Link>
+          <div className="flex flex-col pt-8 space-y-6">
+            <section className="mx-auto space-x-4">
+              <h2 className="align-middle inline-block text-lg">
+                Learn more about the project and team
+              </h2>
+              <Link href="/about" className="font-semibold align-middle inline-block ease-out duration-200 hover:shadow-md hover:bg-yellow-300 shadow-lg shadow-black/50 px-4 py-2 bg-yellow-200 rounded-md border border-neutral-900">
+                About
+                <ArrowUpRightIcon className="inline-block align-middle w-5" />
+              </Link>
+            </section>
+            <section className="mx-auto space-x-4">
+              <h2 className="align-middle inline-block text-lg">
+                Request changes or get in touch
+              </h2>
+              <Link href="/contact" className="font-semibold align-middle inline-block ease-out duration-200 hover:shadow-md hover:bg-yellow-300 shadow-lg shadow-black/50 px-4 py-2 bg-yellow-200 rounded-md border border-neutral-900">
+                Contact
+                <ArrowUpRightIcon className="inline-block align-middle w-5" />
+              </Link>
+            </section>
           </div>
         </div>
       </main>
