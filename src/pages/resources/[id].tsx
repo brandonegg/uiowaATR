@@ -120,7 +120,7 @@ const ResourceViewPage = (props: InferGetStaticPropsType<typeof getStaticProps>)
   return <>
     <div className="min-h-screen">
       <Header />
-      <main>
+      <main className="mb-12">
         <div className="flex py-4 flex-col flex-col-reverse sm:flex-row divide-x max-w-2xl mx-auto">
           <div className="text-lg flex flex-col justify-end font-bold my-5 mr-4">
             <div className="mx-4">

@@ -16,9 +16,13 @@ interface Biography {
 
 const Biopgraphy = ({bodyName, name, title, body, img, position}: Biography) => {    
     return (
-        <section className={"sm:space-y-2 p-2 shadow-xl bg-yellow-100 flex flex-col border-y-2 sm:border-2 sm:rounded-2xl border-neutral-900 col-span-2 overflow-hidden" + (position === 'right' ? " lg:col-start-2 lg:rotate-3" : " lg:-rotate-3")}>
-            <div className="p-2">
-                <Image src={img} alt={`${name} profile`} width={128} height={128} className="shadow-lg shadow-neutral-600/50 rounded-full border border-neutral-900" />
+        <section className={"sm:space-y-2 p-2 sm:p-4 shadow-xl bg-yellow-100 flex flex-col border-y-2 sm:border-2 sm:rounded-2xl border-neutral-900 col-span-2 overflow-hidden" + (position === 'right' ? " lg:col-start-2 lg:rotate-3" : " lg:-rotate-3")}>
+            <div className="space-x-8 flex flex-row mb-2 items-center">
+                <Image src={img} alt={`${name} profile`} width={128} height={128} className="shadow-md shadow-neutral-600/50 rounded-lg border border-neutral-900" />
+                <div className="">
+                    <h1 className="text-2xl font-bold">{name}</h1>
+                    <h2 className="text-neutral-600 italic">{title}</h2>
+                </div>
             </div>
             <div className="col-span-2 p-2 bg-white rounded-lg border border-neutral-900">
                 {bodyName} {body}
@@ -67,20 +71,20 @@ const About: NextPage = () => {
             <div className="w-full">
                 <div className="mx-auto max-w-7xl sm:p-8">
                     {/** Small screens */}
-                    <div className="block sm:hidden w-full bg-neutral-900 p-4">
+                    <div className="sm:hidden w-full bg-neutral-900 p-4 border-b-2 border-yellow-400">
                         <h1 className="text-white text-4xl font-bold text-center">
                             Meet the Team
                             <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave animate-hand_pop"/>
                         </h1>
                     </div>
                     {/** Large screens */}
-                    <div className="hidden sm:block mx-auto bg-neutral-900 p-4 mx-auto w-max rounded-xl mt-8 mb-20 border-2 border-neutral-300">
+                    <div className="hidden sm:block mx-auto bg-neutral-900 p-4 mx-auto w-max rounded-xl mt-8 mb-20 border-2 border-neutral-300 shadow-xl">
                         <h1 className="text-white text-4xl font-bold text-center">
                             Meet the Team
                             <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave"/>
                         </h1>
                     </div>
-                    <div className="md:mt-16 mb-32 grid grid-cols-2 lg:grid-cols-3 sm:mt-4 md:space-y-24 sm:space-y-12 space-y-4">
+                    <div className="sm:my-16 grid grid-cols-2 lg:grid-cols-3 sm:mt-4 lg:space-y-24 sm:space-y-12">
                         {biographies.map((biography, index) => {
                             return (
                                 <Biopgraphy key={index} {...biography} />

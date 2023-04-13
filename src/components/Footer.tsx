@@ -82,7 +82,7 @@ const FooterLabeledSection = ({title, children}: {
 
 const Footer: NextPage = () => {
     return (
-        <div className="w-full mt-12 bg-neutral-800">
+        <div className="w-full bg-neutral-800">
             {/** yellow stripe */}
             <div className="bg-yellow-400 border-t-[1px] border-neutral-400 p-[4px]"></div>
 
