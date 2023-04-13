@@ -1,6 +1,5 @@
 import { type NextPage } from "next/types";
 import Image from 'next/image';
-import Link from "next/link";
 
 interface QuickLink {
     label: string,
@@ -9,8 +8,8 @@ interface QuickLink {
 
 const links: QuickLink[] = [
     {
-        label: "University of Iowa",
-        href: "https://uiowa.edu/",
+        label: "Communication Sciences and Disorders",
+        href: "https://csd.uiowa.edu/",
     },
     {
         label: "Wendell Johnson",
@@ -44,7 +43,7 @@ const contacts: ContactInfo[] = [
         name: "Eun Kyung (Julie) Jeon",
         title: "Clinical Assistant Professor",
         email: "eunkyung-jeon@uiowa.edu",
-        phone: "319-467-1476"
+        phone: "3194671476"
     }
 ]
 
@@ -92,10 +91,16 @@ const Footer: NextPage = () => {
                 {/** Wendell Johnson Info */}
                 <div className="flex-col mt-8 sm:mt-0">
                     <Image alt="University of Iowa logo" width={128} height={64} src="/IOWA-gold-text.png" />
-                    <div className="px-2 text-neutral-100">
-                        <p className="text-yellow-300 italic">Wendell Johnson Speech and Hearing Center</p>
-                        <p>250 Hawkins Dr</p>
-                        <p>Iowa City, IA 52242</p>
+                    <div className="px-2 text-neutral-100 space-y-8">
+                        <section>
+                            <h2 className="text-yellow-100 italic text-sm">College of Liberal Arts and Sciences</h2>
+                            <h1 className="text-yellow-300 text-md">Communication Sciences and Disorders</h1>
+                        </section>
+                        <section>
+                            <h3 className="text-sm italic">Wendell Johnson Speech and Hearing Center</h3>
+                            <p className="text-sm">250 Hawkins Dr</p>
+                            <p className="text-sm">Iowa City, IA 52242</p>
+                        </section>
                     </div>
                 </div>
 
