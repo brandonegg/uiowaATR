@@ -34,12 +34,12 @@ const Resources = () => {
           <h1 className="text-3xl font-bold">All Resources</h1>
           <div className="">
             <p className="inline">Fill out the </p>
-            <Link href="/resources/survey"
+            <Link href="/resources/search"
                   className="hover:bg-neutral-900 hover:text-white inline rounded-lg bg-neutral-200 border border-neutral-800 px-2 py-[4px]">
-              survey
+              search form
               <LinkIcon className="w-4 inline" />
             </Link>
-            <p className="inline"> for specific resource recommendations.</p>
+            <p className="inline"> for a list of auditory training resource recommendations.</p>
           </div>
         </div>
         <ResourceTable resourcesPerPage={queryData.perPage} resources={resourceQuery.data.resources} totalPages={totalPages} query={router.query} currentPage={currentPage} />

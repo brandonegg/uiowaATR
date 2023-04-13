@@ -26,15 +26,15 @@ const GreetingPage = ({updatePage}: {
 
     return (
         <div className="flex flex-col text-center">
-            <h1 className="text-xl font-extrabold">Welcome to the resources survey!</h1>
-            <p className="text-neutral-500 italic max-w-sm">We will ask a few questions about the patient and then recommend the best resources based on your answers!</p>
+            <h1 className="text-center text-xl font-extrabold mb-8 max-w-sm">Welcome to the auditory training resource search tool!</h1>
+            <p className="mx-auto text-center text-neutral-500 italic max-w-sm">We will ask a few questions about the patient and then recommend the best auditory training resources based on your answers!</p>
             <button onClick={getStartedClick} className="bottom-0 mt-8 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">Get Started!</button>
         </div>
     )
 }
 
 /**
- * Single question component for a guided survey
+ * Single question component for a guided search
  */
 const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateFormData, dontCareData, setDontCareData}: {
     isLastPage: boolean,
@@ -131,7 +131,7 @@ const QuestionPage = ({isLastPage, page, question, updatePage, formData, updateF
                 :
                 <div className="flex flex-col space-y-2 mt-4">
                     <button onClick={backClick} className="mx-auto bottom-0 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">back</button>
-                    <button form="survey-form" type="submit" className="mx-auto bottom-0 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">submit</button>
+                    <button form="search-form" type="submit" className="mx-auto bottom-0 py-2 px-4 bg-yellow-100 mx-auto rounded-md border border-neutral-900 ease-out duration-200 shadow-lg hover:shadow-md hover:bg-yellow-300">submit</button>
                 </div>
                 }
             </section>
@@ -174,7 +174,7 @@ const PageTransition = ({backwards, lastPage, currentPage}: {
     currentPage: JSX.Element,
 }) => {
     return (
-        <div className={"h-[500px] w-[200%] flex " + (backwards ? "flex-row animate-slide_survey_page_backwards" : "flex-row-reverse translate-x-[-50%] animate-slide_survey_page")}>    
+        <div className={"h-[500px] w-[200%] flex " + (backwards ? "flex-row animate-slide_search_page_backwards" : "flex-row-reverse translate-x-[-50%] animate-slide_search_page")}>    
             <div className="relative w-1/2 h-full grid place-items-center">
                 {currentPage}
             </div>
@@ -188,10 +188,10 @@ const PageTransition = ({backwards, lastPage, currentPage}: {
 };
 
 /**
- * Main guided survey component.
+ * Main guided search component.
  * Page 0 = greeting page.
  */
-const GuidedSurvey = ({questions}: {
+const GuidedSearch = ({questions}: {
     questions: Question<QuestionTypes>[],
 }) => {
     const [page, setPage] = useState<number>(0);
@@ -204,7 +204,7 @@ const GuidedSurvey = ({questions}: {
         setPage(pageNumber);
     };
 
-    const SurveyPage = ({pageNumber}: {
+    const SearchPage = ({pageNumber}: {
         pageNumber?: number,
     }) => {
         if (pageNumber === undefined) {
@@ -247,8 +247,8 @@ const GuidedSurvey = ({questions}: {
         );
     }
 
-    const lastPage = <SurveyPage pageNumber={previousPage} />;
-    const currentPage = <SurveyPage pageNumber={page} />;
+    const lastPage = <SearchPage pageNumber={previousPage} />;
+    const currentPage = <SearchPage pageNumber={page} />;
     const backwards = (previousPage ?? -1) >= page;
 
     return (
@@ -260,7 +260,7 @@ const GuidedSurvey = ({questions}: {
             <PageTransition backwards={backwards} key={page} lastPage={lastPage} currentPage={currentPage}/>
 
             {/** Hidden html */}
-            <form action="/resources" id='survey-form' className="hidden">
+            <form action="/resources" id='search-form' className="hidden">
                 {questions.map((question, index) => {
                     return <HTMLQuestion key={index} question={question} />
                 })}
@@ -270,5 +270,5 @@ const GuidedSurvey = ({questions}: {
 }
 
 export {
-    GuidedSurvey,
+    GuidedSearch,
 }

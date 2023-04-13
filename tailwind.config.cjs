@@ -19,8 +19,8 @@ const config = {
       },
       animation: {
         expand_in_out: 'expand_in_out 2s ease-in-out infinite',
-        slide_survey_page: 'slide_left_full 0.5s ease-in-out',
-        slide_survey_page_backwards: 'slide_right_full 0.5s ease-in-out'
+        slide_search_page: 'slide_left_full 0.5s ease-in-out',
+        slide_search_page_backwards: 'slide_right_full 0.5s ease-in-out'
       },
     },
   },

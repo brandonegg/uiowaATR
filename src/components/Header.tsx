@@ -50,7 +50,7 @@ const NavBar = () => {
     const resourcesDropDown: DropdownOption[] = [
         {
             label: "search",
-            href: "/resources/survey",
+            href: "/resources/search",
         },
         {
             label: "view all",

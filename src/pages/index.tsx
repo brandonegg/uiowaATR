@@ -29,10 +29,10 @@ const Home: NextPage = () => {
             }} className="h-full w-full grid place-items-center">
               <div className="space-y-8">
                 <h1 className="mx-auto text-center font-extrabold text-4xl max-w-lg text-yellow-200">Welcome to the Resource Center for Auditory Training!</h1>
-                <div className="flex flex-col w-[300px] sm:w-[400px] mx-auto p-4 bg-neutral-900 border space-y-4 border-neutral-500 rounded-md shadow-lg shadow-neutral-800/50">
-                  <p className="text-center text-lg text-neutral-100 text-xl">Looking for resource recommendations?</p>
-                  <Link href="/resources/survey" className="flex flex-inline font-bold border border-neutral-300 mx-auto bg-yellow-400 hover:bg-yellow-100 p-2 rounded-md animate-expand_in_out">
-                    Start Survey
+                <div className="flex flex-col w-[350px] sm:w-[400px] mx-auto p-4 bg-neutral-900 border space-y-4 border-neutral-500 rounded-md shadow-lg shadow-neutral-800/50">
+                  <p className="text-2xl text-center text-neutral-100">Looking for resource recommendations?</p>
+                  <Link href="/resources/search" className="flex flex-inline font-bold border border-neutral-300 mx-auto bg-yellow-400 hover:bg-yellow-100 p-2 rounded-md animate-expand_in_out">
+                    Search for Auditory Resources
                     <ArrowUpRightIcon className="inline w-5" />
                   </Link>
                 </div>
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
         <div className="p-4 sm:p-12 bg-yellow-100 text-white drop-shadow-md border border-b border-neutral-400">
           <div className="max-w-5xl flex flex-col-reverse md:flex-row md:divide-y-0 md:divide-x divide-neutral-700 mx-auto">
             <section className="px-4 text-neutral-800">
-              <p className="pt-2">You can use the <TextLink href="/resources">Resources</TextLink> tab to scroll through the list of all resources, or the <TextLink href="/resources/survey">Search</TextLink> tab to filter resources based on your preferences and skill level. We also have an <TextLink href="/about">About</TextLink> tab to learn more about the creators of this website and a <TextLink href="/contact">Contact Us</TextLink> tab to submit any comments or questions you have about the site and auditory training in general. We hope you find this website helpful in your auditory training journey, and we are here to support you every step of the way.</p>
+              <p className="pt-2">You can use the <TextLink href="/resources">Resources</TextLink> tab to scroll through the list of all resources, or the <TextLink href="/resources/search">Search</TextLink> tab to filter resources based on your preferences and skill level. We also have an <TextLink href="/about">About</TextLink> tab to learn more about the creators of this website and a <TextLink href="/contact">Contact Us</TextLink> tab to submit any comments or questions you have about the site and auditory training in general. We hope you find this website helpful in your auditory training journey, and we are here to support you every step of the way.</p>
             </section>
             <h1 className="grow h-full my-auto pr-auto text-4xl font-bold p-4 text-center text-black">Getting Started</h1>
           </div>

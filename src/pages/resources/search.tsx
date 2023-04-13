@@ -1,4 +1,4 @@
-import { GuidedSurvey, type Question, type QuestionTypes } from "~/components/Survey";
+import { GuidedSearch, type Question, type QuestionTypes } from "~/components/Search";
 
 const questions: Question<QuestionTypes>[] = [
     {
@@ -103,7 +103,7 @@ const questions: Question<QuestionTypes>[] = [
 const SearchPage = () => {
     return (
         <div className="w-full max-w-xl mx-auto mt-4 mb-4 rounded-xl overflow-hidden border border-neutral-400 bg-neutral-200 drop-shadow-md">
-            <GuidedSurvey questions={questions} />
+            <GuidedSearch questions={questions} />
         </div>
     )
 }
