@@ -8,6 +8,8 @@ import { ResourceDescription, ResourceInfo } from "~/components/ResourceTable";
 import { type PlatformLink } from "@prisma/client";
 import Image from 'next/image';
 import Link from "next/link";
+import Footer from "~/components/Footer";
+import Header from "~/components/Header";
 
 export const getStaticPaths = async () => {
   const resources = (await prisma.auditoryResource.findMany({
@@ -116,22 +118,28 @@ const ResourceViewPage = (props: InferGetStaticPropsType<typeof getStaticProps>)
   }
 
   return <>
-    <div className="flex py-4 flex-col flex-col-reverse sm:flex-row divide-x max-w-2xl mx-auto">
-      <div className="text-lg flex flex-col justify-end font-bold my-5 mr-4">
-        <div className="mx-4">
-          <h1 className="border-b mb-2 border-neutral-400">Links</h1>
-          <DownloadButtons platformLinks={resourceQuery.data.platform_links} />
+    <div className="min-h-screen">
+      <Header />
+      <main>
+        <div className="flex py-4 flex-col flex-col-reverse sm:flex-row divide-x max-w-2xl mx-auto">
+          <div className="text-lg flex flex-col justify-end font-bold my-5 mr-4">
+            <div className="mx-4">
+              <h1 className="border-b mb-2 border-neutral-400">Links</h1>
+              <DownloadButtons platformLinks={resourceQuery.data.platform_links} />
+            </div>
+          </div>
+          <div className="flex pb-5 flex-col justify-left">
+            <ResourceInfo resource={resourceQuery.data} />
+            <div className="mx-4 text-left border border-neutral-400 rounded-xl overflow-hidden bg-neutral-200 shadow">
+              <ResourceDescription manufacturer={resourceQuery.data.manufacturer} description={resourceQuery.data.description} />
+            </div>
+            <div className="ml-4 mt-4 mr-auto border-2 border-neutral-900 rounded-lg bg-neutral-600">
+              <span className="text-neutral-200 text-sm px-2 py-2">Ages {resourceQuery.data.ages.min}{resourceQuery.data.ages.max >= 100 ? "+" : `-${resourceQuery.data.ages.max}`}</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="flex pb-5 flex-col justify-left">
-        <ResourceInfo resource={resourceQuery.data} />
-        <div className="mx-4 text-left border border-neutral-400 rounded-xl overflow-hidden bg-neutral-200 shadow">
-          <ResourceDescription manufacturer={resourceQuery.data.manufacturer} description={resourceQuery.data.description} />
-        </div>
-        <div className="ml-4 mt-4 mr-auto border-2 border-neutral-900 rounded-lg bg-neutral-600">
-          <span className="text-neutral-200 text-sm px-2 py-2">Ages {resourceQuery.data.ages.min}{resourceQuery.data.ages.max >= 100 ? "+" : `-${resourceQuery.data.ages.max}`}</span>
-        </div>
-      </div>
+      </main>
+      <Footer/>
     </div>
   </>
 };

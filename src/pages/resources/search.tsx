@@ -1,3 +1,5 @@
+import Footer from "~/components/Footer";
+import Header from "~/components/Header";
 import { GuidedSearch, type Question, type QuestionTypes } from "~/components/Search";
 
 const questions: Question<QuestionTypes>[] = [
@@ -101,11 +103,13 @@ const questions: Question<QuestionTypes>[] = [
 ]
 
 const SearchPage = () => {
-    return (
+    return <>
+        <Header />
         <div className="w-full max-w-xl mx-auto mt-4 mb-4 rounded-xl overflow-hidden border border-neutral-400 bg-neutral-200 drop-shadow-md">
             <GuidedSearch questions={questions} />
         </div>
-    )
+        <Footer />
+    </>
 }
 
 export default SearchPage

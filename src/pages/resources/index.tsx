@@ -1,10 +1,11 @@
-import Head from "next/head";
 import { LinkIcon } from '@heroicons/react/20/solid';
 import Link from "next/link";
 import { useRouter } from "next/router";
 import ResourceTable from "~/components/ResourceTable";
 import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
+import Footer from "~/components/Footer";
+import Header from "~/components/Header";
 
 const Resources = () => {
   const router = useRouter()
@@ -29,6 +30,7 @@ const Resources = () => {
 
   return (
     <>
+      <Header />
       <main className="my-6 md:px-4 max-w-6xl mx-auto">
         <div className="sm:mb-4 mb-2 sm:p-4 p-2 space-y-2">
           <h1 className="text-3xl font-bold">All Resources</h1>
@@ -44,6 +46,7 @@ const Resources = () => {
         </div>
         <ResourceTable resourcesPerPage={queryData.perPage} resources={resourceQuery.data.resources} totalPages={totalPages} query={router.query} currentPage={currentPage} />
       </main>
+      <Footer />
     </>
   );
 }

@@ -1,4 +1,6 @@
 import { type NextPage } from "next/types";
+import Footer from "~/components/Footer";
+import Header from "~/components/Header";
 
 type Position = "left" | "right";
 interface Biography {
@@ -43,7 +45,8 @@ const biographies: Biography[] = [
 
 const About: NextPage = () => {
   
-    return (
+    return <>
+        <Header />
         <main>
             <div style={{
                 backgroundImage: `url("/backdrops/uiowa-aerial.jpeg")`,
@@ -73,7 +76,8 @@ const About: NextPage = () => {
                 </div>
             </div>
         </main>
-    );
+        <Footer />
+    </>
 };
 
 export default About

@@ -5,8 +5,6 @@ import { SessionProvider } from "next-auth/react";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
-import Header from "~/components/Header";
-import Footer from "~/components/Footer";
 import Head from "next/head";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -20,9 +18,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta name="description" content="University of Iowa Center for Auditory Training Resources" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
       <Component {...pageProps} />
-      <Footer />
     </SessionProvider>
   );
 };
