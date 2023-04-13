@@ -104,11 +104,17 @@ const questions: Question<QuestionTypes>[] = [
 
 const SearchPage = () => {
     return <>
-        <Header />
-        <div className="w-full max-w-xl mx-auto mt-4 mb-4 rounded-xl overflow-hidden border border-neutral-400 bg-neutral-200 drop-shadow-md">
-            <GuidedSearch questions={questions} />
+        <div className="max-h-screen overflow-y-scroll snap snap-y snap-mandatory">
+            <div className="snap-start snap-always">
+                <Header />
+            </div>
+            <div className="snap-center snap-always w-full max-w-xl mx-auto mt-4 mb-4 rounded-xl overflow-hidden border border-neutral-400 bg-neutral-200 drop-shadow-md">
+                <GuidedSearch questions={questions} />
+            </div>
+            <div className="snap-end snap-always">
+                <Footer />
+            </div>
         </div>
-        <Footer />
     </>
 }
 
