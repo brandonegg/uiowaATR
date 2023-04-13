@@ -93,8 +93,8 @@ const Footer: NextPage = () => {
                     <Image alt="University of Iowa logo" width={128} height={64} src="/IOWA-gold-text.png" />
                     <div className="px-2 text-neutral-100 space-y-8">
                         <section>
-                            <h2 className="text-yellow-100 italic text-sm">College of Liberal Arts and Sciences</h2>
                             <h1 className="text-yellow-300 text-md">Communication Sciences and Disorders</h1>
+                            <h2 className="text-yellow-100 italic text-sm">College of Liberal Arts and Sciences</h2>
                         </section>
                         <section>
                             <h3 className="text-sm italic">Wendell Johnson Speech and Hearing Center</h3>
