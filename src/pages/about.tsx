@@ -70,7 +70,7 @@ const About: NextPage = () => {
                     <div className="block sm:hidden w-full bg-neutral-900 p-4">
                         <h1 className="text-white text-4xl font-bold text-center">
                             Meet the Team
-                            <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave"/>
+                            <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave animate-hand_pop"/>
                         </h1>
                     </div>
                     {/** Large screens */}
