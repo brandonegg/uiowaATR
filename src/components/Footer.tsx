@@ -101,6 +101,13 @@ const Footer: NextPage = () => {
                             <p className="text-sm">250 Hawkins Dr</p>
                             <p className="text-sm">Iowa City, IA 52242</p>
                         </section>
+                        <section>
+                            <p className="text-sm text-neutral-400 italic">
+                                Site Designed and Built by <a target="_blank" href="https://brandonegger.com" className="hover:underline">
+                                     Brandon Egger
+                                </a>
+                            </p>
+                        </section>
                     </div>
                 </div>
 
