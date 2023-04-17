@@ -69,27 +69,34 @@ const About: NextPage = () => {
                 </div>
             </div>
             <div className="w-full">
-                <div className="mx-auto max-w-7xl sm:p-8">
-                    {/** Small screens */}
-                    <div className="sm:hidden w-full bg-neutral-900 p-4 border-b-2 border-yellow-400">
-                        <h1 className="text-white text-4xl font-bold text-center">
-                            Meet the Team
-                            <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave animate-hand_pop"/>
-                        </h1>
-                    </div>
-                    {/** Large screens */}
-                    <div className="hidden sm:block mx-auto bg-neutral-900 p-4 mx-auto w-max rounded-xl mt-8 mb-20 border-2 border-neutral-300 shadow-xl">
-                        <h1 className="text-white text-4xl font-bold text-center">
-                            Meet the Team
-                            <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave"/>
-                        </h1>
-                    </div>
-                    <div className="sm:my-16 grid grid-cols-2 lg:grid-cols-3 sm:mt-4 lg:space-y-24 sm:space-y-12">
-                        {biographies.map((biography, index) => {
-                            return (
-                                <Biopgraphy key={index} {...biography} />
-                            );
-                        })}
+                <div style={{
+                    backgroundImage: `url("/backdrops/foot-steps.png")`,
+                }} className="mx-auto max-w-7xl">
+                    <div style={{
+                        WebkitBackdropFilter: `blur(2px)`,
+                        backdropFilter: `blur(2px)`,
+                    }} className="sm:p-8">
+                        {/** Small screens */}
+                        <div className="sm:hidden w-full bg-neutral-900 p-4 border-b-2 border-yellow-400">
+                            <h1 className="text-white text-4xl font-bold text-center">
+                                Meet the Team
+                                <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave animate-hand_pop"/>
+                            </h1>
+                        </div>
+                        {/** Large screens */}
+                        <div className="hidden sm:block mx-auto bg-neutral-900 p-4 mx-auto w-max rounded-xl mt-8 mb-20 border-2 border-neutral-300 shadow-xl">
+                            <h1 className="text-white text-4xl font-bold text-center">
+                                Meet the Team
+                                <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave"/>
+                            </h1>
+                        </div>
+                        <div className="sm:my-16 grid grid-cols-2 lg:grid-cols-3 sm:mt-4 lg:space-y-24 sm:space-y-12">
+                            {biographies.map((biography, index) => {
+                                return (
+                                    <Biopgraphy key={index} {...biography} />
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>
