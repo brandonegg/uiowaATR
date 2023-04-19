@@ -99,7 +99,7 @@ const NavBar = () => {
               <div className="flex h-full flex-row space-x-[4px]">
                 <div className="my-auto inline-block">
                   <span className="align-text-middle inline-block py-2 text-lg font-bold">
-                    Provide Feedback
+                    Feedback
                   </span>
                 </div>
               </div>

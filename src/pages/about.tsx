@@ -95,19 +95,8 @@ const About: NextPage = () => {
           </div>
         </div>
         <div className="w-full">
-          <div
-            style={{
-              backgroundImage: `url("/backdrops/foot-steps.png")`,
-            }}
-            className="mx-auto max-w-7xl"
-          >
-            <div
-              style={{
-                WebkitBackdropFilter: `blur(2px)`,
-                backdropFilter: `blur(2px)`,
-              }}
-              className="sm:p-8"
-            >
+          <div className="mx-auto max-w-7xl">
+            <div className="sm:p-8">
               {/** Small screens */}
               <div className="w-full border-b-2 border-yellow-400 bg-neutral-900 p-4 sm:hidden">
                 <h1 className="text-center text-4xl font-bold text-white">

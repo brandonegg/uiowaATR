@@ -8,6 +8,10 @@ interface QuickLink {
 
 const links: QuickLink[] = [
   {
+    label: "Provide Feedback",
+    href: "https://forms.gle/FD2abgwBuTaipysZ6",
+  },
+  {
     label: "Communication Sciences and Disorders",
     href: "https://csd.uiowa.edu/",
   },
