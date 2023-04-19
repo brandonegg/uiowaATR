@@ -5,6 +5,7 @@ import {
   type SkillLevel,
 } from "@prisma/client";
 import { type Dispatch, type SetStateAction, useState, useEffect } from "react";
+import { TopLabel } from "./Labels";
 
 export type QuestionTypes =
   | Platform
@@ -359,9 +360,9 @@ const GuidedSearch = ({
 
   return (
     <div>
-      <div className="mx-auto overflow-hidden bg-gradient-to-t from-neutral-900 to-neutral-700 px-4 py-2">
+      <TopLabel>
         <h1 className="font-bold text-gray-300">Search</h1>
-      </div>
+      </TopLabel>
 
       <PageTransition
         backwards={backwards}
