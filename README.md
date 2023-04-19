@@ -22,3 +22,11 @@ TODO
 
 ## API Access
 Documentation and updates to our RPC backend API are planned for the future. As of now there is no official documentation for accessing our resources database. More information to come!
+
+## Directory Breakdown
+Many directories have associated README's to provide related directory information.
+
+- ***src/*** - source directory for nextjs frontend/backend application.
+- ***data/*** - Non-application (application referring to excelProcessor or frontend) specific data such as the ATR data excel sheet which has multiple uses in each application.
+- ***prisma/*** - Prisma schema and seeding of admin account (specified in env).
+- ***excelProcessor/*** - Main excel processing backend server and CLI utility for uploading the ATR data excel sheet to MongoDB.
