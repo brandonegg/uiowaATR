@@ -141,7 +141,7 @@ const Home: NextPage = () => {
             </section>
             <section className="flex flex-row justify-between space-x-4">
               <h2 className="text-md my-auto inline-block italic sm:text-lg">
-                Tell us how we&rsquo;re doing!
+                Suggest changes and improvements
               </h2>
               <a
                 target="_blank"
