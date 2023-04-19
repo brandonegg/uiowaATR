@@ -22,7 +22,7 @@ const contacts: ContactDetails[] = [
   },
 ];
 
-const ContactForm = ({details}: {details: ContactDetails}) => {
+const ContactForm = ({ details }: { details: ContactDetails }) => {
   return (
     <section className="grow p-8">
       <div className="mx-auto w-fit text-left">
@@ -31,7 +31,7 @@ const ContactForm = ({details}: {details: ContactDetails}) => {
       </div>
     </section>
   );
-}
+};
 
 const Contact: NextPage = () => {
   return (
@@ -45,9 +45,7 @@ const Contact: NextPage = () => {
           </TopLabel>
           <div className="flex flex-row divide-x divide-neutral-500">
             {contacts.map((contactDetails, index) => {
-              return (
-                <ContactForm key={index} details={contactDetails} />
-              );
+              return <ContactForm key={index} details={contactDetails} />;
             })}
           </div>
         </section>
