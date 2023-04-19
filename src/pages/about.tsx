@@ -111,6 +111,8 @@ const About: NextPage = () => {
                   <HandRaisedIcon className="ml-4 inline w-12 rotate-12 animate-hand_wave text-yellow-200" />
                 </h1>
               </div>
+
+              {/** Biographies (both small & large screens) */}
               <div className="grid grid-cols-2 sm:my-16 sm:mt-4 sm:space-y-12 lg:grid-cols-3 lg:space-y-24">
                 {biographies.map((biography, index) => {
                   return <Biopgraphy key={index} {...biography} />;
