@@ -63,26 +63,37 @@ const Home: NextPage = () => {
           </div>
         </section>
         
-        <div className="max-w-5xl mx-auto p-12 mb-12">
-          <h1 className="font-extrabold text-4xl text-center">Want to learn more?</h1>
-          <div className="flex flex-col pt-8 space-y-6">
-            <section className="text-center mx-auto space-x-4">
-              <h2 className="align-middle inline-block text-lg">
-                Learn more about the project and team
+        <div className="max-w-5xl mx-auto p-4 sm:p-12 mb-12">
+          <h1 className="font-extrabold text-2xl sm:text-4xl text-center">Want to learn more?</h1>
+          <div className="flex flex-col pt-8 space-y-6 mx-auto w-fit">
+            <section className="space-x-4 flex flex-row justify-between">
+              <h2 className="italic text-md my-auto inline-block sm:text-lg">
+                Learn more about the project
               </h2>
+              <span className="hidden sm:block grow border border-dashed border-neutral-400 h-[1px] my-auto" />
               <Link href="/about" className="font-semibold align-middle inline-block ease-out duration-200 hover:shadow-md hover:bg-yellow-300 shadow-lg shadow-black/50 px-4 py-2 bg-yellow-200 rounded-md border border-neutral-900">
                 About
                 <ArrowUpRightIcon className="inline-block align-middle w-5" />
               </Link>
             </section>
-            <section className="text-center mx-auto space-x-4">
-              <h2 className="align-middle inline-block text-lg">
-                Request changes or get in touch
+            <section className="space-x-4 flex flex-row justify-between">
+              <h2 className="italic text-md my-auto inline-block sm:text-lg">
+                Get in touch with the team
               </h2>
+              <span className="hidden sm:block grow border border-dashed border-neutral-400 h-[1px] my-auto" />
               <Link href="/contact" className="font-semibold align-middle inline-block ease-out duration-200 hover:shadow-md hover:bg-yellow-300 shadow-lg shadow-black/50 px-4 py-2 bg-yellow-200 rounded-md border border-neutral-900">
                 Contact
                 <ArrowUpRightIcon className="inline-block align-middle w-5" />
               </Link>
+            </section>
+            <section className="space-x-4 flex flex-row justify-between">
+              <h2 className="italic text-md my-auto inline-block sm:text-lg">
+                Tell us how we&rsquo;re doing!
+              </h2>
+              <a target="_blank" href='https://forms.gle/FD2abgwBuTaipysZ6' className="flex flex-row font-semibold align-middle inline-block ease-out duration-200 hover:shadow-md hover:bg-yellow-300 shadow-lg shadow-black/50 px-4 py-2 bg-yellow-200 rounded-md border border-neutral-900">
+                Give Feedback
+                <ArrowUpRightIcon className="inline align-middle w-5" />
+              </a>
             </section>
           </div>
         </div>
