@@ -3,6 +3,7 @@ import Footer from "~/components/Footer";
 import Image from "next/image";
 import Header from "~/components/Header";
 import { TopLabel } from "~/components/Labels";
+import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
 
 interface ContactDetails {
   name: string;
@@ -31,7 +32,9 @@ const ContactForm = ({ details }: { details: ContactDetails }) => {
     <section className="grow p-8">
       <div className="mx-auto w-fit text-left">
         <h1 className="text-xl font-bold">{details.name}</h1>
-        <h2 className="font-semibold text-neutral-500">{details.title}</h2>
+        <h2 className="font-semibold italic text-neutral-500">
+          {details.title}
+        </h2>
         <h2>{details.role}</h2>
         <h3 className="text-yellow-500">University of Iowa</h3>
         <a
@@ -59,8 +62,33 @@ const Contact: NextPage = () => {
     <>
       <Header />
       <main>
+        <section className="mx-auto mb-4 mt-4 space-y-2 text-center sm:mt-8 sm:space-y-4">
+          <h1 className="text-2xl font-bold">
+            Have any Suggestions or Feedback?
+          </h1>
+          <div className="mx-auto w-fit overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 drop-shadow">
+            <TopLabel>
+              <h1 className="text-xs font-bold text-gray-300">
+                Feedback Survey
+              </h1>
+            </TopLabel>
+            <div className="space-y-2 p-4">
+              <p>Fill out our brief survey:</p>
+              <a
+                target="_blank"
+                href="https://forms.gle/FD2abgwBuTaipysZ6"
+                className="mx-auto inline-block flex w-fit flex-row rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow-lg shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
+              >
+                Give Feedback
+                <ArrowUpRightIcon className="inline w-5 align-middle" />
+              </a>
+            </div>
+          </div>
+          <h2 className="font-sembibold py-4 text-xl text-neutral-400">OR</h2>
+          <h1 className="mt-8 text-2xl font-bold">Reach out Directly:</h1>
+        </section>
         {/** Contact section */}
-        <section className="my-4 mx-auto max-w-4xl overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 drop-shadow sm:my-8 md:my-12">
+        <section className="mx-auto mb-4 max-w-4xl overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 drop-shadow sm:mb-8 md:mb-12">
           <TopLabel>
             <h1 className="font-bold text-gray-300">Contact Information</h1>
           </TopLabel>
