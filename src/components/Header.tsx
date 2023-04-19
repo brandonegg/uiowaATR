@@ -67,7 +67,16 @@ const NavBar = () => {
                     <NavBarLink href='/about' label='About'/>
                 </ul>
 
-                <ul id="right-nav-links" className="hidden sm:flex flex-row space-x-4">
+                <ul id="right-nav-links" className="hidden sm:flex flex-row space-x-10">
+                    <li className="group relative">
+                        <a target="_blank" href='https://forms.gle/FD2abgwBuTaipysZ6' className="h-14 block border-neutral-800 box-border hover:border-b-2">
+                            <div className="h-full flex flex-row space-x-[4px]">
+                                <div className="inline-block my-auto">
+                                    <span className="inline-block font-bold text-lg py-2 align-text-middle">Provide Feedback</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
                     <NavBarLink href='/contact' label='Contact Us'/>
                 </ul>
             </li>
