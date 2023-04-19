@@ -1,9 +1,12 @@
-import { SkillLevel, Skill, Platform, type AuditoryResource } from "@prisma/client";
+import {
+  SkillLevel,
+  Skill,
+  Platform,
+  type AuditoryResource,
+} from "@prisma/client";
 import { z } from "zod";
 
-import {
-  createTRPCRouter, publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const auditoryResourceRouter = createTRPCRouter({
   byId: publicProcedure
@@ -12,29 +15,33 @@ export const auditoryResourceRouter = createTRPCRouter({
       const resource = await ctx.prisma.auditoryResource.findUnique({
         where: {
           id: input.id,
-        }
+        },
       });
-      
+
       return { ...resource } as AuditoryResource;
     }),
 
   getAll: publicProcedure.query(({ ctx }) => {
-      return ctx.prisma.auditoryResource.findMany();
+    return ctx.prisma.auditoryResource.findMany();
   }),
 
   search: publicProcedure
-    .input(z.object({
-      take: z.number().int(),
-      skip: z.number().int(),
-      ages: z.object({
-        min: z.number().int(),
-        max: z.number().int(),
-      }).optional(),
-      platforms: z.nativeEnum(Platform).array().optional(),
-      skill_levels: z.nativeEnum(SkillLevel).array().optional(),
-      skills: z.nativeEnum(Skill).array().optional(),
-    }))
-    .query(async ({ input, ctx}) => {
+    .input(
+      z.object({
+        take: z.number().int(),
+        skip: z.number().int(),
+        ages: z
+          .object({
+            min: z.number().int(),
+            max: z.number().int(),
+          })
+          .optional(),
+        platforms: z.nativeEnum(Platform).array().optional(),
+        skill_levels: z.nativeEnum(SkillLevel).array().optional(),
+        skills: z.nativeEnum(Skill).array().optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
       const search = {
         ages: {
           is: {
@@ -43,8 +50,8 @@ export const auditoryResourceRouter = createTRPCRouter({
             },
             max: {
               gte: input.ages?.max,
-            }
-          }
+            },
+          },
         },
         skill_levels: {
           hasEvery: input.skill_levels ?? [],
@@ -56,10 +63,10 @@ export const auditoryResourceRouter = createTRPCRouter({
           some: {
             platform: {
               in: input.platforms,
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      };
 
       const [count, resources] = await ctx.prisma.$transaction([
         ctx.prisma.auditoryResource.count({
@@ -69,12 +76,12 @@ export const auditoryResourceRouter = createTRPCRouter({
           skip: input.skip,
           take: input.take,
           where: search,
-        })
+        }),
       ]);
 
       return {
         count,
         resources,
-      }
+      };
     }),
 });

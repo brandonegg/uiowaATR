@@ -1,108 +1,139 @@
 import { type NextPage } from "next/types";
-import Image from 'next/image';
-import { HandRaisedIcon } from '@heroicons/react/24/solid';
+import Image from "next/image";
+import { HandRaisedIcon } from "@heroicons/react/24/solid";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 
 type Position = "left" | "right";
 interface Biography {
-    name: string;
-    bodyName: string;
-    title: string;
-    body: string;
-    img: string;
-    position: Position;
+  name: string;
+  bodyName: string;
+  title: string;
+  body: string;
+  img: string;
+  position: Position;
 }
 
-const Biopgraphy = ({bodyName, name, title, body, img, position}: Biography) => {    
-    return (
-        <section className={"sm:space-y-2 p-2 sm:p-4 shadow-xl bg-yellow-100 flex flex-col border-y-2 sm:border-2 sm:rounded-2xl border-neutral-900 col-span-2 overflow-hidden" + (position === 'right' ? " lg:col-start-2 lg:rotate-3" : " lg:-rotate-3")}>
-            <div className="space-x-8 flex flex-row mb-2 items-center">
-                <Image src={img} alt={`${name} profile`} width={128} height={128} className="shadow-md shadow-neutral-600/50 rounded-lg border border-neutral-900" />
-                <div className="">
-                    <h1 className="text-2xl font-bold">{name}</h1>
-                    <h2 className="text-neutral-600 italic">{title}</h2>
-                </div>
-            </div>
-            <div className="col-span-2 p-2 bg-white rounded-lg border border-neutral-900">
-                {bodyName} {body}
-            </div>
-        </section>
-    );
+const Biopgraphy = ({
+  bodyName,
+  name,
+  title,
+  body,
+  img,
+  position,
+}: Biography) => {
+  return (
+    <section
+      className={
+        "col-span-2 flex flex-col overflow-hidden border-y-2 border-neutral-900 bg-yellow-100 p-2 shadow-xl sm:space-y-2 sm:rounded-2xl sm:border-2 sm:p-4" +
+        (position === "right" ? " lg:col-start-2 lg:rotate-3" : " lg:-rotate-3")
+      }
+    >
+      <div className="mb-2 flex flex-row items-center space-x-8">
+        <Image
+          src={img}
+          alt={`${name} profile`}
+          width={128}
+          height={128}
+          className="rounded-lg border border-neutral-900 shadow-md shadow-neutral-600/50"
+        />
+        <div className="">
+          <h1 className="text-2xl font-bold">{name}</h1>
+          <h2 className="italic text-neutral-600">{title}</h2>
+        </div>
+      </div>
+      <div className="col-span-2 rounded-lg border border-neutral-900 bg-white p-2">
+        {bodyName} {body}
+      </div>
+    </section>
+  );
 };
 
 const biographies: Biography[] = [
-    {
-        name: "Olivia Adamson",
-        bodyName: "Olivia",
-        title: "B.A",
-        body: "is a dedicated audiology graduate student at the University of Iowa, originally from a small town in southeast Minnesota. She earned her Bachelor of Arts in Communication Sciences and Disorders from Augustana University in Sioux Falls, SD, in 2020. Olivia Adamson is currently immersed in her fourth-year externship at Gundersen Health System in LaCrosse, WI, where she works with patients of all ages, performs comprehensive diagnostic assessments, provides vestibular assessments, and specializes in hearing aids and cochlear implants. With a passion for aural rehabilitation, particularly for older adults, Olivia is dedicated to enhancing the quality of life for individuals with hearing loss. She aspires to empower patients to take control of their hearing journey through this resource. Upon completing her externship, Olivia will graduate with her Au.D. in May 2024.",
-        img: "/profiles/olivia-adamson.jpeg",
-        position: "right",
-    },
-    {
-        name: "Dr. Eun Kyung (Julie) Jeon",
-        bodyName: "Julie",
-        title: "Au.D., Ph.D.",
-        body: "is a Clinical Assistant Professor in Communication Sciences and Disorders at the University of Iowa. She earned both her Au.D. and Ph.D. degrees from the University of Iowa in 2008 and 2016, respectively. Dr. Jeon's research and clinical interests focus on aural (re)habilitation for children and adults with hearing aids and cochlear implants. She has served as a reviewer for various journals, including Ear and Hearing and Cochlear Implant International. Dr. Jeon is an active member of several professional organizations, such as the American Academy of Audiology (AAA), the American Cochlear Implant Alliance (ACIA), the American Speech-Language-Hearing Association (ASHA), the Iowa Speech-Language-Hearing Association (ISHA), and the Asia Pacific Society of Speech-Language-Hearing (APSSLH). Currently, she has been entrusted with various leadership responsibilities, including educational committee officer for the APSSLH, Member-at-Large for the Iowa Speech Language Hearing Foundation, Iowa EHDI Advisory Board representative for the ISHA, and program committee member for the CI2023 conference.",
-        img: "/profiles/jeon-eunkyung.jpg",
-        position: "left",
-    }
-]
+  {
+    name: "Olivia Adamson",
+    bodyName: "Olivia",
+    title: "B.A",
+    body: "is a dedicated audiology graduate student at the University of Iowa, originally from a small town in southeast Minnesota. She earned her Bachelor of Arts in Communication Sciences and Disorders from Augustana University in Sioux Falls, SD, in 2020. Olivia Adamson is currently immersed in her fourth-year externship at Gundersen Health System in LaCrosse, WI, where she works with patients of all ages, performs comprehensive diagnostic assessments, provides vestibular assessments, and specializes in hearing aids and cochlear implants. With a passion for aural rehabilitation, particularly for older adults, Olivia is dedicated to enhancing the quality of life for individuals with hearing loss. She aspires to empower patients to take control of their hearing journey through this resource. Upon completing her externship, Olivia will graduate with her Au.D. in May 2024.",
+    img: "/profiles/olivia-adamson.jpeg",
+    position: "right",
+  },
+  {
+    name: "Dr. Eun Kyung (Julie) Jeon",
+    bodyName: "Julie",
+    title: "Au.D., Ph.D.",
+    body: "is a Clinical Assistant Professor in Communication Sciences and Disorders at the University of Iowa. She earned both her Au.D. and Ph.D. degrees from the University of Iowa in 2008 and 2016, respectively. Dr. Jeon's research and clinical interests focus on aural (re)habilitation for children and adults with hearing aids and cochlear implants. She has served as a reviewer for various journals, including Ear and Hearing and Cochlear Implant International. Dr. Jeon is an active member of several professional organizations, such as the American Academy of Audiology (AAA), the American Cochlear Implant Alliance (ACIA), the American Speech-Language-Hearing Association (ASHA), the Iowa Speech-Language-Hearing Association (ISHA), and the Asia Pacific Society of Speech-Language-Hearing (APSSLH). Currently, she has been entrusted with various leadership responsibilities, including educational committee officer for the APSSLH, Member-at-Large for the Iowa Speech Language Hearing Foundation, Iowa EHDI Advisory Board representative for the ISHA, and program committee member for the CI2023 conference.",
+    img: "/profiles/jeon-eunkyung.jpg",
+    position: "left",
+  },
+];
 
 const About: NextPage = () => {
-  
-    return <>
-        <Header />
-        <main>
-            <div style={{
-                backgroundImage: `url("/backdrops/uiowa-aerial.jpeg")`,
-                backgroundPosition: `center`,
-            }} className="h-96">
-                <div style={{
-                WebkitBackdropFilter: `blur(5px) contrast(50%)`,
-                backdropFilter: `blur(5px) contrast(50%)`,
-                }} className="h-full w-full grid place-items-center">
-                    <div className="space-y-8">
-                        <h1 className="mx-auto text-center font-extrabold text-5xl max-w-lg text-yellow-200">About Us</h1>
-                    </div>
-                </div>
+  return (
+    <>
+      <Header />
+      <main>
+        <div
+          style={{
+            backgroundImage: `url("/backdrops/uiowa-aerial.jpeg")`,
+            backgroundPosition: `center`,
+          }}
+          className="h-96"
+        >
+          <div
+            style={{
+              WebkitBackdropFilter: `blur(5px) contrast(50%)`,
+              backdropFilter: `blur(5px) contrast(50%)`,
+            }}
+            className="grid h-full w-full place-items-center"
+          >
+            <div className="space-y-8">
+              <h1 className="mx-auto max-w-lg text-center text-5xl font-extrabold text-yellow-200">
+                About Us
+              </h1>
             </div>
-            <div className="w-full">
-                <div style={{
-                    backgroundImage: `url("/backdrops/foot-steps.png")`,
-                }} className="mx-auto max-w-7xl">
-                    <div style={{
-                        WebkitBackdropFilter: `blur(2px)`,
-                        backdropFilter: `blur(2px)`,
-                    }} className="sm:p-8">
-                        {/** Small screens */}
-                        <div className="sm:hidden w-full bg-neutral-900 p-4 border-b-2 border-yellow-400">
-                            <h1 className="text-white text-4xl font-bold text-center">
-                                Meet the Team
-                                <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave animate-hand_pop"/>
-                            </h1>
-                        </div>
-                        {/** Large screens */}
-                        <div className="hidden sm:block mx-auto bg-neutral-900 p-4 mx-auto w-max rounded-xl mt-8 mb-20 border-2 border-neutral-300 shadow-xl">
-                            <h1 className="text-white text-4xl font-bold text-center">
-                                Meet the Team
-                                <HandRaisedIcon className="ml-4 rotate-12 text-yellow-200 inline w-12 animate-hand_wave"/>
-                            </h1>
-                        </div>
-                        <div className="sm:my-16 grid grid-cols-2 lg:grid-cols-3 sm:mt-4 lg:space-y-24 sm:space-y-12">
-                            {biographies.map((biography, index) => {
-                                return (
-                                    <Biopgraphy key={index} {...biography} />
-                                );
-                            })}
-                        </div>
-                    </div>
-                </div>
+          </div>
+        </div>
+        <div className="w-full">
+          <div
+            style={{
+              backgroundImage: `url("/backdrops/foot-steps.png")`,
+            }}
+            className="mx-auto max-w-7xl"
+          >
+            <div
+              style={{
+                WebkitBackdropFilter: `blur(2px)`,
+                backdropFilter: `blur(2px)`,
+              }}
+              className="sm:p-8"
+            >
+              {/** Small screens */}
+              <div className="w-full border-b-2 border-yellow-400 bg-neutral-900 p-4 sm:hidden">
+                <h1 className="text-center text-4xl font-bold text-white">
+                  Meet the Team
+                  <HandRaisedIcon className="animate-hand_pop ml-4 inline w-12 rotate-12 animate-hand_wave text-yellow-200" />
+                </h1>
+              </div>
+              {/** Large screens */}
+              <div className="mx-auto mx-auto mt-8 mb-20 hidden w-max rounded-xl border-2 border-neutral-300 bg-neutral-900 p-4 shadow-xl sm:block">
+                <h1 className="text-center text-4xl font-bold text-white">
+                  Meet the Team
+                  <HandRaisedIcon className="ml-4 inline w-12 rotate-12 animate-hand_wave text-yellow-200" />
+                </h1>
+              </div>
+              <div className="grid grid-cols-2 sm:my-16 sm:mt-4 sm:space-y-12 lg:grid-cols-3 lg:space-y-24">
+                {biographies.map((biography, index) => {
+                  return <Biopgraphy key={index} {...biography} />;
+                })}
+              </div>
             </div>
-        </main>
-        <Footer />
+          </div>
+        </div>
+      </main>
+      <Footer />
     </>
+  );
 };
 
-export default About
+export default About;

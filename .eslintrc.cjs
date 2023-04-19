@@ -4,6 +4,7 @@ const config = {
     {
       extends: [
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "prettier",
       ],
       files: ["*.ts", "*.tsx"],
       parserOptions: {
@@ -15,9 +16,10 @@ const config = {
   parserOptions: {
     project: "./tsconfig.json",
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "prettier"],
   extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   rules: {
+    "prettier/prettier": ["error"],
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {

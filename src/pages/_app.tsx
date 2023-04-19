@@ -15,7 +15,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <Head>
         <title>ATR</title>
-        <meta name="description" content="University of Iowa Center for Auditory Training Resources" />
+        <meta
+          name="description"
+          content="University of Iowa Center for Auditory Training Resources"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
