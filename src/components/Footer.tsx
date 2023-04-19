@@ -66,25 +66,27 @@ const ContactInfo = ({ name, title, email, phone }: ContactInfo) => {
       {email ? (
         <section className="space-x-2">
           <Image
-            className="inline"
+            className="inline select-none"
             alt="email"
             width={20}
             height={20}
             src="/mail-icon-white.svg"
           />
-          <h2 className="inline text-sm">{email}</h2>
+          <a href={`mailto:${email}?`} className="inline select-all text-sm">
+            {email}
+          </a>
         </section>
       ) : undefined}
       {phone ? (
         <section className="space-x-2">
           <Image
-            className="inline"
+            className="inline select-none"
             alt="phone"
             width={20}
             height={20}
             src="/phone-call-icon.svg"
           />
-          <h2 className="inline text-sm">{phone}</h2>
+          <h2 className="inline select-all text-sm">{phone}</h2>
         </section>
       ) : undefined}
     </section>
