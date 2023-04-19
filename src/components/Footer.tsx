@@ -1,5 +1,6 @@
 import { type NextPage } from "next/types";
 import Image from "next/image";
+import Link from "next/link";
 
 interface QuickLink {
   label: string;
@@ -138,6 +139,12 @@ const Footer: NextPage = () => {
               <p className="text-sm">Iowa City, IA 52242</p>
             </section>
             <section>
+              <Link
+                className="text-sm text-neutral-300 hover:underline"
+                href="/"
+              >
+                Site Admin Login
+              </Link>
               <p className="text-sm italic text-neutral-400">
                 Site Designed and Built by{" "}
                 <a
