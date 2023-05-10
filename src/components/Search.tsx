@@ -48,7 +48,7 @@ const GreetingPage = ({
       </p>
       <button
         onClick={getStartedClick}
-        className="bottom-0 mx-auto mt-8 rounded-md border border-neutral-900 bg-yellow-100 py-2 px-4 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
+        className="bottom-0 mx-auto mt-8 rounded-md border border-neutral-900 bg-yellow-100 px-4 py-2 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
       >
         Get Started!
       </button>
@@ -177,13 +177,13 @@ const QuestionPage = ({
           <div className="space-x-4">
             <button
               onClick={backClick}
-              className="bottom-0 mx-auto mx-auto inline rounded-md border border-neutral-900 bg-yellow-100 py-2 px-4 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
+              className="bottom-0 mx-auto mx-auto inline rounded-md border border-neutral-900 bg-yellow-100 px-4 py-2 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
             >
               back
             </button>
             <button
               onClick={nextClick}
-              className="bottom-0 mx-auto mx-auto inline rounded-md border border-neutral-900 bg-yellow-100 py-2 px-4 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
+              className="bottom-0 mx-auto mx-auto inline rounded-md border border-neutral-900 bg-yellow-100 px-4 py-2 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
             >
               next
             </button>
@@ -192,14 +192,14 @@ const QuestionPage = ({
           <div className="mt-4 flex flex-col space-y-2">
             <button
               onClick={backClick}
-              className="bottom-0 mx-auto mx-auto rounded-md border border-neutral-900 bg-yellow-100 py-2 px-4 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
+              className="bottom-0 mx-auto mx-auto rounded-md border border-neutral-900 bg-yellow-100 px-4 py-2 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
             >
               back
             </button>
             <button
               form="search-form"
               type="submit"
-              className="bottom-0 mx-auto mx-auto rounded-md border border-neutral-900 bg-yellow-100 py-2 px-4 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
+              className="bottom-0 mx-auto mx-auto rounded-md border border-neutral-900 bg-yellow-100 px-4 py-2 shadow-lg duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
             >
               submit
             </button>

@@ -113,7 +113,7 @@ const SearchPage = () => {
         <div className="snap-start snap-always">
           <Header />
         </div>
-        <div className="mx-auto mt-4 mb-4 w-full max-w-xl snap-center snap-always overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 drop-shadow-md">
+        <div className="mx-auto mb-4 mt-4 w-full max-w-xl snap-center snap-always overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 drop-shadow-md">
           <GuidedSearch questions={questions} />
         </div>
         <div className="snap-end snap-always">

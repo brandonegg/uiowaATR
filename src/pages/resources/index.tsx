@@ -31,7 +31,7 @@ const Resources = () => {
   return (
     <>
       <Header />
-      <main className="my-6 mx-auto max-w-6xl md:px-4">
+      <main className="mx-auto my-6 max-w-6xl md:px-4">
         <div className="mb-2 space-y-2 p-2 sm:mb-4 sm:p-4">
           <h1 className="text-3xl font-bold">All Resources</h1>
           <div className="">

@@ -105,7 +105,7 @@ const About: NextPage = () => {
                 </h1>
               </div>
               {/** Large screens */}
-              <div className="mx-auto mx-auto mt-8 mb-20 hidden w-max rounded-xl border-2 border-neutral-300 bg-neutral-900 p-4 shadow-xl sm:block">
+              <div className="mx-auto mx-auto mb-20 mt-8 hidden w-max rounded-xl border-2 border-neutral-300 bg-neutral-900 p-4 shadow-xl sm:block">
                 <h1 className="text-center text-4xl font-bold text-white">
                   Meet the Team
                   <HandRaisedIcon className="ml-4 inline w-12 rotate-12 animate-hand_wave text-yellow-200" />

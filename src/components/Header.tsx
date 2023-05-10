@@ -31,7 +31,7 @@ const NavBarLink = ({ href, label, dropdown }: NavBarLinkProps) => {
     });
 
     return (
-      <div className="absolute right-0 left-0 top-full hidden w-full flex-col rounded-b border-l-2 border-r-2 border-b-2 border-neutral-900 group-hover:flex">
+      <div className="absolute left-0 right-0 top-full hidden w-full flex-col rounded-b border-b-2 border-l-2 border-r-2 border-neutral-900 group-hover:flex">
         {options}
       </div>
     );

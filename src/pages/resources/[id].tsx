@@ -150,7 +150,7 @@ const ResourceViewPage = (
                   description={resourceQuery.data.description}
                 />
               </div>
-              <div className="ml-4 mt-4 mr-auto rounded-lg border-2 border-neutral-900 bg-neutral-600">
+              <div className="ml-4 mr-auto mt-4 rounded-lg border-2 border-neutral-900 bg-neutral-600">
                 <span className="px-2 py-2 text-sm text-neutral-200">
                   Ages {resourceQuery.data.ages.min}
                   {resourceQuery.data.ages.max >= 100

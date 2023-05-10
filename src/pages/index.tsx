@@ -8,7 +8,7 @@ const TextLink = ({ href, children }: { href: string; children: string }) => {
   return (
     <Link
       href={href}
-      className="align-items-center inline-block rounded-md border border-neutral-900 py-[2px] px-[4px] text-sm hover:bg-neutral-900 hover:text-white"
+      className="align-items-center inline-block rounded-md border border-neutral-900 px-[4px] py-[2px] text-sm hover:bg-neutral-900 hover:text-white"
     >
       {children}
       <ArrowUpRightIcon className="inline-block w-4" />
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
       </div>
       <main>
         <section className="grid min-h-[300px] place-items-center border border-b border-neutral-400 bg-yellow-100 p-4 text-white drop-shadow-md sm:p-12">
-          <div className="flex max-w-5xl flex-col-reverse justify-center divide-neutral-700 md:flex-row md:divide-y-0 md:divide-x">
+          <div className="flex max-w-5xl flex-col-reverse justify-center divide-neutral-700 md:flex-row md:divide-x md:divide-y-0">
             <section className="px-4 text-neutral-800">
               <p className="pt-2">
                 You can use the <TextLink href="/resources">Resources</TextLink>{" "}
@@ -81,7 +81,7 @@ const Home: NextPage = () => {
         </section>
 
         <section className="grid min-h-[300px] place-items-center border-y border-t border-yellow-200 bg-neutral-900 p-4 text-white sm:p-12">
-          <div className="my-auto mx-auto flex max-w-5xl flex-col divide-y divide-white md:flex-row md:divide-y-0 md:divide-x">
+          <div className="mx-auto my-auto flex max-w-5xl flex-col divide-y divide-white md:flex-row md:divide-x md:divide-y-0">
             <h1 className="pr-auto my-auto h-full grow p-4 text-center text-4xl font-bold text-yellow-200">
               Our Purpose
             </h1>
