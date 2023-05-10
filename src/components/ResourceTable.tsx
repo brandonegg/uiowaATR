@@ -119,17 +119,30 @@ export const ResourceDescription = ({
   manufacturer: null | Manufacturer;
   description: string;
 }) => {
+  const ImportantNotice = () => {
+    if (!manufacturer) {
+      return <></>;
+    }
+
+    if (!manufacturer.required && !manufacturer.notice) {
+      return <></>;
+    }
+
+    return (
+      <div className="border-t-[4px] border-neutral-700 bg-neutral-600 p-2">
+        <h3 className="text-sm font-bold text-neutral-100">IMPORTANT</h3>
+        <p className="text-sm text-neutral-300">
+          {manufacturer.notice
+            ? manufacturer.notice
+            : `This resource requires the patient to have a ${manufacturer.name} device`}
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div className="flex h-full flex-col">
-      {manufacturer?.required ? (
-        <div className="border-t-[4px] border-neutral-700 bg-neutral-600 p-2">
-          <h3 className="text-sm font-bold text-neutral-100">IMPORTANT</h3>
-          <p className="text-sm text-neutral-300">
-            This resource requires the patient to have a {manufacturer.name}{" "}
-            device
-          </p>
-        </div>
-      ) : undefined}
+      <ImportantNotice />
       <div className="p-2">
         <p>{description}</p>
       </div>
