@@ -29,10 +29,16 @@ def get_manufacturer(row, col):
         return None
 
     required = row.loc[col]['required']
-    return {
+
+    manufacturer_info = {
         "name": row.loc[col]['entry'],
         "required": isinstance(required, str)
     }
+
+    if isinstance(row.loc[col]['notice'], str) and len(row.loc[col]['notice'].strip()) > 0:
+        manufacturer_info["notice"] = row.loc[col]['notice']
+
+    return manufacturer_info
 
 def get_selected_options(row, col):
     return row.loc[col].dropna(inplace=False).index.to_list()

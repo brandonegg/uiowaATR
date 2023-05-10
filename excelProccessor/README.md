@@ -26,6 +26,4 @@ poetry run python import/main.py ../data/atr_data.xlsx
 You should see output showing the individual objects it extracted from your excel sheet along with a success message at the end.
 
 # Expected Data Format
-***TODO:*** Outline expected data format for the utility.
-
-See atr_data.xlsx
+See {project_root}/data/atr_data.xlsx
