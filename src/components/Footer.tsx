@@ -143,7 +143,7 @@ const Footer: NextPage = () => {
             <section>
               <Link
                 className="text-sm text-neutral-300 hover:underline"
-                href="/"
+                href="/admin/login"
               >
                 Site Admin Login
               </Link>
