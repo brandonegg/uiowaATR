@@ -97,16 +97,12 @@ const ContactInfo = ({ name, title, email, phone }: ContactInfo) => {
 const AdminLogin = () => {
   const { data: sessionData } = useSession();
 
-  if (sessionData?.user) {
-    return <span>{sessionData.user.name}</span>;
-  }
-
   return (
     <Link
       className="text-sm text-neutral-300 hover:underline"
-      href="/admin/login"
+      href={sessionData?.user ? "/admin/logout" : "/admin/login"}
     >
-      Site Admin Login
+      {sessionData?.user ? "Logout of Site Admin" : "Site Admin Login"}
     </Link>
   );
 };
