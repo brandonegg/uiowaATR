@@ -49,7 +49,12 @@ const SignInForm = () => {
       <TopLabel>
         <h1 className="text-md font-bold text-gray-300">Admin Login</h1>
       </TopLabel>
-      <form onSubmit={handleSubmit(onSubmit)} id="admin-login">
+      <form
+        onSubmit={(event) => {
+          void handleSubmit(onSubmit)(event);
+        }}
+        id="admin-login"
+      >
         <div className="space-y-4 p-4">
           {/** Username section */}
           <section className="flex flex-col space-y-2">
