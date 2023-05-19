@@ -24,18 +24,22 @@ interface SessionUser {
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: {
-      id: string;
-      username: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+    user: SessionUser;
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    id: string;
+    name: string;
+    username: string;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    name: string;
+    username: string;
+  }
 }
 
 /**
@@ -45,10 +49,19 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
-        // session.user.role = user.role; <-- put other properties on the session here
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.username = user.username;
+        token.name = user.name;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.username = token.username;
+        session.user.name = token.name;
       }
       return session;
     },
@@ -67,26 +80,30 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<SessionUser | null> {
-        // get the username and password from the credientials
-        const { username, password } = await loginSchema.parseAsync(
-          credentials
-        );
+        try {
+          // get the username and password from the credientials
+          const { username, password } = await loginSchema.parseAsync(
+            credentials
+          );
 
-        // check if username exists in the database
-        const result = await prisma.user.findFirst({
-          where: { username },
-        });
-        if (!result) return null;
+          // check if username exists in the database
+          const result = await prisma.user.findFirst({
+            where: { username },
+          });
+          if (!result) return null;
 
-        // check if input password match the hashed password
-        const isValidPassword = await verify(result.password, password);
-        if (!isValidPassword) return null;
+          // check if input password match the hashed password
+          const isValidPassword = await verify(result.password, password);
+          if (!isValidPassword) return null;
 
-        return {
-          id: result.id,
-          name: result.name,
-          username,
-        };
+          return {
+            id: result.id,
+            name: result.name,
+            username,
+          };
+        } catch {
+          return null;
+        }
       },
     }),
     /**
@@ -99,6 +116,15 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  jwt: {
+    maxAge: 2 * 60 * 60, // 2 hours
+  },
+  pages: {
+    signIn: "/admin/login",
+  },
+  session: {
+    strategy: "jwt",
+  },
 };
 
 /**

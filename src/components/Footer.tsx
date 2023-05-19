@@ -1,6 +1,7 @@
 import { type NextPage } from "next/types";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 interface QuickLink {
   label: string;
@@ -93,6 +94,23 @@ const ContactInfo = ({ name, title, email, phone }: ContactInfo) => {
   );
 };
 
+const AdminLogin = () => {
+  const { data: sessionData } = useSession();
+
+  if (sessionData?.user) {
+    return <span>{sessionData.user.name}</span>;
+  }
+
+  return (
+    <Link
+      className="text-sm text-neutral-300 hover:underline"
+      href="/admin/login"
+    >
+      Site Admin Login
+    </Link>
+  );
+};
+
 const FooterLabeledSection = ({
   title,
   children,
@@ -141,12 +159,7 @@ const Footer: NextPage = () => {
               <p className="text-sm">Iowa City, IA 52242</p>
             </section>
             <section>
-              <Link
-                className="text-sm text-neutral-300 hover:underline"
-                href="/admin/login"
-              >
-                Site Admin Login
-              </Link>
+              <AdminLogin />
               <p className="text-sm italic text-neutral-400">
                 Site Designed and Built by{" "}
                 <a
