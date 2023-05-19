@@ -1,6 +1,6 @@
 import { type InferGetStaticPropsType, type GetStaticPropsContext } from "next";
 import { GlobeAltIcon, DocumentIcon } from "@heroicons/react/24/solid";
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
@@ -31,20 +31,21 @@ export const getStaticPaths = async () => {
 export async function getStaticProps(
   context: GetStaticPropsContext<{ id: string }>
 ) {
-  const ssg = createProxySSGHelpers({
+  const helpers = createServerSideHelpers({
     router: appRouter,
     ctx: {
       prisma,
       session: null,
     },
   });
+
   const id = context.params?.id as string;
 
-  await ssg.auditoryResource.byId.prefetch({ id });
+  await helpers.auditoryResource.byId.prefetch({ id });
 
   return {
     props: {
-      trpcState: ssg.dehydrate(),
+      trpcState: helpers.dehydrate(),
       id,
     },
     revalidate: 1,

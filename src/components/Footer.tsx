@@ -1,7 +1,7 @@
 import { type NextPage } from "next/types";
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface QuickLink {
   label: string;
@@ -97,12 +97,26 @@ const ContactInfo = ({ name, title, email, phone }: ContactInfo) => {
 const AdminLogin = () => {
   const { data: sessionData } = useSession();
 
+  if (sessionData?.user) {
+    return (
+      <button
+        onClick={() => {
+          void signOut();
+        }}
+        className="text-sm text-neutral-300 hover:underline"
+        type="submit"
+      >
+        Logout of Site Admin
+      </button>
+    );
+  }
+
   return (
     <Link
       className="text-sm text-neutral-300 hover:underline"
-      href={sessionData?.user ? "/admin/logout" : "/admin/login"}
+      href="/admin/login"
     >
-      {sessionData?.user ? "Logout of Site Admin" : "Site Admin Login"}
+      Site Admin Login
     </Link>
   );
 };
