@@ -4,10 +4,17 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
+import { loginSchema } from "~/lib/validation/auth";
+import { verify } from "argon2";
+
+interface SessionUser {
+  id: string;
+  name: string;
+  username: string;
+}
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -19,6 +26,7 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      username: string;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
@@ -47,9 +55,39 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    CredentialsProvider({
+      // The name to display on the sign in form (e.g. 'Sign in with...')
+      name: "Credentials",
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials): Promise<SessionUser | null> {
+        // get the username and password from the credientials
+        const { username, password } = await loginSchema.parseAsync(
+          credentials
+        );
+
+        // check if username exists in the database
+        const result = await prisma.user.findFirst({
+          where: { username },
+        });
+        if (!result) return null;
+
+        // check if input password match the hashed password
+        const isValidPassword = await verify(result.password, password);
+        if (!isValidPassword) return null;
+
+        return {
+          id: result.id,
+          name: result.name,
+          username,
+        };
+      },
     }),
     /**
      * ...add more providers here.
