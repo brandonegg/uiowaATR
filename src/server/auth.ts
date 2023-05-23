@@ -9,11 +9,13 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "~/server/db";
 import { loginSchema } from "~/lib/validation/auth";
 import { verify } from "argon2";
+import { type Role } from "@prisma/client";
 
 interface SessionUser {
   id: string;
   name: string;
   username: string;
+  role: Role;
 }
 
 /**
@@ -100,6 +102,7 @@ export const authOptions: NextAuthOptions = {
             id: result.id,
             name: result.name,
             username,
+            role: result.role,
           };
         } catch {
           return null;
