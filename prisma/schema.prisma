@@ -14,6 +14,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+}
+
 enum Platform {
   APP_IOS
   APP_ANDROID
@@ -85,6 +89,7 @@ model User {
   name     String
   username String    @unique
   password String
+  role     Role
   sessions Session[]
 }
 

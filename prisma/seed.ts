@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Role } from "@prisma/client";
 import * as argon2 from "argon2";
 import * as dotenv from "dotenv";
 
@@ -16,11 +16,16 @@ async function main() {
 
   await prisma.user.upsert({
     where: { username: "admin" },
-    update: {},
+    update: {
+      name: "Admin User",
+      password: hashedPassword,
+      role: Role.ADMIN,
+    },
     create: {
       name: "Admin User",
       username: "admin",
       password: hashedPassword,
+      role: Role.ADMIN,
     },
   });
 }
