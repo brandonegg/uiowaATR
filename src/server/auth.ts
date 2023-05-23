@@ -33,6 +33,7 @@ declare module "next-auth" {
     id: string;
     name: string;
     username: string;
+    role: Role;
   }
 }
 
@@ -41,6 +42,7 @@ declare module "next-auth/jwt" {
     id: string;
     name: string;
     username: string;
+    role: Role;
   }
 }
 
@@ -56,6 +58,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.username = user.username;
         token.name = user.name;
+        token.role = user.role;
       }
       return token;
     },
@@ -64,6 +67,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id;
         session.user.username = token.username;
         session.user.name = token.name;
+        session.user.role = token.role;
       }
       return session;
     },
