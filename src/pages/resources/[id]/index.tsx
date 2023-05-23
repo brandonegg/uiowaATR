@@ -13,6 +13,7 @@ import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
 import { AdminActionLink } from "~/components/admin/common";
+import { useRouter } from "next/router";
 
 export const getStaticPaths = async () => {
   const resources = await prisma.auditoryResource.findMany({
@@ -127,6 +128,7 @@ const ResourceViewPage = (
 ) => {
   const { id } = props;
   const resourceQuery = api.auditoryResource.byId.useQuery({ id });
+  const router = useRouter();
 
   if (!resourceQuery.data) {
     return <></>;
@@ -141,7 +143,7 @@ const ResourceViewPage = (
             <AdminActionLink
               symbol={<PencilSquareIcon className="w-4" />}
               label="Edit Page"
-              href="/"
+              href={`${router.asPath}/edit`}
             />
           }
         >
