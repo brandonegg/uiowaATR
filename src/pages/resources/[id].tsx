@@ -1,5 +1,6 @@
 import { type InferGetStaticPropsType, type GetStaticPropsContext } from "next";
 import { GlobeAltIcon, DocumentIcon } from "@heroicons/react/24/solid";
+import { PencilSquareIcon } from "@heroicons/react/20/solid";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
@@ -11,6 +12,7 @@ import Link from "next/link";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
+import { AdminActionLink } from "~/components/admin/common";
 
 export const getStaticPaths = async () => {
   const resources = await prisma.auditoryResource.findMany({
@@ -134,7 +136,15 @@ const ResourceViewPage = (
     <>
       <div className="min-h-screen">
         <Header />
-        <AdminBarLayout>
+        <AdminBarLayout
+          actions={
+            <AdminActionLink
+              symbol={<PencilSquareIcon className="w-4" />}
+              label="Edit Page"
+              href="/"
+            />
+          }
+        >
           <main className="mb-12">
             <div className="mx-auto flex max-w-2xl flex-col flex-col-reverse divide-x py-4 sm:flex-row">
               <div className="my-5 mr-4 flex flex-col justify-end text-lg font-bold">
