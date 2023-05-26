@@ -1,6 +1,7 @@
 import { type AuditoryResource } from "@prisma/client";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
+import { useState } from "react";
 
 /**
  * Renders the image selector for resource form.
@@ -56,6 +57,32 @@ const ResourceLinkSubForm = ({ resource }: { resource?: AuditoryResource }) => {
 };
 
 /**
+ * Single line input for the fields found to the right of the
+ * resource logo.
+ */
+const InfoInputLine = ({
+  value,
+  placeholder,
+}: {
+  value: string;
+  placeholder: string;
+}) => {
+  const [currentValue, setCurrentValue] = useState<string>(value);
+
+  return (
+    <input
+      onChange={(event) => {
+        setCurrentValue(event.target.value);
+      }}
+      placeholder={placeholder}
+      value={currentValue}
+      type="text"
+      className="w-full border-b border-neutral-300 px-2"
+    />
+  );
+};
+
+/**
  * Resource summary inputs - ie description, manufacturer, etc.
  */
 const ResourceSummarySubForm = ({
@@ -69,10 +96,20 @@ const ResourceSummarySubForm = ({
         <div className="flex w-20 flex-col justify-center space-y-2 sm:w-28">
           <SelectImageInput file={resource?.icon} />
         </div>
+        <div className="w-full overflow-hidden rounded-xl border border-neutral-400 bg-white drop-shadow-lg">
+          <span className="text-sm">
+            <InfoInputLine
+              placeholder="manufacturer"
+              value={resource?.manufacturer?.name ?? ""}
+            />
+          </span>
+          <InfoInputLine placeholder="name" value={resource?.name ?? ""} />
+          <span className="my-2 block w-full text-center text-sm italic text-neutral-400">
+            Edit the fields above
+          </span>
+        </div>
       </div>
-      <div className="mx-4 overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 text-left shadow">
-        {/** Manufacturer info */}
-      </div>
+      <div className="mx-4 overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 text-left shadow"></div>
       <div className="ml-4 mr-auto mt-4 rounded-lg border-2 border-neutral-900 bg-neutral-600">
         <span className="px-2 py-2 text-sm text-neutral-200">
           Ages {/** Age range here */}
