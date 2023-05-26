@@ -12,6 +12,7 @@ import { AdminBarLayout } from "~/components/admin/ControlBar";
 import { AdminActionLink } from "~/components/admin/common";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps<{
   resource: AuditoryResource;
@@ -47,7 +48,24 @@ const EditResourcePage = (
         actions={[
           <AdminActionLink
             key="save"
-            symbol={<XCircleIcon className="w-4" />}
+            symbol={
+              <span className="flex">
+                <Image
+                  className="inline-block group-hover:hidden"
+                  alt="save"
+                  src="/save-disk-white.svg"
+                  width={14}
+                  height={14}
+                />
+                <Image
+                  className="hidden group-hover:inline-block"
+                  alt="save"
+                  src="/save-disk-black.svg"
+                  width={14}
+                  height={14}
+                />
+              </span>
+            }
             label="Save"
             href={`/resources/${resource.id}`}
           />,
