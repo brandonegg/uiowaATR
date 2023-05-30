@@ -216,7 +216,7 @@ const ResourceEntry = ({ resource }: { resource: AuditoryResource }) => {
   };
 
   return (
-    <tr className="divide-x-[1px] divide-slate-400">
+    <tr className="break-inside-avoid divide-x-[1px] divide-slate-400">
       <td className="max-w-xs">
         <ResourceInfo showMoreInfo resource={resource} />
       </td>

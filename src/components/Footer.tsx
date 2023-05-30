@@ -138,9 +138,9 @@ const FooterLabeledSection = ({
 
 const Footer: NextPage = () => {
   return (
-    <div className="w-full bg-neutral-800">
+    <footer className="w-full break-inside-avoid bg-neutral-800">
       {/** yellow stripe */}
-      <div className="print:border-t-0 border-t-[1px] border-neutral-400 bg-yellow-400 p-[4px]"></div>
+      <div className="border-t-[1px] border-neutral-400 bg-yellow-400 p-[4px] print:border-t-0"></div>
 
       {/** Main footer area */}
       <div className="mx-auto flex max-w-5xl flex-col-reverse justify-between p-4 print:flex-row md:flex-row">
@@ -185,7 +185,7 @@ const Footer: NextPage = () => {
         </div>
 
         {/** Header and tabs */}
-        <div className="mx-auto print:inline-block flex flex-row divide-x divide-neutral-500 text-neutral-200 sm:px-4 md:mx-0">
+        <div className="mx-auto flex flex-row divide-x divide-neutral-500 text-neutral-200 print:inline-block sm:px-4 md:mx-0">
           <span className="print:hidden">
             <FooterLabeledSection title="Quick Links">
               <div className="flex flex-col space-y-2 pt-4">
@@ -204,7 +204,7 @@ const Footer: NextPage = () => {
           </FooterLabeledSection>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

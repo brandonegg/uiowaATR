@@ -7,27 +7,28 @@ import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
+import { useState } from "react";
 
 const Resources = () => {
   const router = useRouter();
+  const [queryState, setQueryState] = useState(parseQueryData(router.query));
 
-  const queryData = parseQueryData(router.query);
-  const currentPage = queryData.page;
+  const currentPage = queryState.page;
 
   const resourceQuery = api.auditoryResource.search.useQuery({
-    skip: (queryData.page - 1) * queryData.perPage,
-    take: queryData.perPage,
-    ages: queryData.age,
-    platforms: queryData.platforms,
-    skill_levels: queryData.skill_levels,
-    skills: queryData.skills,
+    skip: (queryState.page - 1) * queryState.perPage,
+    take: queryState.perPage,
+    ages: queryState.age,
+    platforms: queryState.platforms,
+    skill_levels: queryState.skill_levels,
+    skills: queryState.skills,
   });
 
   if (!resourceQuery.data) {
     return <></>;
   }
 
-  const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
+  const totalPages = Math.ceil(resourceQuery.data.count / queryState.perPage);
 
   return (
     <>
@@ -55,6 +56,14 @@ const Resources = () => {
           <section className="mt-auto">
             <button
               onClick={() => {
+                const queryAllResources = { ...queryState };
+                queryAllResources.page = 1;
+                queryAllResources.perPage = resourceQuery.data.count;
+
+                setQueryState(queryAllResources);
+                window.onafterprint = () => {
+                  setQueryState(parseQueryData(router.query));
+                };
                 window.print();
               }}
               className="inline-block space-x-2 rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md print:hidden"
@@ -65,7 +74,7 @@ const Resources = () => {
           </section>
         </div>
         <ResourceTable
-          resourcesPerPage={queryData.perPage}
+          resourcesPerPage={queryState.perPage}
           resources={resourceQuery.data.resources}
           totalPages={totalPages}
           query={router.query}

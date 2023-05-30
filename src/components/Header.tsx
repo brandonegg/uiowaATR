@@ -114,7 +114,7 @@ const NavBar = () => {
 
 const Header: NextPage = () => {
   return (
-    <>
+    <header>
       {/** Main view */}
       <div
         id="logo-row"
@@ -138,10 +138,7 @@ const Header: NextPage = () => {
 
       {/** Print view */}
       <div className="hidden flex-row justify-center print:block print:flex">
-        <div
-          style={{ printColorAdjust: "exact" }}
-          className="rounded-xl border border-black p-2"
-        >
+        <div className="rounded-xl border border-black bg-yellow-100 p-2">
           <Image
             alt="Ear listening"
             src="/listening-ear.svg"
@@ -150,13 +147,13 @@ const Header: NextPage = () => {
           />
         </div>
         <div id="header-title" className="grid w-48 place-items-center">
-          <h1 className="text-center text-lg font-bold text-neutral-200">
+          <h1 className="text-center text-lg font-bold text-neutral-400">
             Center for Auditory Training Resources
           </h1>
           <span>auditorytraining.info</span>
         </div>
       </div>
-    </>
+    </header>
   );
 };
 
