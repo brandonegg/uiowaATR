@@ -77,7 +77,7 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-neutral-400 bg-gradient-to-b from-amber-300 to-amber-300 shadow-black drop-shadow-md">
+    <nav className="sticky top-0 z-50 w-full border-b border-neutral-400 bg-gradient-to-b from-amber-300 to-amber-300 shadow-black drop-shadow-md print:hidden">
       <li className="mx-auto flex max-w-5xl flex-row px-4 sm:justify-between">
         <ul id="left-nav-links" className="flex flex-row space-x-10">
           <NavBarLink href="/" label="Home" />
@@ -115,9 +115,10 @@ const NavBar = () => {
 const Header: NextPage = () => {
   return (
     <>
+      {/** Main view */}
       <div
         id="logo-row"
-        className="border-yellow flex flex-row justify-center border-b bg-neutral-800 p-4 drop-shadow-xl"
+        className="border-yellow flex flex-row justify-center border-b bg-neutral-800 p-4 drop-shadow-xl print:hidden"
       >
         <div className="rounded-xl bg-yellow-100 p-2 shadow-md shadow-yellow-500/50">
           <Image
@@ -134,6 +135,27 @@ const Header: NextPage = () => {
         </div>
       </div>
       <NavBar />
+
+      {/** Print view */}
+      <div className="hidden flex-row justify-center print:block print:flex">
+        <div
+          style={{ printColorAdjust: "exact" }}
+          className="rounded-xl border border-black p-2"
+        >
+          <Image
+            alt="Ear listening"
+            src="/listening-ear.svg"
+            width={64}
+            height={64}
+          />
+        </div>
+        <div id="header-title" className="grid w-48 place-items-center">
+          <h1 className="text-center text-lg font-bold text-neutral-200">
+            Center for Auditory Training Resources
+          </h1>
+          <span>auditorytraining.info</span>
+        </div>
+      </div>
     </>
   );
 };

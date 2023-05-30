@@ -113,7 +113,7 @@ const AdminLogin = () => {
 
   return (
     <Link
-      className="text-sm text-neutral-300 hover:underline"
+      className="text-sm text-neutral-300 hover:underline print:hidden"
       href="/admin/login"
     >
       Site Admin Login
@@ -140,12 +140,12 @@ const Footer: NextPage = () => {
   return (
     <div className="w-full bg-neutral-800">
       {/** yellow stripe */}
-      <div className="border-t-[1px] border-neutral-400 bg-yellow-400 p-[4px]"></div>
+      <div className="print:border-t-0 border-t-[1px] border-neutral-400 bg-yellow-400 p-[4px]"></div>
 
       {/** Main footer area */}
-      <div className="mx-auto flex max-w-5xl flex-col-reverse justify-between p-4 md:flex-row">
+      <div className="mx-auto flex max-w-5xl flex-col-reverse justify-between p-4 print:flex-row md:flex-row">
         {/** Wendell Johnson Info */}
-        <div className="mt-8 flex-col sm:mt-0">
+        <div className="mt-8 flex-col print:mt-0 sm:mt-0">
           <Image
             alt="University of Iowa logo"
             width={128}
@@ -185,14 +185,16 @@ const Footer: NextPage = () => {
         </div>
 
         {/** Header and tabs */}
-        <div className="mx-auto flex flex-row divide-x divide-neutral-500 text-neutral-200 sm:px-4 md:mx-0">
-          <FooterLabeledSection title="Quick Links">
-            <div className="flex flex-col space-y-2 pt-4">
-              {links.map((quickLink, index) => {
-                return <QuickLink key={index} {...quickLink} />;
-              })}
-            </div>
-          </FooterLabeledSection>
+        <div className="mx-auto print:inline-block flex flex-row divide-x divide-neutral-500 text-neutral-200 sm:px-4 md:mx-0">
+          <span className="print:hidden">
+            <FooterLabeledSection title="Quick Links">
+              <div className="flex flex-col space-y-2 pt-4">
+                {links.map((quickLink, index) => {
+                  return <QuickLink key={index} {...quickLink} />;
+                })}
+              </div>
+            </FooterLabeledSection>
+          </span>
           <FooterLabeledSection title="Contact">
             <div className="flex flex-col divide-y divide-neutral-500">
               {contacts.map((contactInfo, index) => {

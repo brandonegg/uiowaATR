@@ -33,7 +33,7 @@ const Resources = () => {
     <>
       <Header />
       <main className="mx-auto my-6 max-w-6xl md:px-4">
-        <div className="mb-2 p-2 sm:mb-4 sm:p-4 flex flex-row justify-between">
+        <div className="mb-2 flex flex-row justify-between p-2 print:hidden sm:mb-4 sm:p-4">
           <section className="space-y-2">
             <h1 className="text-3xl font-bold">All Resources</h1>
             <div className="">
@@ -57,7 +57,7 @@ const Resources = () => {
               onClick={() => {
                 window.print();
               }}
-              className="inline-block space-x-2 rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
+              className="inline-block space-x-2 rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md print:hidden"
             >
               <span className="inline">Print Results</span>
               <PrinterIcon className="inline w-6" />

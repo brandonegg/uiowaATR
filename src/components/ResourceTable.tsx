@@ -81,7 +81,7 @@ export const ResourceInfo = ({
                 width={512}
                 height={512}
               />
-              <span className="block rounded-lg border border-neutral-900 bg-neutral-900 py-[1px] text-center text-white hover:bg-neutral-500">
+              <span className="block rounded-lg border border-neutral-900 bg-neutral-900 py-[1px] text-center text-white hover:bg-neutral-500 print:hidden">
                 more info
               </span>
             </div>
@@ -305,7 +305,7 @@ const PagesNavigation = ({
   };
 
   return (
-    <div className="flex flex-row justify-between bg-amber-100 py-2 pl-2 pr-4">
+    <div className="flex flex-row justify-between bg-amber-100 py-2 pl-2 pr-4 print:hidden">
       <div className="flex w-64 flex-row space-x-2">
         <div className="relative inline-flex">
           <select
