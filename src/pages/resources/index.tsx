@@ -1,4 +1,5 @@
 import { LinkIcon } from "@heroicons/react/20/solid";
+import { PrinterIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import ResourceTable from "~/components/ResourceTable";
@@ -32,22 +33,36 @@ const Resources = () => {
     <>
       <Header />
       <main className="mx-auto my-6 max-w-6xl md:px-4">
-        <div className="mb-2 space-y-2 p-2 sm:mb-4 sm:p-4">
-          <h1 className="text-3xl font-bold">All Resources</h1>
-          <div className="">
-            <p className="inline">Fill out the </p>
-            <Link
-              href="/resources/search"
-              className="inline rounded-lg border border-neutral-800 bg-neutral-200 px-2 py-[4px] hover:bg-neutral-900 hover:text-white"
+        <div className="mb-2 p-2 sm:mb-4 sm:p-4 flex flex-row justify-between">
+          <section className="space-y-2">
+            <h1 className="text-3xl font-bold">All Resources</h1>
+            <div className="">
+              <p className="inline">Fill out the </p>
+              <Link
+                href="/resources/search"
+                className="inline rounded-lg border border-neutral-800 bg-neutral-200 px-2 py-[4px] hover:bg-neutral-900 hover:text-white"
+              >
+                search form
+                <LinkIcon className="inline w-4" />
+              </Link>
+              <p className="inline">
+                {" "}
+                for a list of auditory training resource recommendations.
+              </p>
+            </div>
+          </section>
+
+          <section className="mt-auto">
+            <button
+              onClick={() => {
+                window.print();
+              }}
+              className="inline-block space-x-2 rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
             >
-              search form
-              <LinkIcon className="inline w-4" />
-            </Link>
-            <p className="inline">
-              {" "}
-              for a list of auditory training resource recommendations.
-            </p>
-          </div>
+              <span className="inline">Print Results</span>
+              <PrinterIcon className="inline w-6" />
+            </button>
+          </section>
         </div>
         <ResourceTable
           resourcesPerPage={queryData.perPage}
