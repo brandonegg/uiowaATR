@@ -56,9 +56,6 @@ export const auditoryResourceRouter = createTRPCRouter({
         skill_levels: {
           hasEvery: input.skill_levels ?? [],
         },
-        skills: {
-          hasSome: input.skills ?? [],
-        },
         platform_links: {
           some: {
             platform: {
@@ -66,6 +63,7 @@ export const auditoryResourceRouter = createTRPCRouter({
             },
           },
         },
+        ...(input.skills ? { skills: { hasSome: input.skills } } : {}),
       };
 
       const [count, resources] = await ctx.prisma.$transaction([
