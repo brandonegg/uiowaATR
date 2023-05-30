@@ -57,7 +57,7 @@ export const auditoryResourceRouter = createTRPCRouter({
           hasEvery: input.skill_levels ?? [],
         },
         skills: {
-          hasEvery: input.skills ?? [],
+          hasSome: input.skills ?? [],
         },
         platform_links: {
           some: {
