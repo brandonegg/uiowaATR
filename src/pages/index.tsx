@@ -26,6 +26,7 @@ const Home: NextPage = () => {
             backgroundImage: `url("/backdrops/patient-clinic-bg.jpeg")`,
             backgroundPosition: `center`,
             backgroundRepeat: `no-repeat`,
+            backgroundSize: `cover`,
           }}
           className="flex grow flex-col"
         >
