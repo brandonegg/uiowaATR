@@ -1,34 +1,103 @@
 import { LinkIcon } from "@heroicons/react/20/solid";
 import { PrinterIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import ResourceTable from "~/components/ResourceTable";
 import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
-import { useState } from "react";
+import { type Dispatch, type SetStateAction, useEffect, useState, FormEvent } from "react";
 
-const Resources = () => {
-  const router = useRouter();
-  const [queryState, setQueryState] = useState(parseQueryData(router.query));
-
-  const currentPage = queryState.page;
+/**
+ * Quick extension of the resource table designed to query all elements so they can be printed
+ */
+const PrintResourceTable = ({
+  totalResources,
+  setLoaded,
+}: {
+  totalResources: number;
+  setLoaded: Dispatch<SetStateAction<boolean>>;
+}) => {
+  const queryData = parseQueryData(router.query);
 
   const resourceQuery = api.auditoryResource.search.useQuery({
-    skip: (queryState.page - 1) * queryState.perPage,
-    take: queryState.perPage,
-    ages: queryState.age,
-    platforms: queryState.platforms,
-    skill_levels: queryState.skill_levels,
-    skills: queryState.skills,
+    skip: 0,
+    take: totalResources,
+    ages: queryData.age,
+    platforms: queryData.platforms,
+    skill_levels: queryData.skill_levels,
+    skills: queryData.skills,
   });
+
+  useEffect(() => {
+    if (resourceQuery.data) {
+      setLoaded(true);
+    }
+  }, [resourceQuery, setLoaded]);
 
   if (!resourceQuery.data) {
     return <></>;
   }
 
-  const totalPages = Math.ceil(resourceQuery.data.count / queryState.perPage);
+  return (
+    <ResourceTable
+      resourcesPerPage={queryData.perPage}
+      resources={resourceQuery.data.resources}
+      totalPages={1}
+      query={router.query}
+      currentPage={1}
+    />
+  );
+};
+
+const Resources = () => {
+  const router = useRouter();
+  const [printMode, setPrintMode] = useState(false);
+  const [printPreviewLoaded, setPrintPreviewLoaded] = useState(false);
+
+  const queryData = parseQueryData(router.query);
+  const currentPage = queryData.page;
+
+  const resourceQuery = api.auditoryResource.search.useQuery({
+    skip: (queryData.page - 1) * queryData.perPage,
+    take: queryData.perPage,
+    ages: queryData.age,
+    platforms: queryData.platforms,
+    skill_levels: queryData.skill_levels,
+    skills: queryData.skills,
+  });
+
+  useEffect(() => {
+    const handlePrint = (event: Event) => {
+      if (!printMode) {
+        event.preventDefault();
+        setPrintMode(true);
+      }
+    };
+
+    window.addEventListener("beforeprint", handlePrint);
+
+    return () => {
+      window.removeEventListener("beforeprint", handlePrint);
+    };
+  }, [printMode]);
+
+  useEffect(() => {
+    if (printPreviewLoaded && printMode) {
+      window.onafterprint = () => {
+        setPrintMode(false);
+        setPrintPreviewLoaded(false);
+      };
+      window.print();
+    }
+  }, [printPreviewLoaded, printMode]);
+
+  if (!resourceQuery.data) {
+    return <></>;
+  }
+
+  const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
 
   return (
     <>
@@ -56,15 +125,7 @@ const Resources = () => {
           <section className="mt-auto">
             <button
               onClick={() => {
-                const queryAllResources = { ...queryState };
-                queryAllResources.page = 1;
-                queryAllResources.perPage = resourceQuery.data.count;
-
-                setQueryState(queryAllResources);
-                window.onafterprint = () => {
-                  setQueryState(parseQueryData(router.query));
-                };
-                window.print();
+                setPrintMode(true);
               }}
               className="inline-block space-x-2 rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md print:hidden"
             >
@@ -73,13 +134,20 @@ const Resources = () => {
             </button>
           </section>
         </div>
-        <ResourceTable
-          resourcesPerPage={queryState.perPage}
-          resources={resourceQuery.data.resources}
-          totalPages={totalPages}
-          query={router.query}
-          currentPage={currentPage}
-        />
+        {printMode ? (
+          <PrintResourceTable
+            setLoaded={setPrintPreviewLoaded}
+            totalResources={resourceQuery.data.count}
+          />
+        ) : (
+          <ResourceTable
+            resourcesPerPage={queryData.perPage}
+            resources={resourceQuery.data.resources}
+            totalPages={totalPages}
+            query={router.query}
+            currentPage={currentPage}
+          />
+        )}
       </main>
       <Footer />
     </>
