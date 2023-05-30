@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
-import { type Dispatch, type SetStateAction, useEffect, useState, FormEvent } from "react";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
 /**
  * Quick extension of the resource table designed to query all elements so they can be printed

@@ -40,7 +40,7 @@ const SelectImageInput = ({ file }: { file?: string }) => {
  * Contains the input fields for editing the links for a resource
  * @returns
  */
-const ResourceLinkSubForm = ({ resource }: { resource?: AuditoryResource }) => {
+const ResourceLinkSubForm = ({}) => {
   return (
     <div className="mx-4">
       <h1 className="mb-2 border-b border-neutral-400">Links</h1>
@@ -123,7 +123,7 @@ const ResourceForm = ({ resource }: { resource?: AuditoryResource }) => {
   return (
     <div className="mx-auto flex max-w-2xl flex-col flex-col-reverse divide-x py-4 sm:flex-row">
       <div className="my-5 mr-4 flex flex-col justify-end text-lg font-bold">
-        <ResourceLinkSubForm resource={resource} />
+        <ResourceLinkSubForm /> {/** //resource={resource} /> */}
       </div>
       <div className="justify-left flex flex-col pb-5">
         <ResourceSummarySubForm resource={resource} />
