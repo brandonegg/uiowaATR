@@ -6,6 +6,7 @@ import {
 } from "@prisma/client";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import {
   MultiSelector,
   MultiSelectorMany,
@@ -15,6 +16,7 @@ import {
 } from "../../forms/selectors";
 import { InfoInputLine } from "~/components/forms/textInput";
 import { PriceIcon } from "~/prices/Icons";
+import { useState } from "react";
 
 /**
  * Renders the image selector for resource form.
@@ -189,27 +191,64 @@ const ResourceSummarySubForm = ({
   );
 };
 
-// TODO:
-// const ResourceDescriptionSubForm = ({
-//   resource,
-// }: {
-//   resource?: AuditoryResource;
-// }) => {
-//   return <div></div>;
-// };
+const ResourceDescriptionSubForm = ({
+  resource,
+}: {
+  resource?: AuditoryResource;
+}) => {
+  const [dropdownOpen, toggleDropdown] = useState(false);
+
+  return (
+    <div className="mx-4">
+      <label className="text-md font-semibold">Description</label>
+      <div className="relative mt-4 overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 text-left shadow">
+        <button
+          onClick={() => {
+            toggleDropdown(!dropdownOpen);
+          }}
+          className="group flex w-full flex-row justify-between border-b-[4px] border-neutral-700 bg-neutral-600 p-2 align-middle"
+        >
+          <section className="space-x-2">
+            <h3 className="inline text-sm font-bold text-neutral-100">
+              IMPORTANT
+            </h3>
+            <span className="inline italic text-neutral-300">open to edit</span>
+          </section>
+          <ChevronDownIcon className="mx-2 my-auto w-4 text-white group-hover:animate-bounce" />
+        </button>
+        <textarea
+          className={
+            "h-48 w-full rounded-b-xl p-2" + (dropdownOpen ? " hidden" : "")
+          }
+        >
+          {resource?.description}
+        </textarea>
+        <textarea
+          className={
+            "h-48 w-full rounded-b-xl bg-neutral-800 p-2 text-white" +
+            (dropdownOpen ? "" : " hidden")
+          }
+        >
+          {resource?.manufacturer?.notice}
+        </textarea>
+      </div>
+    </div>
+  );
+};
 
 const ResourceForm = ({ resource }: { resource?: AuditoryResource }) => {
   return (
     <div className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
-      <div className="my-5 mr-4 flex flex-col justify-end text-lg font-bold">
+      <div className="my-5 mr-4 flex flex-col text-lg font-bold">
         <ResourceLinkSubForm /> {/** //resource={resource} /> */}
       </div>
       <div>
         <h1 className="mx-4 mb-2 border-b border-neutral-400 text-xl font-bold sm:hidden">
           General
         </h1>
-        <div className="justify-left mx-auto flex max-w-lg flex-col pb-5">
+        <div className="justify-left mx-auto flex max-w-lg flex-col space-y-4 pb-5">
           <ResourceSummarySubForm resource={resource} />
+          <ResourceDescriptionSubForm resource={resource} />
         </div>
       </div>
     </div>

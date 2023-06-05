@@ -97,7 +97,7 @@ export const ResourceDescription = ({
     }
 
     return (
-      <div className="border-t-[4px] border-neutral-700 bg-neutral-600 p-2">
+      <div className="border-b-[4px] border-neutral-700 bg-neutral-600 p-2">
         <h3 className="text-sm font-bold text-neutral-100">IMPORTANT</h3>
         <p className="text-sm text-neutral-300">
           {manufacturer.notice
