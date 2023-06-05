@@ -1,15 +1,10 @@
 import {
   type PlatformLink,
-  type PaymentType,
   type AuditoryResource,
   type Skill,
   type SkillLevel,
   type Manufacturer,
 } from "@prisma/client";
-import {
-  CurrencyDollarIcon,
-  ArrowPathRoundedSquareIcon,
-} from "@heroicons/react/24/solid";
 import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +13,7 @@ import { type ChangeEvent } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { type ParsedUrlQuery, type ParsedUrlQueryInput } from "querystring";
 import { useRouter } from "next/router";
+import { PriceIcon } from "~/prices/Icons";
 
 export const ResourceInfo = ({
   resource,
@@ -26,34 +22,6 @@ export const ResourceInfo = ({
   resource: AuditoryResource;
   showMoreInfo?: boolean;
 }) => {
-  const PriceIcons = ({ type }: { type: PaymentType }) => {
-    switch (type) {
-      case "FREE": {
-        return (
-          <div className="space-x-1 pt-2" title="Free">
-            <span className="rounded-lg border border-neutral-900 bg-amber-100 px-2 py-[1px] italic text-black">
-              free
-            </span>
-          </div>
-        );
-      }
-      case "SUBSCRIPTION_MONTHLY": {
-        <div className="space-x-1" title="Monthly recurring subscription">
-          <ArrowPathRoundedSquareIcon className="inline h-6 w-6" />
-          <CurrencyDollarIcon className="inline h-6 w-6 text-lime-800" />
-        </div>;
-      }
-      case "SUBSCRIPTION_WEEKLY": {
-        return (
-          <div className="space-x-1" title="Weekly recurring subscription">
-            <ArrowPathRoundedSquareIcon className="inline h-6 w-6" />
-            <CurrencyDollarIcon className="inline h-6 w-6 text-lime-800" />
-          </div>
-        );
-      }
-    }
-  };
-
   const PlatformInfo = ({
     platformLinks,
   }: {
@@ -105,7 +73,7 @@ export const ResourceInfo = ({
           </h2>
           <h1 className="text-xl font-bold">{resource.name}</h1>
           <PlatformInfo platformLinks={resource.platform_links} />
-          <PriceIcons type={resource?.payment_options[0] ?? "FREE"} />
+          <PriceIcon type={resource?.payment_options[0] ?? "FREE"} />
         </div>
       </div>
     </div>

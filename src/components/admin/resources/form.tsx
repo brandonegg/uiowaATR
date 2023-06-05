@@ -1,7 +1,13 @@
-import { type AuditoryResource } from "@prisma/client";
+import { PaymentType, type AuditoryResource } from "@prisma/client";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import {
+  MultiSelector,
+  MultiSelectorContext,
+  MultiSelectorOption,
+} from "../../forms/selectors";
+import { InfoInputLine } from "~/components/forms/textInput";
+import { PriceIcon } from "~/prices/Icons";
 
 /**
  * Renders the image selector for resource form.
@@ -56,29 +62,38 @@ const ResourceLinkSubForm = ({}) => {
   );
 };
 
-/**
- * Single line input for the fields found to the right of the
- * resource logo.
- */
-const InfoInputLine = ({
-  value,
-  placeholder,
+const PaymentTypeOption = ({
+  type,
+  label,
 }: {
-  value: string;
-  placeholder: string;
+  type: PaymentType;
+  label: string;
 }) => {
-  const [currentValue, setCurrentValue] = useState<string>(value);
-
   return (
-    <input
-      onChange={(event) => {
-        setCurrentValue(event.target.value);
-      }}
-      placeholder={placeholder}
-      value={currentValue}
-      type="text"
-      className="w-full border-b border-neutral-300 px-2"
-    />
+    <MultiSelectorOption value={type}>
+      <MultiSelectorContext.Consumer>
+        {({ selected }) => (
+          <div
+            className={
+              (selected === type ? "bg-stone-800" : "bg-white") +
+              " flex flex-row space-x-2 whitespace-nowrap rounded-xl border border-neutral-400 py-[1px] pl-[1px] pr-2"
+            }
+          >
+            <span className="rounded-[10px] bg-white p-1">
+              <PriceIcon type={type} />
+            </span>
+            <span
+              className={
+                (selected === type ? "text-white" : "text black") +
+                " my-auto inline-block whitespace-nowrap text-sm"
+              }
+            >
+              {label}
+            </span>
+          </div>
+        )}
+      </MultiSelectorContext.Consumer>
+    </MultiSelectorOption>
   );
 };
 
@@ -91,33 +106,59 @@ const ResourceSummarySubForm = ({
   resource?: AuditoryResource;
 }) => {
   return (
-    <>
-      <div className="flex flex-row space-x-4 p-4">
+    <div className="space-y-4 px-4">
+      <div className="flex flex-row space-x-4 pt-4">
         <div className="flex w-20 flex-col justify-center space-y-2 sm:w-28">
           <SelectImageInput file={resource?.icon} />
         </div>
         <div className="w-full overflow-hidden rounded-xl border border-neutral-400 bg-white drop-shadow-lg">
-          <span className="text-sm">
+          <span className="text-md">
             <InfoInputLine
               placeholder="manufacturer"
               value={resource?.manufacturer?.name ?? ""}
+              hint="manufacturer"
             />
           </span>
-          <InfoInputLine placeholder="name" value={resource?.name ?? ""} />
-          <span className="my-2 block w-full text-center text-sm italic text-neutral-400">
+          <InfoInputLine
+            placeholder="name"
+            value={resource?.name ?? ""}
+            hint="name"
+          />
+          <span className="my-1 block w-full text-center text-xs italic text-neutral-400">
             Edit the fields above
           </span>
         </div>
       </div>
-      <div className="mx-4 overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 text-left shadow"></div>
-      <div className="ml-4 mr-auto mt-4 rounded-lg border-2 border-neutral-900 bg-neutral-600">
-        <span className="px-2 py-2 text-sm text-neutral-200">
-          Ages {/** Age range here */}
-        </span>
+      <div>
+        <MultiSelector
+          label="Price Category"
+          defaultValue={
+            resource?.payment_options.toString() ?? PaymentType.FREE.toString()
+          }
+        >
+          <PaymentTypeOption type={PaymentType.FREE} label="Free" />
+          <PaymentTypeOption
+            type={PaymentType.SUBSCRIPTION_MONTHLY}
+            label="Monthly Subscription"
+          />
+          <PaymentTypeOption
+            type={PaymentType.SUBSCRIPTION_WEEKLY}
+            label="Weekly Subscription"
+          />
+        </MultiSelector>
       </div>
-    </>
+    </div>
   );
 };
+
+// TODO:
+// const ResourceDescriptionSubForm = ({
+//   resource,
+// }: {
+//   resource?: AuditoryResource;
+// }) => {
+//   return <div></div>;
+// };
 
 const ResourceForm = ({ resource }: { resource?: AuditoryResource }) => {
   return (
@@ -125,7 +166,7 @@ const ResourceForm = ({ resource }: { resource?: AuditoryResource }) => {
       <div className="my-5 mr-4 flex flex-col justify-end text-lg font-bold">
         <ResourceLinkSubForm /> {/** //resource={resource} /> */}
       </div>
-      <div className="justify-left flex flex-col pb-5">
+      <div className="justify-left flex max-w-lg flex-col pb-5">
         <ResourceSummarySubForm resource={resource} />
       </div>
     </div>
