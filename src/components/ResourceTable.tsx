@@ -310,12 +310,14 @@ const ResourceTable = ({
   currentPage,
   totalPages,
   query,
+  showPageBar = true,
 }: {
   resources: AuditoryResource[];
   resourcesPerPage: number;
   currentPage: number;
   totalPages: number;
   query: ParsedUrlQuery;
+  showPageBar?: boolean;
 }) => {
   const resourceElements =
     resources.map((resource, index) => {
@@ -325,12 +327,14 @@ const ResourceTable = ({
   return (
     <div className="w-full">
       <div className="mx-auto overflow-hidden overflow-hidden rounded-xl border border-neutral-400 drop-shadow-md">
-        <PagesNavigation
-          query={query}
-          resultsPerPage={resourcesPerPage}
-          currentPage={currentPage}
-          pageCount={totalPages}
-        />
+        {showPageBar ? (
+          <PagesNavigation
+            query={query}
+            resultsPerPage={resourcesPerPage}
+            currentPage={currentPage}
+            pageCount={totalPages}
+          />
+        ) : undefined}
         <table className="w-full table-fixed border-b border-neutral-400 bg-neutral-200">
           <thead className="bg-gradient-to-t from-neutral-900 to-neutral-700 drop-shadow-md">
             <tr>

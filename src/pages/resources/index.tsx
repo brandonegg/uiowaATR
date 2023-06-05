@@ -1,60 +1,15 @@
 import { LinkIcon } from "@heroicons/react/20/solid";
 import { PrinterIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import ResourceTable from "~/components/ResourceTable";
 import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
-
-/**
- * Quick extension of the resource table designed to query all elements so they can be printed
- */
-const PrintResourceTable = ({
-  totalResources,
-  setLoaded,
-}: {
-  totalResources: number;
-  setLoaded: Dispatch<SetStateAction<boolean>>;
-}) => {
-  const queryData = parseQueryData(router.query);
-
-  const resourceQuery = api.auditoryResource.search.useQuery({
-    skip: 0,
-    take: totalResources,
-    ages: queryData.age,
-    platforms: queryData.platforms,
-    skill_levels: queryData.skill_levels,
-    skills: queryData.skills,
-  });
-
-  useEffect(() => {
-    if (resourceQuery.data) {
-      setLoaded(true);
-    }
-  }, [resourceQuery, setLoaded]);
-
-  if (!resourceQuery.data) {
-    return <></>;
-  }
-
-  return (
-    <ResourceTable
-      resourcesPerPage={queryData.perPage}
-      resources={resourceQuery.data.resources}
-      totalPages={1}
-      query={router.query}
-      currentPage={1}
-    />
-  );
-};
 
 const Resources = () => {
   const router = useRouter();
-  const [printMode, setPrintMode] = useState(false);
-  const [printPreviewLoaded, setPrintPreviewLoaded] = useState(false);
 
   const queryData = parseQueryData(router.query);
   const currentPage = queryData.page;
@@ -68,36 +23,16 @@ const Resources = () => {
     skills: queryData.skills,
   });
 
-  useEffect(() => {
-    const handlePrint = (event: Event) => {
-      if (!printMode) {
-        event.preventDefault();
-        setPrintMode(true);
-      }
-    };
-
-    window.addEventListener("beforeprint", handlePrint);
-
-    return () => {
-      window.removeEventListener("beforeprint", handlePrint);
-    };
-  }, [printMode]);
-
-  useEffect(() => {
-    if (printPreviewLoaded && printMode) {
-      window.onafterprint = () => {
-        setPrintMode(false);
-        setPrintPreviewLoaded(false);
-      };
-      window.print();
-    }
-  }, [printPreviewLoaded, printMode]);
-
   if (!resourceQuery.data) {
     return <></>;
   }
 
   const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
+  const printQueryStr =
+    router.asPath.split("?").length === 2
+      ? router.asPath.split("?").at(-1) ?? ""
+      : "";
+  const printLink = `${router.route}/print?${printQueryStr}`;
 
   return (
     <>
@@ -123,31 +58,22 @@ const Resources = () => {
           </section>
 
           <section className="mt-auto">
-            <button
-              onClick={() => {
-                setPrintMode(true);
-              }}
+            <Link
+              href={printLink}
               className="inline-block whitespace-nowrap rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md print:hidden sm:space-x-2"
             >
               <span className="hidden sm:inline-block">Print Results</span>
               <PrinterIcon className="inline-block w-6" />
-            </button>
+            </Link>
           </section>
         </div>
-        {printMode ? (
-          <PrintResourceTable
-            setLoaded={setPrintPreviewLoaded}
-            totalResources={resourceQuery.data.count}
-          />
-        ) : (
-          <ResourceTable
-            resourcesPerPage={queryData.perPage}
-            resources={resourceQuery.data.resources}
-            totalPages={totalPages}
-            query={router.query}
-            currentPage={currentPage}
-          />
-        )}
+        <ResourceTable
+          resourcesPerPage={queryData.perPage}
+          resources={resourceQuery.data.resources}
+          totalPages={totalPages}
+          query={router.query}
+          currentPage={currentPage}
+        />
       </main>
       <Footer />
     </>
