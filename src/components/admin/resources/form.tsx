@@ -1,12 +1,17 @@
-import { PaymentType, type AuditoryResource, SkillLevel } from "@prisma/client";
+import {
+  PaymentType,
+  type AuditoryResource,
+  SkillLevel,
+  Skill,
+} from "@prisma/client";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import {
   MultiSelector,
   MultiSelectorMany,
   MultiSelectorOption,
-  SelectedManyContext,
   SelectedUniqueContext,
+  SimpleSelectorManyOption,
 } from "../../forms/selectors";
 import { InfoInputLine } from "~/components/forms/textInput";
 import { PriceIcon } from "~/prices/Icons";
@@ -51,8 +56,8 @@ const SelectImageInput = ({ file }: { file?: string }) => {
 const ResourceLinkSubForm = ({}) => {
   return (
     <div className="mx-4">
-      <h1 className="mb-2 border-b border-neutral-400">Links</h1>
-      <div className="flex mx-auto w-48 flex-col space-y-2">
+      <h1 className="mb-2 border-b border-neutral-400 text-xl">Links</h1>
+      <div className="mx-auto flex w-48 flex-col space-y-2">
         {/** Insert existing links here */}
         <button type="button">
           <div className="flex h-14 flex-row space-x-2 rounded-lg border-2 border-neutral-900 bg-amber-300 px-2 align-middle hover:bg-amber-200">
@@ -99,42 +104,6 @@ const PaymentTypeOption = ({
   );
 };
 
-const SkillLevelOption = ({
-  type,
-  label,
-}: {
-  type: SkillLevel;
-  label: string;
-}) => {
-  return (
-    <MultiSelectorOption value={type}>
-      <SelectedManyContext.Consumer>
-        {(selected) => (
-          <div
-            className={
-              (selected.includes(type.toString())
-                ? "bg-stone-800"
-                : "bg-white") +
-              " flex flex-row space-x-2 whitespace-nowrap rounded-xl border border-neutral-400 px-2 py-1"
-            }
-          >
-            <span
-              className={
-                (selected.includes(type.toString())
-                  ? "text-white"
-                  : "text black") +
-                " my-auto inline-block whitespace-nowrap text-sm"
-              }
-            >
-              {label}
-            </span>
-          </div>
-        )}
-      </SelectedManyContext.Consumer>
-    </MultiSelectorOption>
-  );
-};
-
 /**
  * Resource summary inputs - ie description, manufacturer, etc.
  */
@@ -145,11 +114,14 @@ const ResourceSummarySubForm = ({
 }) => {
   return (
     <div className="space-y-4 px-4">
-      <div className="flex flex-row space-x-4 pt-4">
+      <div className="flex flex-row space-x-4 sm:mt-4">
         <div className="flex w-20 flex-col justify-center space-y-2 sm:w-28">
           <SelectImageInput file={resource?.icon} />
         </div>
-        <div className="w-full overflow-hidden rounded-xl border border-neutral-400 bg-white drop-shadow-lg">
+        <div className="flex flex-col justify-center overflow-hidden rounded-xl border border-neutral-400 bg-white drop-shadow-lg sm:w-[300px] md:w-[400px]">
+          <h2 className="border-b border-neutral-300 px-2 text-center font-semibold">
+            Resource Details
+          </h2>
           <span className="text-md">
             <InfoInputLine
               placeholder="manufacturer"
@@ -188,9 +160,30 @@ const ResourceSummarySubForm = ({
         label="Skill Level"
         defaultValues={resource?.skill_levels ?? []}
       >
-        <SkillLevelOption type={SkillLevel.BEGINNER} label="beginner" />
-        <SkillLevelOption type={SkillLevel.INTERMEDIATE} label="intermediate" />
-        <SkillLevelOption type={SkillLevel.ADVANCED} label="advanced" />
+        {Object.values(SkillLevel).map((skillLevel, index) => {
+          return (
+            <SimpleSelectorManyOption
+              key={index}
+              type={skillLevel}
+              label={skillLevel.toLowerCase()}
+            />
+          );
+        })}
+      </MultiSelectorMany>
+
+      <MultiSelectorMany
+        label="Skills Covered"
+        defaultValues={resource?.skills ?? []}
+      >
+        {Object.values(Skill).map((skill, index) => {
+          return (
+            <SimpleSelectorManyOption
+              key={index}
+              type={skill}
+              label={skill.toLowerCase()}
+            />
+          );
+        })}
       </MultiSelectorMany>
     </div>
   );
@@ -207,12 +200,17 @@ const ResourceSummarySubForm = ({
 
 const ResourceForm = ({ resource }: { resource?: AuditoryResource }) => {
   return (
-    <div className="flex mx-auto max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
-      <div className="flex my-5 mr-4 flex-col justify-end text-lg font-bold">
+    <div className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
+      <div className="my-5 mr-4 flex flex-col justify-end text-lg font-bold">
         <ResourceLinkSubForm /> {/** //resource={resource} /> */}
       </div>
-      <div className="justify-left flex mx-auto max-w-lg flex-col pb-5">
-        <ResourceSummarySubForm resource={resource} />
+      <div>
+        <h1 className="mx-4 mb-2 border-b border-neutral-400 text-xl font-bold sm:hidden">
+          General
+        </h1>
+        <div className="justify-left mx-auto flex max-w-lg flex-col pb-5">
+          <ResourceSummarySubForm resource={resource} />
+        </div>
       </div>
     </div>
   );

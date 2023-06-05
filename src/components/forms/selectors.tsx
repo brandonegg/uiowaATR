@@ -1,5 +1,10 @@
 import { createContext, useContext, useState } from "react";
 
+// generics
+interface ToStringable {
+  toString: () => string;
+}
+
 // Define contexts
 const SelectorContext = createContext<{
   type: "one" | "many";
@@ -13,7 +18,7 @@ const SelectorContext = createContext<{
 const SelectedUniqueContext = createContext<string>("");
 const SelectedManyContext = createContext<string[]>([]);
 
-function MultiSelectorMany<T extends { toString: () => string }>({
+function MultiSelectorMany<T extends ToStringable>({
   label,
   defaultValues,
   children,
@@ -55,7 +60,7 @@ function MultiSelectorMany<T extends { toString: () => string }>({
             className="hidden"
             value={selected ?? ""}
           />
-          <div className="flex mt-2 flex-row space-x-2 overflow-x-auto">
+          <div className="mt-2 space-x-2 space-y-2 overflow-x-auto">
             {children}
           </div>
         </div>
@@ -64,7 +69,7 @@ function MultiSelectorMany<T extends { toString: () => string }>({
   );
 }
 
-function MultiSelector<T extends { toString: () => string }>({
+function MultiSelector<T extends ToStringable>({
   label,
   defaultValue,
   children,
@@ -77,7 +82,7 @@ function MultiSelector<T extends { toString: () => string }>({
 
   return (
     <SelectorContext.Provider
-      value={{ type: "many", updateCallback: setSelected }}
+      value={{ type: "one", updateCallback: setSelected }}
     >
       <SelectedUniqueContext.Provider value={selected}>
         <div className="flex flex-col">
@@ -91,16 +96,14 @@ function MultiSelector<T extends { toString: () => string }>({
             className="hidden"
             value={selected ?? ""}
           />
-          <div className="flex mt-2 flex-row space-x-2 overflow-x-auto">
-            {children}
-          </div>
+          <div className="space-x-2 space-y-2 overflow-x-auto">{children}</div>
         </div>
       </SelectedUniqueContext.Provider>
     </SelectorContext.Provider>
   );
 }
 
-function MultiSelectorOption<T extends { toString: () => string }>({
+function MultiSelectorOption<T extends ToStringable>({
   value,
   children,
 }: {
@@ -121,6 +124,42 @@ function MultiSelectorOption<T extends { toString: () => string }>({
   );
 }
 
+function SimpleSelectorManyOption<T extends ToStringable>({
+  type,
+  label,
+}: {
+  type: T;
+  label: string;
+}) {
+  return (
+    <MultiSelectorOption value={type}>
+      <SelectedManyContext.Consumer>
+        {(selected) => (
+          <div
+            className={
+              (selected.includes(type.toString())
+                ? "bg-stone-800"
+                : "bg-white") +
+              " flex flex-row space-x-2 whitespace-nowrap rounded-xl border border-neutral-400 px-2 py-1"
+            }
+          >
+            <span
+              className={
+                (selected.includes(type.toString())
+                  ? "text-white"
+                  : "text black") +
+                " my-auto inline-block whitespace-nowrap text-sm"
+              }
+            >
+              {label}
+            </span>
+          </div>
+        )}
+      </SelectedManyContext.Consumer>
+    </MultiSelectorOption>
+  );
+}
+
 export {
   SelectedUniqueContext,
   SelectorContext,
@@ -128,4 +167,5 @@ export {
   MultiSelectorMany,
   MultiSelector,
   MultiSelectorOption,
+  SimpleSelectorManyOption,
 };
