@@ -50,7 +50,7 @@ const ResourceLinkSubForm = ({}) => {
   return (
     <div className="mx-4">
       <h1 className="mb-2 border-b border-neutral-400">Links</h1>
-      <div className="mx-auto flex w-48 flex-col space-y-2">
+      <div className="flex mx-auto w-48 flex-col space-y-2">
         {/** Insert existing links here */}
         <button type="button">
           <div className="flex h-14 flex-row space-x-2 rounded-lg border-2 border-neutral-900 bg-amber-300 px-2 align-middle hover:bg-amber-200">
@@ -162,11 +162,11 @@ const ResourceSummarySubForm = ({
 
 const ResourceForm = ({ resource }: { resource?: AuditoryResource }) => {
   return (
-    <div className="mx-auto flex max-w-2xl flex-col flex-col-reverse divide-x py-4 sm:flex-row">
-      <div className="my-5 mr-4 flex flex-col justify-end text-lg font-bold">
+    <div className="flex mx-auto max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
+      <div className="flex my-5 mr-4 flex-col justify-end text-lg font-bold">
         <ResourceLinkSubForm /> {/** //resource={resource} /> */}
       </div>
-      <div className="justify-left flex max-w-lg flex-col pb-5">
+      <div className="justify-left flex mx-auto max-w-lg flex-col pb-5">
         <ResourceSummarySubForm resource={resource} />
       </div>
     </div>
