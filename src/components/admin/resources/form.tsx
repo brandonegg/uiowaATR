@@ -1,10 +1,12 @@
-import { PaymentType, type AuditoryResource } from "@prisma/client";
+import { PaymentType, type AuditoryResource, SkillLevel } from "@prisma/client";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import {
   MultiSelector,
-  MultiSelectorContext,
+  MultiSelectorMany,
   MultiSelectorOption,
+  SelectedManyContext,
+  SelectedUniqueContext,
 } from "../../forms/selectors";
 import { InfoInputLine } from "~/components/forms/textInput";
 import { PriceIcon } from "~/prices/Icons";
@@ -71,8 +73,8 @@ const PaymentTypeOption = ({
 }) => {
   return (
     <MultiSelectorOption value={type}>
-      <MultiSelectorContext.Consumer>
-        {({ selected }) => (
+      <SelectedUniqueContext.Consumer>
+        {(selected) => (
           <div
             className={
               (selected === type ? "bg-stone-800" : "bg-white") +
@@ -92,7 +94,43 @@ const PaymentTypeOption = ({
             </span>
           </div>
         )}
-      </MultiSelectorContext.Consumer>
+      </SelectedUniqueContext.Consumer>
+    </MultiSelectorOption>
+  );
+};
+
+const SkillLevelOption = ({
+  type,
+  label,
+}: {
+  type: SkillLevel;
+  label: string;
+}) => {
+  return (
+    <MultiSelectorOption value={type}>
+      <SelectedManyContext.Consumer>
+        {(selected) => (
+          <div
+            className={
+              (selected.includes(type.toString())
+                ? "bg-stone-800"
+                : "bg-white") +
+              " flex flex-row space-x-2 whitespace-nowrap rounded-xl border border-neutral-400 px-2 py-1"
+            }
+          >
+            <span
+              className={
+                (selected.includes(type.toString())
+                  ? "text-white"
+                  : "text black") +
+                " my-auto inline-block whitespace-nowrap text-sm"
+              }
+            >
+              {label}
+            </span>
+          </div>
+        )}
+      </SelectedManyContext.Consumer>
     </MultiSelectorOption>
   );
 };
@@ -129,24 +167,31 @@ const ResourceSummarySubForm = ({
           </span>
         </div>
       </div>
-      <div>
-        <MultiSelector
-          label="Price Category"
-          defaultValue={
-            resource?.payment_options.toString() ?? PaymentType.FREE.toString()
-          }
-        >
-          <PaymentTypeOption type={PaymentType.FREE} label="Free" />
-          <PaymentTypeOption
-            type={PaymentType.SUBSCRIPTION_MONTHLY}
-            label="Monthly Subscription"
-          />
-          <PaymentTypeOption
-            type={PaymentType.SUBSCRIPTION_WEEKLY}
-            label="Weekly Subscription"
-          />
-        </MultiSelector>
-      </div>
+      <MultiSelector
+        label="Price Category"
+        defaultValue={
+          resource?.payment_options.toString() ?? PaymentType.FREE.toString()
+        }
+      >
+        <PaymentTypeOption type={PaymentType.FREE} label="Free" />
+        <PaymentTypeOption
+          type={PaymentType.SUBSCRIPTION_MONTHLY}
+          label="Monthly Subscription"
+        />
+        <PaymentTypeOption
+          type={PaymentType.SUBSCRIPTION_WEEKLY}
+          label="Weekly Subscription"
+        />
+      </MultiSelector>
+
+      <MultiSelectorMany
+        label="Skill Level"
+        defaultValues={resource?.skill_levels ?? []}
+      >
+        <SkillLevelOption type={SkillLevel.BEGINNER} label="beginner" />
+        <SkillLevelOption type={SkillLevel.INTERMEDIATE} label="intermediate" />
+        <SkillLevelOption type={SkillLevel.ADVANCED} label="advanced" />
+      </MultiSelectorMany>
     </div>
   );
 };
