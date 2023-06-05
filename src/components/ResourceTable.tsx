@@ -37,7 +37,11 @@ export const ResourceInfo = ({
   };
 
   return (
-    <div className="flex flex-row space-x-4 p-4">
+    <div
+      className={
+        "flex flex-row space-x-4 " + (showMoreInfo ? "p-1 sm:p-4" : "p-4")
+      }
+    >
       <div className="my-auto h-full">
         {showMoreInfo ? (
           <Link href={`resources/${resource.id}`}>
@@ -71,7 +75,7 @@ export const ResourceInfo = ({
           <h2 className="text-xs italic text-gray-600">
             {resource.manufacturer?.name}
           </h2>
-          <h1 className="text-xl font-bold">{resource.name}</h1>
+          <h1 className="text-md font-bold sm:text-xl">{resource.name}</h1>
           <PlatformInfo platformLinks={resource.platform_links} />
           <PriceIcon type={resource?.payment_options[0] ?? "FREE"} />
         </div>
@@ -170,7 +174,7 @@ const ResourceEntry = ({ resource }: { resource: AuditoryResource }) => {
     });
 
     return (
-      <div className="m-2 flex flex-col space-y-4">
+      <div className="m-[2px] flex flex-col space-y-4 sm:m-2">
         {skillsComponents.length > 0 ? (
           <div className="rounded-lg border border-neutral-900 bg-gray-100 drop-shadow">
             <ul className="divide-y-2">{skillsComponents}</ul>

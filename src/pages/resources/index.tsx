@@ -127,10 +127,10 @@ const Resources = () => {
               onClick={() => {
                 setPrintMode(true);
               }}
-              className="inline-block space-x-2 rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md print:hidden"
+              className="inline-block whitespace-nowrap rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md print:hidden sm:space-x-2"
             >
-              <span className="inline">Print Results</span>
-              <PrinterIcon className="inline w-6" />
+              <span className="hidden sm:inline-block">Print Results</span>
+              <PrinterIcon className="inline-block w-6" />
             </button>
           </section>
         </div>
