@@ -47,7 +47,7 @@ const EditResourcePage = (
 ) => {
   const { resource } = props;
   const [serverError, setServerError] = useState<string | undefined>(undefined);
-  const { register, getValues } = useForm<ResourceUpdateInput>({
+  const formMethods = useForm<ResourceUpdateInput>({
     defaultValues: resource as ResourceUpdateInput,
   });
 
@@ -90,7 +90,7 @@ const EditResourcePage = (
             }
             label="Save"
             onClick={() => {
-              onSubmit(getValues());
+              onSubmit(formMethods.getValues());
             }}
           />,
           <AdminActionLink
@@ -103,7 +103,7 @@ const EditResourcePage = (
       >
         <main className="mb-12">
           <ResourceForm
-            register={register}
+            methods={formMethods}
             error={serverError}
             resource={resource as ResourceUpdateInput}
           />

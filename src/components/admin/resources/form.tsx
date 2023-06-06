@@ -3,16 +3,19 @@ import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import {
-  MultiSelector,
   MultiSelectorMany,
   MultiSelectorOption,
-  SelectedUniqueContext,
+  SelectedManyContext,
   SimpleSelectorManyOption,
 } from "../../forms/selectors";
 import { InfoInputLine } from "~/components/forms/textInput";
 import { PriceIcon } from "~/prices/Icons";
 import { useState } from "react";
-import { type UseFormRegister } from "react-hook-form";
+import {
+  type UseFormReturn,
+  FormProvider,
+  useFormContext,
+} from "react-hook-form";
 import { type RouterInputs } from "~/utils/api";
 
 export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
@@ -79,11 +82,11 @@ const PaymentTypeOption = ({
 }) => {
   return (
     <MultiSelectorOption value={type}>
-      <SelectedUniqueContext.Consumer>
+      <SelectedManyContext.Consumer>
         {(selected) => (
           <div
             className={
-              (selected === type ? "bg-stone-800" : "bg-white") +
+              (selected.includes(type) ? "bg-stone-800" : "bg-white") +
               " flex flex-row space-x-2 whitespace-nowrap rounded-xl border border-neutral-400 py-[1px] pl-[1px] pr-2"
             }
           >
@@ -92,7 +95,7 @@ const PaymentTypeOption = ({
             </span>
             <span
               className={
-                (selected === type ? "text-white" : "text black") +
+                (selected.includes(type) ? "text-white" : "text black") +
                 " my-auto inline-block whitespace-nowrap text-sm"
               }
             >
@@ -100,7 +103,7 @@ const PaymentTypeOption = ({
             </span>
           </div>
         )}
-      </SelectedUniqueContext.Consumer>
+      </SelectedManyContext.Consumer>
     </MultiSelectorOption>
   );
 };
@@ -109,12 +112,12 @@ const PaymentTypeOption = ({
  * Resource summary inputs - ie description, manufacturer, etc.
  */
 function ResourceSummarySubForm({
-  register,
   resource,
 }: {
-  register: UseFormRegister<ResourceUpdateInput>;
   resource?: ResourceUpdateInput;
 }) {
+  const { register } = useFormContext<ResourceUpdateInput>();
+
   return (
     <div className="space-y-4 px-4">
       <div className="flex flex-row space-x-4 sm:mt-4">
@@ -144,10 +147,11 @@ function ResourceSummarySubForm({
           </span>
         </div>
       </div>
-      <MultiSelector
+      <MultiSelectorMany
+        details={register("payment_options", { required: true })}
         label="Price Category"
-        defaultValue={
-          resource?.payment_options?.toString() ?? PaymentType.FREE.toString()
+        defaultValues={
+          resource?.payment_options ?? [PaymentType.FREE.toString()]
         }
       >
         <PaymentTypeOption type={PaymentType.FREE} label="Free" />
@@ -159,9 +163,10 @@ function ResourceSummarySubForm({
           type={PaymentType.SUBSCRIPTION_WEEKLY}
           label="Weekly Subscription"
         />
-      </MultiSelector>
+      </MultiSelectorMany>
 
       <MultiSelectorMany
+        details={register("skill_levels", { required: true })}
         label="Skill Level"
         defaultValues={resource?.skill_levels ?? []}
       >
@@ -177,6 +182,7 @@ function ResourceSummarySubForm({
       </MultiSelectorMany>
 
       <MultiSelectorMany
+        details={register("skills", { required: true })}
         label="Skills Covered"
         defaultValues={resource?.skills ?? []}
       >
@@ -194,14 +200,9 @@ function ResourceSummarySubForm({
   );
 }
 
-const ResourceDescriptionSubForm = ({
-  register,
-  resource,
-}: {
-  register: UseFormRegister<ResourceUpdateInput>;
-  resource?: ResourceUpdateInput;
-}) => {
+const ResourceDescriptionSubForm = () => {
   const [dropdownOpen, toggleDropdown] = useState(false);
+  const { register } = useFormContext();
 
   return (
     <div className="mx-4">
@@ -241,29 +242,31 @@ const ResourceDescriptionSubForm = ({
 };
 
 const ResourceForm = ({
+  methods,
   resource,
-  register,
   error,
 }: {
   resource?: ResourceUpdateInput;
-  register: UseFormRegister<ResourceUpdateInput>;
+  methods: UseFormReturn<ResourceUpdateInput>;
   error?: string;
 }) => {
   return (
-    <form className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
-      <div className="my-5 mr-4 flex flex-col text-lg font-bold">
-        <ResourceLinkSubForm /> {/** //resource={resource} /> */}
-      </div>
-      <div>
-        <h1 className="mx-4 mb-2 border-b border-neutral-400 text-xl font-bold sm:hidden">
-          General
-        </h1>
-        <div className="justify-left mx-auto flex max-w-lg flex-col space-y-4 pb-5">
-          <ResourceSummarySubForm register={register} resource={resource} />
-          <ResourceDescriptionSubForm register={register} resource={resource} />
+    <FormProvider {...methods}>
+      <form className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
+        <div className="my-5 mr-4 flex flex-col text-lg font-bold">
+          <ResourceLinkSubForm /> {/** //resource={resource} /> */}
         </div>
-      </div>
-    </form>
+        <div>
+          <h1 className="mx-4 mb-2 border-b border-neutral-400 text-xl font-bold sm:hidden">
+            General
+          </h1>
+          <div className="justify-left mx-auto flex max-w-lg flex-col space-y-4 pb-5">
+            <ResourceSummarySubForm resource={resource} />
+            <ResourceDescriptionSubForm />
+          </div>
+        </div>
+      </form>
+    </FormProvider>
   );
 };
 

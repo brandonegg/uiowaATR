@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { useFormContext, type UseFormRegisterReturn } from "react-hook-form";
 
 // generics
 interface ToStringable {
@@ -22,11 +23,14 @@ function MultiSelectorMany<T extends ToStringable>({
   label,
   defaultValues,
   children,
+  details,
 }: {
   label: string;
   defaultValues: T[];
   children: undefined | JSX.Element | JSX.Element[];
+  details: UseFormRegisterReturn<string>;
 }) {
+  const { setValue } = useFormContext();
   const [selected, setSelected] = useState<string[]>(
     defaultValues.map((value) => {
       return value.toString();
@@ -35,14 +39,16 @@ function MultiSelectorMany<T extends ToStringable>({
 
   const updateCallback = (value: string) => {
     if (selected.includes(value)) {
-      setSelected(
-        selected.filter((selectedValue) => {
-          return selectedValue !== value;
-        })
-      );
+      const filteredSelected = selected.filter((selectedValue) => {
+        return selectedValue !== value;
+      });
+
+      setValue(details.name, filteredSelected);
+      setSelected(filteredSelected);
       return;
     }
 
+    setValue(details.name, [value, ...selected]);
     setSelected([value, ...selected]);
   };
 
@@ -54,12 +60,7 @@ function MultiSelectorMany<T extends ToStringable>({
           <span className="block text-sm italic text-neutral-400">
             Select all that apply
           </span>
-          <input
-            readOnly
-            type="text"
-            className="hidden"
-            value={selected ?? ""}
-          />
+          <input {...details} readOnly type="text" className="hidden" />
           <div className="mt-2 space-x-2 space-y-2 overflow-x-auto">
             {children}
           </div>
@@ -73,16 +74,25 @@ function MultiSelector<T extends ToStringable>({
   label,
   defaultValue,
   children,
+  details,
 }: {
   label: string;
   defaultValue: T;
   children: undefined | JSX.Element | JSX.Element[];
+  details: UseFormRegisterReturn<string>;
 }) {
   const [selected, setSelected] = useState<string>(defaultValue.toString());
+  const { setValue } = useFormContext();
 
   return (
     <SelectorContext.Provider
-      value={{ type: "one", updateCallback: setSelected }}
+      value={{
+        type: "one",
+        updateCallback: (value) => {
+          setSelected(value);
+          setValue(details.name, value);
+        },
+      }}
     >
       <SelectedUniqueContext.Provider value={selected}>
         <div className="flex flex-col">
@@ -90,12 +100,7 @@ function MultiSelector<T extends ToStringable>({
           <span className="block text-sm italic text-neutral-400">
             Select one from below
           </span>
-          <input
-            readOnly
-            type="text"
-            className="hidden"
-            value={selected ?? ""}
-          />
+          <input {...details} readOnly type="text" className="hidden" />
           <div className="space-x-2 space-y-2 overflow-x-auto">{children}</div>
         </div>
       </SelectedUniqueContext.Provider>

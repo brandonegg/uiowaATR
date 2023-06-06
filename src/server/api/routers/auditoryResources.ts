@@ -34,14 +34,14 @@ export const auditoryResourceRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-        icon: z.string().optional(),
-        name: z.string().optional(),
-        description: z.string().optional(),
+        icon: z.string().min(1).optional(),
+        name: z.string().min(1).optional(),
+        description: z.string().min(1).optional(),
         manufacturer: z
           .object({
-            name: z.string(),
+            name: z.string().min(1),
             required: z.boolean(),
-            notice: z.string().optional().nullable(),
+            notice: z.string().min(1).optional().nullable(),
           })
           .optional(),
         ages: z
@@ -52,7 +52,10 @@ export const auditoryResourceRouter = createTRPCRouter({
         payment_options: z.array(z.nativeEnum(PaymentType)).optional(),
         platform_links: z
           .array(
-            z.object({ platform: z.nativeEnum(Platform), link: z.string() })
+            z.object({
+              platform: z.nativeEnum(Platform),
+              link: z.string().min(1),
+            })
           )
           .optional(),
       })
