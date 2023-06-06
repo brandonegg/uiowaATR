@@ -1,9 +1,4 @@
-import {
-  PaymentType,
-  type AuditoryResource,
-  SkillLevel,
-  Skill,
-} from "@prisma/client";
+import { PaymentType, SkillLevel, Skill } from "@prisma/client";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
@@ -17,6 +12,10 @@ import {
 import { InfoInputLine } from "~/components/forms/textInput";
 import { PriceIcon } from "~/prices/Icons";
 import { useState } from "react";
+import { type UseFormRegister } from "react-hook-form";
+import { type RouterInputs } from "~/utils/api";
+
+export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
 
 /**
  * Renders the image selector for resource form.
@@ -109,11 +108,13 @@ const PaymentTypeOption = ({
 /**
  * Resource summary inputs - ie description, manufacturer, etc.
  */
-const ResourceSummarySubForm = ({
+function ResourceSummarySubForm({
+  register,
   resource,
 }: {
-  resource?: AuditoryResource;
-}) => {
+  register: UseFormRegister<ResourceUpdateInput>;
+  resource?: ResourceUpdateInput;
+}) {
   return (
     <div className="space-y-4 px-4">
       <div className="flex flex-row space-x-4 sm:mt-4">
@@ -144,7 +145,7 @@ const ResourceSummarySubForm = ({
       <MultiSelector
         label="Price Category"
         defaultValue={
-          resource?.payment_options.toString() ?? PaymentType.FREE.toString()
+          resource?.payment_options?.toString() ?? PaymentType.FREE.toString()
         }
       >
         <PaymentTypeOption type={PaymentType.FREE} label="Free" />
@@ -189,12 +190,14 @@ const ResourceSummarySubForm = ({
       </MultiSelectorMany>
     </div>
   );
-};
+}
 
 const ResourceDescriptionSubForm = ({
+  register,
   resource,
 }: {
-  resource?: AuditoryResource;
+  register: UseFormRegister<ResourceUpdateInput>;
+  resource?: ResourceUpdateInput;
 }) => {
   const [dropdownOpen, toggleDropdown] = useState(false);
 
@@ -203,6 +206,7 @@ const ResourceDescriptionSubForm = ({
       <label className="text-md font-semibold">Description</label>
       <div className="relative mt-4 overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 text-left shadow">
         <button
+          type="button"
           onClick={() => {
             toggleDropdown(!dropdownOpen);
           }}
@@ -217,28 +221,34 @@ const ResourceDescriptionSubForm = ({
           <ChevronDownIcon className="mx-2 my-auto w-4 text-white group-hover:animate-bounce" />
         </button>
         <textarea
+          {...register("description", { required: true })}
           className={
             "h-48 w-full rounded-b-xl p-2" + (dropdownOpen ? " hidden" : "")
           }
-        >
-          {resource?.description}
-        </textarea>
+        />
         <textarea
+          {...register("manufacturer.notice")}
           className={
             "h-48 w-full rounded-b-xl bg-neutral-800 p-2 text-white" +
             (dropdownOpen ? "" : " hidden")
           }
-        >
-          {resource?.manufacturer?.notice}
-        </textarea>
+        />
       </div>
     </div>
   );
 };
 
-const ResourceForm = ({ resource }: { resource?: AuditoryResource }) => {
+const ResourceForm = ({
+  resource,
+  register,
+  error,
+}: {
+  resource?: ResourceUpdateInput;
+  register: UseFormRegister<ResourceUpdateInput>;
+  error?: string;
+}) => {
   return (
-    <div className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
+    <form className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
       <div className="my-5 mr-4 flex flex-col text-lg font-bold">
         <ResourceLinkSubForm /> {/** //resource={resource} /> */}
       </div>
@@ -247,11 +257,11 @@ const ResourceForm = ({ resource }: { resource?: AuditoryResource }) => {
           General
         </h1>
         <div className="justify-left mx-auto flex max-w-lg flex-col space-y-4 pb-5">
-          <ResourceSummarySubForm resource={resource} />
-          <ResourceDescriptionSubForm resource={resource} />
+          <ResourceSummarySubForm register={register} resource={resource} />
+          <ResourceDescriptionSubForm register={register} resource={resource} />
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -8,11 +8,17 @@ import {
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
-import { AdminActionLink } from "~/components/admin/common";
+import { AdminActionButton, AdminActionLink } from "~/components/admin/common";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import Image from "next/image";
-import { ResourceForm } from "~/components/admin/resources/form";
+import {
+  ResourceForm,
+  type ResourceUpdateInput,
+} from "~/components/admin/resources/form";
+import { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { api } from "~/utils/api";
 
 export const getServerSideProps: GetServerSideProps<{
   resource: AuditoryResource;
@@ -40,13 +46,29 @@ const EditResourcePage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
   const { resource } = props;
+  const [serverError, setServerError] = useState<string | undefined>(undefined);
+  const { register, getValues } = useForm<ResourceUpdateInput>({
+    defaultValues: resource as ResourceUpdateInput,
+  });
+
+  const { mutate } = api.auditoryResource.update.useMutation({
+    onSuccess: async (data) => {
+      // todo:
+    },
+    onError: (error) => setServerError(error.message),
+  });
+
+  const onSubmit: SubmitHandler<ResourceUpdateInput> = (data) => {
+    console.log("mutating");
+    mutate(data);
+  };
 
   return (
     <>
       <Header />
       <AdminBarLayout
         actions={[
-          <AdminActionLink
+          <AdminActionButton
             key="save"
             symbol={
               <span className="flex">
@@ -67,7 +89,9 @@ const EditResourcePage = (
               </span>
             }
             label="Save"
-            href={`/resources/${resource.id}`}
+            onClick={() => {
+              onSubmit(getValues());
+            }}
           />,
           <AdminActionLink
             key="cancel"
@@ -78,7 +102,11 @@ const EditResourcePage = (
         ]}
       >
         <main className="mb-12">
-          <ResourceForm resource={resource} />
+          <ResourceForm
+            register={register}
+            error={serverError}
+            resource={resource as ResourceUpdateInput}
+          />
         </main>
       </AdminBarLayout>
       <Footer />

@@ -3,10 +3,15 @@ import {
   Skill,
   Platform,
   type AuditoryResource,
+  PaymentType,
 } from "@prisma/client";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const auditoryResourceRouter = createTRPCRouter({
   byId: publicProcedure
@@ -24,6 +29,43 @@ export const auditoryResourceRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.auditoryResource.findMany();
   }),
+
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        icon: z.string().optional(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        manufacturer: z
+          .object({
+            name: z.string(),
+            required: z.boolean(),
+            notice: z.string().optional().nullable(),
+          })
+          .optional(),
+        ages: z
+          .object({ min: z.number().int(), max: z.number().int() })
+          .optional(),
+        skills: z.array(z.nativeEnum(Skill)).optional(),
+        skill_levels: z.array(z.nativeEnum(SkillLevel)).optional(),
+        payment_options: z.array(z.nativeEnum(PaymentType)).optional(),
+        platform_links: z
+          .array(
+            z.object({ platform: z.nativeEnum(Platform), link: z.string() })
+          )
+          .optional(),
+      })
+    )
+    .mutation(({ input, ctx }) => {
+      console.log(input);
+      // return await ctx.prisma.auditoryResource.update({
+      //   where: {
+      //     id: input.id,
+      //   },
+      //   data: { ...input },
+      // });
+    }),
 
   search: publicProcedure
     .input(
