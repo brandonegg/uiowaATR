@@ -60,14 +60,17 @@ export const auditoryResourceRouter = createTRPCRouter({
           .optional(),
       })
     )
-    .mutation(({ input, ctx }) => {
-      console.log(input);
-      // return await ctx.prisma.auditoryResource.update({
-      //   where: {
-      //     id: input.id,
-      //   },
-      //   data: { ...input },
-      // });
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.prisma.auditoryResource.update({
+        where: {
+          id: input.id,
+        },
+        data: Object.fromEntries(
+          Object.entries(input).filter(([key, _value]) => {
+            return key !== "id";
+          })
+        ),
+      });
     }),
 
   search: publicProcedure

@@ -59,7 +59,6 @@ const EditResourcePage = (
   });
 
   const onSubmit: SubmitHandler<ResourceUpdateInput> = (data) => {
-    console.log("mutating");
     mutate(data);
   };
 
