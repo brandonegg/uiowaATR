@@ -127,12 +127,14 @@ function ResourceSummarySubForm({
           </h2>
           <span className="text-md">
             <InfoInputLine
+              details={register("manufacturer.name", { required: true })}
               placeholder="manufacturer"
               value={resource?.manufacturer?.name ?? ""}
               hint="manufacturer"
             />
           </span>
           <InfoInputLine
+            details={register("name", { required: true })}
             placeholder="name"
             value={resource?.name ?? ""}
             hint="name"
