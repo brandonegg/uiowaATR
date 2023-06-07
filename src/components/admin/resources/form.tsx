@@ -16,12 +16,13 @@ import {
 } from "../../forms/selectors";
 import { InfoInputLine } from "~/components/forms/textInput";
 import { PriceIcon } from "~/prices/Icons";
-import { useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import {
   type UseFormReturn,
   FormProvider,
   useFormContext,
 } from "react-hook-form";
+import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
 import { PlatformLinkButton } from "~/pages/resources/[id]";
 
@@ -40,7 +41,7 @@ const SelectImageInput = ({ file }: { file?: string }) => {
         className="bg-whit group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-400 drop-shadow-lg"
       >
         <Image
-          className="w-fulle"
+          className="w-full"
           src={`/resource_logos/${file ?? ""}`}
           alt={`resource logo`}
           width={512}
@@ -60,21 +61,63 @@ const SelectImageInput = ({ file }: { file?: string }) => {
   );
 };
 
+const LinkModal = ({
+  isOpen,
+  setOpen,
+}: {
+  isOpen: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
+  return (
+    <Modal
+      style={{
+        content: {
+          width: "400px",
+          height: "300px",
+          margin: "auto",
+          padding: 0,
+          overflow: "visible",
+          boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+          borderRadius: ".8rem",
+          border: "1px solid #d4d4d4",
+        },
+        overlay: {
+          zIndex: 60,
+        },
+      }}
+      isOpen={isOpen}
+      contentLabel="link details"
+      onRequestClose={() => {
+        setOpen(false);
+      }}
+    >
+      <div className="p-2">
+        <h1 className="text-lg font-bold">Link Details</h1>
+      </div>
+    </Modal>
+  );
+};
+
 /**
  * Contains the input fields for editing the links for a resource
  * @returns
  */
 const ResourceLinkSubForm = ({ links }: { links: PlatformLink[] }) => {
   const { register } = useFormContext<ResourceUpdateInput>();
+  const [linkModalOpen, setLinkModalOpen] = useState(false);
   const [selectedLinks, setSelectedLinks] = useState(links);
 
   return (
     <div className="mx-4">
+      <LinkModal isOpen={linkModalOpen} setOpen={setLinkModalOpen} />
       <div className="mb-2 flex flex-row justify-between space-x-2 border-b border-neutral-400">
         <h1 className="text-xl">Links</h1>
         <button
           type="button"
           className="h-6 rounded-full border border-neutral-900 bg-neutral-200 px-2 leading-tight hover:bg-yellow-400"
+          onClick={() => {
+            setLinkModalOpen(!linkModalOpen);
+          }}
         >
           <span className="my-auto inline-block align-middle text-sm font-normal text-neutral-700">
             Add
@@ -90,7 +133,10 @@ const ResourceLinkSubForm = ({ links }: { links: PlatformLink[] }) => {
               <span className="grow-1 w-full">
                 <PlatformLinkButton platformLink={link} />
               </span>
-              <button className="my-auto h-9 w-9 grow-0 rounded-xl border border-neutral-900 bg-red-300 p-1 hover:bg-red-500">
+              <button
+                type="button"
+                className="my-auto h-9 w-9 grow-0 rounded-xl border border-red-100 bg-red-300 p-1 hover:bg-red-500"
+              >
                 <TrashIcon className="m-auto w-6" />
               </button>
             </section>
