@@ -13,6 +13,14 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
+const emptyStringToUndefined = (val: string | undefined | null) => {
+  if (val?.length === 0) {
+    return undefined;
+  }
+
+  return val;
+};
+
 export const auditoryResourceRouter = createTRPCRouter({
   byId: publicProcedure
     .input(z.object({ id: z.string() }))
@@ -41,7 +49,11 @@ export const auditoryResourceRouter = createTRPCRouter({
           .object({
             name: z.string().min(1),
             required: z.boolean(),
-            notice: z.string().min(1).optional().nullable(),
+            notice: z
+              .string()
+              .optional()
+              .nullable()
+              .transform(emptyStringToUndefined),
           })
           .optional(),
         ages: z

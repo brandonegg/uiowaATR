@@ -56,7 +56,7 @@ export async function getStaticProps(
   };
 }
 
-const PlatformLinkButton = ({
+export const PlatformLinkButton = ({
   platformLink,
 }: {
   platformLink: PlatformLink;

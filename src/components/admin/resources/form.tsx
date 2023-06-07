@@ -1,7 +1,13 @@
-import { PaymentType, SkillLevel, Skill } from "@prisma/client";
+import {
+  PaymentType,
+  SkillLevel,
+  Skill,
+  type PlatformLink,
+} from "@prisma/client";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { PlusIcon } from "@heroicons/react/20/solid";
 import {
   MultiSelectorMany,
   MultiSelectorOption,
@@ -17,6 +23,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { type RouterInputs } from "~/utils/api";
+import { PlatformLinkButton } from "~/pages/resources/[id]";
 
 export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
 
@@ -57,17 +64,33 @@ const SelectImageInput = ({ file }: { file?: string }) => {
  * Contains the input fields for editing the links for a resource
  * @returns
  */
-const ResourceLinkSubForm = ({}) => {
+const ResourceLinkSubForm = ({ links }: { links: PlatformLink[] }) => {
+  const { register } = useFormContext<ResourceUpdateInput>();
+  const [selectedLinks, setSelectedLinks] = useState(links);
+
   return (
     <div className="mx-4">
-      <h1 className="mb-2 border-b border-neutral-400 text-xl">Links</h1>
-      <div className="mx-auto flex w-48 flex-col space-y-2">
-        {/** Insert existing links here */}
-        <button type="button">
-          <div className="flex h-14 flex-row space-x-2 rounded-lg border-2 border-neutral-900 bg-amber-300 px-2 align-middle hover:bg-amber-200">
-            <span className="my-auto text-sm font-bold">Add link</span>
-          </div>
+      <div className="mb-2 flex flex-row justify-between space-x-2 border-b border-neutral-400">
+        <h1 className="text-xl">Links</h1>
+        <button
+          type="button"
+          className="h-6 rounded-full border border-neutral-900 bg-yellow-400 px-2 leading-tight hover:bg-yellow-200"
+        >
+          <span className="my-auto inline-block align-middle text-sm font-normal text-neutral-700">
+            Add
+          </span>
+          <PlusIcon className="my-auto inline-block w-4 align-middle" />
         </button>
+      </div>
+
+      <div className="mx-auto flex w-48 flex-col space-y-2">
+        {selectedLinks.map((link, index) => {
+          return (
+            <section key={index} className="flex flex-row">
+              <PlatformLinkButton platformLink={link} />
+            </section>
+          );
+        })}
       </div>
     </div>
   );
@@ -260,7 +283,8 @@ const ResourceForm = ({
       ) : undefined}
       <form className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
         <div className="my-5 mr-4 flex flex-col text-lg font-bold">
-          <ResourceLinkSubForm /> {/** //resource={resource} /> */}
+          <ResourceLinkSubForm links={resource?.platform_links ?? []} />{" "}
+          {/** //resource={resource} /> */}
         </div>
         <div>
           <h1 className="mx-4 mb-2 border-b border-neutral-400 text-xl font-bold sm:hidden">
