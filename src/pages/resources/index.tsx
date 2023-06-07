@@ -23,16 +23,29 @@ const Resources = () => {
     skills: queryData.skills,
   });
 
-  if (!resourceQuery.data) {
-    return <></>;
-  }
-
-  const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
   const printQueryStr =
     router.asPath.split("?").length === 2
       ? router.asPath.split("?").at(-1) ?? ""
       : "";
   const printLink = `${router.route}/print?${printQueryStr}`;
+
+  const ConditionalTable = () => {
+    if (!resourceQuery.data) {
+      return <></>;
+    }
+
+    const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
+
+    return (
+      <ResourceTable
+        resourcesPerPage={queryData.perPage}
+        resources={resourceQuery.data.resources}
+        totalPages={totalPages}
+        query={router.query}
+        currentPage={currentPage}
+      />
+    );
+  };
 
   return (
     <>
@@ -67,13 +80,7 @@ const Resources = () => {
             </Link>
           </section>
         </div>
-        <ResourceTable
-          resourcesPerPage={queryData.perPage}
-          resources={resourceQuery.data.resources}
-          totalPages={totalPages}
-          query={router.query}
-          currentPage={currentPage}
-        />
+        <ConditionalTable />
       </main>
       <Footer />
     </>
