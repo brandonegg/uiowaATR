@@ -6,7 +6,7 @@ import {
 } from "@prisma/client";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import {
   MultiSelectorMany,
@@ -74,7 +74,7 @@ const ResourceLinkSubForm = ({ links }: { links: PlatformLink[] }) => {
         <h1 className="text-xl">Links</h1>
         <button
           type="button"
-          className="h-6 rounded-full border border-neutral-900 bg-yellow-400 px-2 leading-tight hover:bg-yellow-200"
+          className="h-6 rounded-full border border-neutral-900 bg-neutral-200 px-2 leading-tight hover:bg-yellow-400"
         >
           <span className="my-auto inline-block align-middle text-sm font-normal text-neutral-700">
             Add
@@ -86,8 +86,13 @@ const ResourceLinkSubForm = ({ links }: { links: PlatformLink[] }) => {
       <div className="mx-auto flex w-48 flex-col space-y-2">
         {selectedLinks.map((link, index) => {
           return (
-            <section key={index} className="flex flex-row">
-              <PlatformLinkButton platformLink={link} />
+            <section key={index} className="flex flex-row space-x-2">
+              <span className="grow-1 w-full">
+                <PlatformLinkButton platformLink={link} />
+              </span>
+              <button className="my-auto h-9 w-9 grow-0 rounded-xl border border-neutral-900 bg-red-300 p-1 hover:bg-red-500">
+                <TrashIcon className="m-auto w-6" />
+              </button>
             </section>
           );
         })}
