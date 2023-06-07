@@ -252,6 +252,12 @@ const ResourceForm = ({
 }) => {
   return (
     <FormProvider {...methods}>
+      {error ? (
+        <h1 className="text-center font-semibold text-red-600">
+          Error Updating Resource:{" "}
+          <span className="font-normal text-red-400">{error}</span>
+        </h1>
+      ) : undefined}
       <form className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
         <div className="my-5 mr-4 flex flex-col text-lg font-bold">
           <ResourceLinkSubForm /> {/** //resource={resource} /> */}

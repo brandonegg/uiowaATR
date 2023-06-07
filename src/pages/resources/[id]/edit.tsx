@@ -52,8 +52,8 @@ const EditResourcePage = (
   });
 
   const { mutate } = api.auditoryResource.update.useMutation({
-    onSuccess: async (data) => {
-      // todo:
+    onSuccess: (_data) => {
+      setServerError(undefined);
     },
     onError: (error) => setServerError(error.message),
   });
