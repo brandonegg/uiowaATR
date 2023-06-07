@@ -26,6 +26,10 @@ import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
 import { PlatformLinkButton } from "~/pages/resources/[id]";
 
+// Required for accessibility
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+Modal.setAppElement("#__next");
+
 export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
 
 /**
