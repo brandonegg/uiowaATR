@@ -83,7 +83,11 @@ const LinkModal = ({
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const { setValue, getValues } = useFormContext<ResourceUpdateInput>();
-  const { register, handleSubmit } = useForm<PlatformLink>();
+  const {
+    register,
+    handleSubmit,
+    setValue: setLocalFormValue,
+  } = useForm<PlatformLink>();
   const platformTypeOptions = [
     {
       label: "Website",
@@ -109,6 +113,8 @@ const LinkModal = ({
     values.push(data);
     setValue("platform_links", values);
     setOpen(false);
+    setLocalFormValue("platform", Platform.WEBSITE);
+    setLocalFormValue("link", "");
   };
 
   return (
