@@ -25,7 +25,7 @@ import {
 } from "../../forms/selectors";
 import { GenericInput, InfoInputLine } from "~/components/forms/textInput";
 import { PriceIcon } from "~/prices/Icons";
-import { type Dispatch, type SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useState, useEffect } from "react";
 import {
   type UseFormReturn,
   FormProvider,
@@ -82,7 +82,8 @@ const LinkModal = ({
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { register } = useForm<PlatformLink>();
+  const { setValue, getValues } = useFormContext<ResourceUpdateInput>();
+  const { register, handleSubmit } = useForm<PlatformLink>();
   const platformTypeOptions = [
     {
       label: "Website",
@@ -101,6 +102,14 @@ const LinkModal = ({
       value: Platform.PDF,
     },
   ];
+
+  const onSubmit = (data: PlatformLink) => {
+    const values = getValues().platform_links ?? [];
+
+    values.push(data);
+    setValue("platform_links", values);
+    setOpen(false);
+  };
 
   return (
     <Modal
@@ -143,7 +152,14 @@ const LinkModal = ({
           </button>
         </section>
 
-        <div className="space-y-4 p-4">
+        <form
+          onSubmit={(event) => {
+            handleSubmit(onSubmit)(event).catch((error) => {
+              console.error(error);
+            });
+          }}
+          className="space-y-4 p-4"
+        >
           <DropdownSelector
             options={platformTypeOptions}
             label="Type"
@@ -155,7 +171,15 @@ const LinkModal = ({
             type="text"
             details={register("link", { required: true })}
           />
-        </div>
+          <section className="py-4">
+            <button
+              type="submit"
+              className="mx-auto block w-fit rounded-md border border-neutral-900 bg-yellow-200 px-4 py-2 align-middle font-semibold shadow shadow-black/50 duration-200 ease-out hover:bg-yellow-300 hover:shadow-md"
+            >
+              <span className="hidden sm:inline-block">Create</span>
+            </button>
+          </section>
+        </form>
       </div>
     </Modal>
   );
@@ -165,10 +189,30 @@ const LinkModal = ({
  * Contains the input fields for editing the links for a resource
  * @returns
  */
-const ResourceLinkSubForm = ({ links }: { links: PlatformLink[] }) => {
-  const { register } = useFormContext<ResourceUpdateInput>();
+const ResourceLinkSubForm = () => {
+  const { setValue, getValues, watch } = useFormContext<ResourceUpdateInput>();
   const [linkModalOpen, setLinkModalOpen] = useState(false);
-  const [selectedLinks, setSelectedLinks] = useState(links);
+  const [selectedLinks, setSelectedLinks] = useState<PlatformLink[]>(
+    getValues().platform_links ?? []
+  );
+
+  useEffect(() => {
+    watch((value, { name }) => {
+      if (name === "platform_links") {
+        const validLinks = value.platform_links?.filter((value) => {
+          return value?.link && value?.platform;
+        }) as unknown as PlatformLink[];
+        setSelectedLinks(validLinks);
+      }
+    });
+  }, [watch]);
+
+  const removeLink = (key: number) => {
+    const newLinks = [...selectedLinks];
+    newLinks.splice(key, 1);
+
+    setValue("platform_links", newLinks);
+  };
 
   return (
     <div className="mx-4">
@@ -197,6 +241,9 @@ const ResourceLinkSubForm = ({ links }: { links: PlatformLink[] }) => {
                 <PlatformLinkButton platformLink={link} />
               </span>
               <button
+                onClick={() => {
+                  removeLink(index);
+                }}
                 type="button"
                 className="my-auto h-9 w-9 grow-0 rounded-xl border border-red-100 bg-red-300 p-1 hover:bg-red-500"
               >
@@ -397,8 +444,7 @@ const ResourceForm = ({
       ) : undefined}
       <form className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
         <div className="my-5 mr-4 flex flex-col text-lg font-bold">
-          <ResourceLinkSubForm links={resource?.platform_links ?? []} />{" "}
-          {/** //resource={resource} /> */}
+          <ResourceLinkSubForm /> {/** //resource={resource} /> */}
         </div>
         <div>
           <h1 className="mx-4 mb-2 border-b border-neutral-400 text-xl font-bold sm:hidden">
