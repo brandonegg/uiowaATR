@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type HTMLInputTypeAttribute, useState } from "react";
 import {
   type UseFormRegisterReturn,
   type InternalFieldName,
@@ -8,9 +8,7 @@ import {
  * Single line input for the fields found to the right of the
  * resource logo.
  */
-function InfoInputLine<
-  TFieldName extends InternalFieldName = InternalFieldName
->({
+function InfoInputLine<TFieldName extends InternalFieldName>({
   value,
   placeholder,
   hint,
@@ -46,4 +44,30 @@ function InfoInputLine<
   );
 }
 
-export { InfoInputLine };
+function GenericInput<TFieldName extends InternalFieldName>({
+  label,
+  placeholder,
+  type = "text",
+  details,
+}: {
+  label: string;
+  placeholder?: string;
+  type: HTMLInputTypeAttribute;
+  details: UseFormRegisterReturn<TFieldName>;
+}) {
+  return (
+    <section className="w-full space-y-1">
+      <label className="text-md block px-1 font-semibold text-neutral-600">
+        {label}
+      </label>
+      <input
+        className="block h-8 w-full rounded-lg border border-neutral-600 px-2 py-1"
+        {...details}
+        placeholder={placeholder}
+        type={type}
+      ></input>
+    </section>
+  );
+}
+
+export { InfoInputLine, GenericInput };

@@ -1,5 +1,9 @@
 import { createContext, useContext, useState } from "react";
-import { useFormContext, type UseFormRegisterReturn } from "react-hook-form";
+import {
+  type InternalFieldName,
+  useFormContext,
+  type UseFormRegisterReturn,
+} from "react-hook-form";
 
 // generics
 interface ToStringable {
@@ -165,6 +169,45 @@ function SimpleSelectorManyOption<T extends ToStringable>({
   );
 }
 
+interface SelectorOption<
+  T extends string | number | readonly string[] | undefined
+> {
+  label: string;
+  value: T;
+}
+
+function DropdownSelector<
+  TFieldName extends InternalFieldName,
+  T extends string | number | readonly string[] | undefined
+>({
+  options,
+  label,
+  placeholder,
+  details,
+}: {
+  options: SelectorOption<T>[];
+  label: string;
+  placeholder?: string;
+  details: UseFormRegisterReturn<TFieldName>;
+}) {
+  return (
+    <section className="space-y-1">
+      <label className="text-md block px-1 font-semibold text-neutral-600">
+        {label}
+      </label>
+      <select
+        className="block h-8 w-full rounded-lg border border-neutral-600 px-2 py-1"
+        {...details}
+        placeholder={placeholder}
+      >
+        {options.map((option, key) => {
+          return <option key={key} {...option} />;
+        })}
+      </select>
+    </section>
+  );
+}
+
 export {
   SelectedUniqueContext,
   SelectorContext,
@@ -173,4 +216,5 @@ export {
   MultiSelector,
   MultiSelectorOption,
   SimpleSelectorManyOption,
+  DropdownSelector,
 };

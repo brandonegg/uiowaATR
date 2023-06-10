@@ -3,24 +3,34 @@ import {
   SkillLevel,
   Skill,
   type PlatformLink,
+  Platform,
 } from "@prisma/client";
 import Image from "next/image";
-import { PencilSquareIcon } from "@heroicons/react/24/solid";
-import { ChevronDownIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  PencilSquareIcon,
+  XCircleIcon as XCircleSolid,
+} from "@heroicons/react/24/solid";
+import {
+  ChevronDownIcon,
+  TrashIcon,
+  XCircleIcon as XCircleOutline,
+} from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import {
+  DropdownSelector,
   MultiSelectorMany,
   MultiSelectorOption,
   SelectedManyContext,
   SimpleSelectorManyOption,
 } from "../../forms/selectors";
-import { InfoInputLine } from "~/components/forms/textInput";
+import { GenericInput, InfoInputLine } from "~/components/forms/textInput";
 import { PriceIcon } from "~/prices/Icons";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import {
   type UseFormReturn,
   FormProvider,
   useFormContext,
+  useForm,
 } from "react-hook-form";
 import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
@@ -72,6 +82,26 @@ const LinkModal = ({
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const { register } = useForm<PlatformLink>();
+  const platformTypeOptions = [
+    {
+      label: "Website",
+      value: Platform.WEBSITE,
+    },
+    {
+      label: "iOS App",
+      value: Platform.APP_IOS,
+    },
+    {
+      label: "Android App",
+      value: Platform.APP_ANDROID,
+    },
+    {
+      label: "PDF Document",
+      value: Platform.PDF,
+    },
+  ];
+
   return (
     <Modal
       style={{
@@ -80,10 +110,10 @@ const LinkModal = ({
           height: "300px",
           margin: "auto",
           padding: 0,
-          overflow: "visible",
+          overflow: "hidden",
           boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
           borderRadius: ".8rem",
-          border: "1px solid #d4d4d4",
+          border: ".1rem solid #d4d4d4",
         },
         overlay: {
           zIndex: 60,
@@ -95,8 +125,37 @@ const LinkModal = ({
         setOpen(false);
       }}
     >
-      <div className="p-2">
-        <h1 className="text-lg font-bold">Link Details</h1>
+      <div className="h-full bg-neutral-200">
+        <section className="relative bg-gradient-to-t from-neutral-800 to-neutral-600 p-2 drop-shadow-xl">
+          <h1 className="text-center text-lg font-bold text-neutral-200">
+            Platform Details
+          </h1>
+
+          <button
+            onClick={() => {
+              setOpen(false);
+            }}
+            type="button"
+            className="group absolute bottom-0 right-0 top-0 h-full px-4"
+          >
+            <XCircleSolid className="hidden h-6 w-6 text-white group-hover:block" />
+            <XCircleOutline className="block h-6 w-6 text-white group-hover:hidden" />
+          </button>
+        </section>
+
+        <div className="space-y-4 p-4">
+          <DropdownSelector
+            options={platformTypeOptions}
+            label="Type"
+            details={register("platform", { required: true })}
+          />
+          <GenericInput
+            placeholder="platform URL"
+            label="Link"
+            type="text"
+            details={register("link", { required: true })}
+          />
+        </div>
       </div>
     </Modal>
   );
