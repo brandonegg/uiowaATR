@@ -25,6 +25,7 @@
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
     "argon2": "^0.30.3",
+    "axios": "^1.4.0",
     "dotenv": "^16.0.3",
     "next": "^13.2.1",
     "next-auth": "^4.19.0",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^8.21.1",
+    "@types/formidable": "^2.0.6",
     "@types/node": "^18.16.6",
     "@types/prettier": "^2.7.2",
     "@types/react": "^18.0.28",

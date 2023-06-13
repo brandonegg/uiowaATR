@@ -25,7 +25,13 @@ import {
 } from "../../forms/selectors";
 import { GenericInput, InfoInputLine } from "~/components/forms/textInput";
 import { PriceIcon } from "~/prices/Icons";
-import { type Dispatch, type SetStateAction, useState, useEffect } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useState,
+  useEffect,
+  type ChangeEvent,
+} from "react";
 import {
   type UseFormReturn,
   FormProvider,
@@ -35,6 +41,7 @@ import {
 import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
 import { PlatformLinkButton } from "~/pages/resources/[id]";
+import axios from "axios";
 
 // Required for accessibility
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
@@ -48,6 +55,38 @@ export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
  * File needs to be path relative to resource_logos/
  */
 const SelectImageInput = ({ file }: { file?: string }) => {
+  const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.files);
+
+    const data = new FormData();
+    if (!event.target.files || !event.target.files[0]) {
+      return;
+    }
+
+    data.append("photo", event.target.files[0]);
+
+    const response = await axios.post(
+      "/api/resources/photo/645b1afc1905d6074dfcf17d",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    const ress = await fetch("/api/resources/photo/645b1afc1905d6074dfcf17d", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: data,
+    });
+
+    console.log("done");
+    console.log(response);
+  };
+
   return (
     <>
       <label
@@ -66,6 +105,7 @@ const SelectImageInput = ({ file }: { file?: string }) => {
         </div>
       </label>
       <input
+        onChange={onChange}
         accept="image/*"
         id="resource-image-file"
         type="file"
