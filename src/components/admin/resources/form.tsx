@@ -486,7 +486,7 @@ const ResourceForm = ({
       ) : undefined}
       <form className="mx-auto flex max-w-2xl flex-col flex-col-reverse py-1 sm:flex-row sm:divide-x sm:py-4">
         <div className="my-5 mr-4 flex flex-col text-lg font-bold">
-          <ResourceLinkSubForm /> {/** //resource={resource} /> */}
+          <ResourceLinkSubForm />
         </div>
         <div>
           <h1 className="mx-4 mb-2 border-b border-neutral-400 text-xl font-bold sm:hidden">

@@ -59,18 +59,31 @@ const EditResourcePage = (
     onError: (error) => setServerError(error.message),
   });
 
-  const onSubmit: SubmitHandler<ResourceUpdateInput> = (data) => {
+  const onSubmit: SubmitHandler<ResourceUpdateInput> = async (data) => {
+    // TODO: Fix file upload, currently it is not updating correctly on the server side
+    // May also need to look into re-rendering static pages when icon changes
+    // Also need to add authentication of route!
     if (updateIconFile) {
-      console.log("we need to update the file!");
+      const data = new FormData();
+      data.append("photo", updateIconFile);
+
+      const uploadResponse = await fetch(
+        `/api/resources/photo/${resource.id}`,
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      console.log("uploading icon");
+
+      if (uploadResponse.status !== 200) {
+        setServerError(
+          "Failed uploading resource icon file. Changes did not save!"
+        );
+        throw new Error(JSON.stringify(uploadResponse));
+      }
     }
-
-    // const data = new FormData();
-    // data.append("photo", event.target.files[0]);
-
-    // await fetch(`/api/resources/photo/${resourceId}`, {
-    //   method: "POST",
-    //   body: data,
-    // });
 
     mutate(data);
   };
