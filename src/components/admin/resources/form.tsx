@@ -53,22 +53,30 @@ export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
  *
  * File needs to be path relative to resource_logos/
  */
-const SelectImageInput = ({ file }: { file?: string }) => {
-  const { getValues } = useFormContext<ResourceUpdateInput>();
+const SelectImageInput = ({
+  file,
+  setIconFile,
+}: {
+  file?: string;
+  setIconFile: (file: File) => void;
+}) => {
+  const [previewImg, setPreviewImg] = useState<string | undefined>(
+    `/resource_logos/${file ?? ""}`
+  );
 
-  const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const data = new FormData();
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || !event.target.files[0]) {
       return;
     }
 
-    const resourceId = getValues("id");
-    data.append("photo", event.target.files[0]);
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImg(reader.result as string);
+    };
+    reader.readAsDataURL(file);
 
-    await fetch(`/api/resources/photo/${resourceId}`, {
-      method: "POST",
-      body: data,
-    });
+    setIconFile(file);
   };
 
   return (
@@ -79,7 +87,7 @@ const SelectImageInput = ({ file }: { file?: string }) => {
       >
         <Image
           className="w-full"
-          src={`/resource_logos/${file ?? ""}`}
+          src={previewImg ?? ""}
           alt={`resource logo`}
           width={512}
           height={512}
@@ -89,13 +97,7 @@ const SelectImageInput = ({ file }: { file?: string }) => {
         </div>
       </label>
       <input
-        onChange={(event) => {
-          onChange(event).catch(() => {
-            throw new Error(
-              "Unexpected error occured when selecting new file."
-            );
-          });
-        }}
+        onChange={onChange}
         accept="image/*"
         id="resource-image-file"
         type="file"
@@ -333,8 +335,10 @@ const PaymentTypeOption = ({
  */
 function ResourceSummarySubForm({
   resource,
+  setIconFile,
 }: {
   resource?: ResourceUpdateInput;
+  setIconFile: (file: File) => void;
 }) {
   const { register } = useFormContext<ResourceUpdateInput>();
 
@@ -342,7 +346,7 @@ function ResourceSummarySubForm({
     <div className="space-y-4 px-4">
       <div className="flex flex-row space-x-4 sm:mt-4">
         <div className="flex w-20 flex-col justify-center space-y-2 sm:w-28">
-          <SelectImageInput file={resource?.icon} />
+          <SelectImageInput file={resource?.icon} setIconFile={setIconFile} />
         </div>
         <div className="flex flex-col justify-center overflow-hidden rounded-xl border border-neutral-400 bg-white drop-shadow-lg sm:w-[300px] md:w-[400px]">
           <h2 className="border-b border-neutral-300 px-2 text-center font-semibold">
@@ -462,10 +466,12 @@ const ResourceDescriptionSubForm = () => {
 };
 
 const ResourceForm = ({
+  setIconFile,
   methods,
   resource,
   error,
 }: {
+  setIconFile: (file: File) => void;
   resource?: ResourceUpdateInput;
   methods: UseFormReturn<ResourceUpdateInput>;
   error?: string;
@@ -487,7 +493,10 @@ const ResourceForm = ({
             General
           </h1>
           <div className="justify-left mx-auto flex max-w-lg flex-col space-y-4 pb-5">
-            <ResourceSummarySubForm resource={resource} />
+            <ResourceSummarySubForm
+              resource={resource}
+              setIconFile={setIconFile}
+            />
             <ResourceDescriptionSubForm />
           </div>
         </div>

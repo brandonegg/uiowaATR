@@ -46,6 +46,7 @@ const EditResourcePage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
   const { resource } = props;
+  const [updateIconFile, setIconFile] = useState<File | undefined>(undefined);
   const [serverError, setServerError] = useState<string | undefined>(undefined);
   const formMethods = useForm<ResourceUpdateInput>({
     defaultValues: resource as ResourceUpdateInput,
@@ -59,6 +60,18 @@ const EditResourcePage = (
   });
 
   const onSubmit: SubmitHandler<ResourceUpdateInput> = (data) => {
+    if (updateIconFile) {
+      console.log("we need to update the file!");
+    }
+
+    // const data = new FormData();
+    // data.append("photo", event.target.files[0]);
+
+    // await fetch(`/api/resources/photo/${resourceId}`, {
+    //   method: "POST",
+    //   body: data,
+    // });
+
     mutate(data);
   };
 
@@ -102,6 +115,7 @@ const EditResourcePage = (
       >
         <main className="mb-12">
           <ResourceForm
+            setIconFile={setIconFile}
             methods={formMethods}
             error={serverError}
             resource={resource as ResourceUpdateInput}
