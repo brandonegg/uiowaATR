@@ -41,7 +41,6 @@ import {
 import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
 import { PlatformLinkButton } from "~/pages/resources/[id]";
-import axios from "axios";
 
 // Required for accessibility
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
@@ -55,36 +54,21 @@ export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
  * File needs to be path relative to resource_logos/
  */
 const SelectImageInput = ({ file }: { file?: string }) => {
-  const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.files);
+  const { getValues } = useFormContext<ResourceUpdateInput>();
 
+  const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const data = new FormData();
     if (!event.target.files || !event.target.files[0]) {
       return;
     }
 
+    const resourceId = getValues("id");
     data.append("photo", event.target.files[0]);
 
-    const response = await axios.post(
-      "/api/resources/photo/645b1afc1905d6074dfcf17d",
-      data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-
-    const ress = await fetch("/api/resources/photo/645b1afc1905d6074dfcf17d", {
+    await fetch(`/api/resources/photo/${resourceId}`, {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
       body: data,
     });
-
-    console.log("done");
-    console.log(response);
   };
 
   return (
@@ -105,7 +89,13 @@ const SelectImageInput = ({ file }: { file?: string }) => {
         </div>
       </label>
       <input
-        onChange={onChange}
+        onChange={(event) => {
+          onChange(event).catch(() => {
+            throw new Error(
+              "Unexpected error occured when selecting new file."
+            );
+          });
+        }}
         accept="image/*"
         id="resource-image-file"
         type="file"
