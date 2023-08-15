@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/874ce895-0572-4817-a6b3-cdff89966cd4/deploy-status)](https://app.netlify.com/sites/auditorytraining/deploys)
 # Auditory Training Resources
 <p align="center">
   <img src="assets/atr_table.png" width="800" />
