@@ -63,11 +63,17 @@ type Manufacturer {
   notice   String?
 }
 
+type Photo {
+  name String
+  data Bytes
+}
+
 model AuditoryResource {
   id              String         @id @default(auto()) @map("_id") @db.ObjectId
   icon            String
   name            String
   description     String
+  photo           Photo?
   manufacturer    Manufacturer?
   ages            RangeInput
   skills          Skill[]

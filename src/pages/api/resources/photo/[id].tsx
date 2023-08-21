@@ -1,7 +1,9 @@
 import { type NextApiHandler } from "next";
 import formidable from "formidable";
-import * as path from "path";
+import * as fs from "fs";
 import { prisma } from "~/server/db";
+import { getServerAuthSession } from "~/server/auth";
+import { Role } from "@prisma/client";
 
 /**
  * Returns filename for a given filepath.
@@ -17,6 +19,12 @@ const handler: NextApiHandler = async (req, res) => {
     return;
   }
 
+  const authSession = await getServerAuthSession({ req, res });
+  if (!authSession?.user || authSession.user.role !== Role.ADMIN) {
+    res.writeHead(401, "Not authorized");
+    return;
+  }
+
   const { id } = req.query;
 
   if (Array.isArray(id) || !id) {
@@ -29,17 +37,21 @@ const handler: NextApiHandler = async (req, res) => {
     keepExtensions: true,
   });
 
-  const localUploadPath: Promise<string> = new Promise((resolve, reject) => {
-    form.parse(req, (_err, _fields, files) => {
-      const photo = Array.isArray(files.photo) ? files.photo[0] : files.photo;
-      if (!photo) {
-        reject("Invalid file type sent (or none provided)");
-        return;
-      }
+  const uploadPhoto: Promise<formidable.File> = new Promise(
+    (resolve, reject) => {
+      form.parse(req, (_err, _fields, files) => {
+        const photo = Array.isArray(files.photo) ? files.photo[0] : files.photo;
+        if (!photo) {
+          reject("Invalid file type sent (or none provided)");
+          return;
+        }
 
-      resolve(path.join("uploads", getFileName(photo.filepath)));
-    });
-  });
+        resolve(photo);
+      });
+    }
+  );
+
+  const photoBuffer = fs.readFileSync((await uploadPhoto).filepath);
 
   try {
     await prisma.auditoryResource.update({
@@ -47,7 +59,10 @@ const handler: NextApiHandler = async (req, res) => {
         id,
       },
       data: {
-        icon: await localUploadPath,
+        photo: {
+          name: getFileName((await uploadPhoto).filepath),
+          data: photoBuffer,
+        },
       },
     });
   } catch (error: unknown) {
