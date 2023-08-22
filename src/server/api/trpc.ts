@@ -66,6 +66,15 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 
+superjson.registerCustom<Buffer, number[]>(
+  {
+    isApplicable: (v): v is Buffer => v instanceof Buffer,
+    serialize: (v) => [...v],
+    deserialize: (v) => Buffer.from(v),
+  },
+  "buffer"
+);
+
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape }) {
