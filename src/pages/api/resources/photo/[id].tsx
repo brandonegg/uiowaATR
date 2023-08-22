@@ -60,7 +60,9 @@ const handler: NextApiHandler = async (req, res) => {
       },
       data: {
         photo: {
-          name: getFileName((await uploadPhoto).filepath),
+          name: getFileName(
+            (await uploadPhoto).originalFilename ?? "resource ICON"
+          ),
           data: photoBuffer,
         },
       },
