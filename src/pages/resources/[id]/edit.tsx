@@ -60,9 +60,6 @@ const EditResourcePage = (
   });
 
   const onSubmit: SubmitHandler<ResourceUpdateInput> = async (data) => {
-    // TODO: Fix file upload, currently it is not updating correctly on the server side
-    // May also need to look into re-rendering static pages when icon changes
-    // Also need to add authentication of route!
     if (updateIconFile) {
       const data = new FormData();
       data.append("photo", updateIconFile);
@@ -74,8 +71,6 @@ const EditResourcePage = (
           body: data,
         }
       );
-
-      console.log("uploading icon");
 
       if (uploadResponse.status !== 200) {
         setServerError(
