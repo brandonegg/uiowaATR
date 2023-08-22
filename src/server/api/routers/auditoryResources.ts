@@ -137,6 +137,7 @@ export const auditoryResourceRouter = createTRPCRouter({
         }),
       ]);
 
+      // TODO: The issue here is the photo binary data can't be sent over tRPC which will cause the request to be unparsable by the client
       return {
         count,
         resources,
