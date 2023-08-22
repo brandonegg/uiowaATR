@@ -32,6 +32,19 @@ export const ResourcePhoto = ({ resource }: { resource: AuditoryResource }) => {
     height: 512,
   };
 
+  if (blobSrc) {
+    return (
+      // Required because blob image processed by client, not server
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        className="w-full rounded-xl border border-neutral-400 bg-white drop-shadow-lg"
+        src={blobSrc ?? `/resource_logos/${resource.icon}`}
+        alt={`${resource.name} logo`}
+        {...commonProps}
+      />
+    );
+  }
+
   return (
     <Image
       className="w-full rounded-xl border border-neutral-400 bg-white drop-shadow-lg"
