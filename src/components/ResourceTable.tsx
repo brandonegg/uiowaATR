@@ -25,28 +25,17 @@ export const ResourcePhoto = ({ resource }: { resource: AuditoryResource }) => {
 
     const blob = new Blob([resource.photo.data], { type: "image/png" });
     setBlobSrc(URL.createObjectURL(blob));
-  }, []);
+  }, [resource.photo]);
 
   const commonProps = {
     width: 512,
     height: 512,
   };
 
-  if (resource.photo?.data) {
-    return (
-      <img
-        className="w-full rounded-xl border border-neutral-400 bg-white drop-shadow-lg"
-        src={blobSrc}
-        alt={`${resource.name} logo`}
-        {...commonProps}
-      />
-    );
-  }
-
   return (
     <Image
       className="w-full rounded-xl border border-neutral-400 bg-white drop-shadow-lg"
-      src={`/resource_logos/${resource.icon}`}
+      src={blobSrc ?? `/resource_logos/${resource.icon}`}
       alt={`${resource.name} logo`}
       {...commonProps}
     />
