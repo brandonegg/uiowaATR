@@ -1,9 +1,5 @@
-import { type InferGetStaticPropsType, type GetStaticPropsContext } from "next";
 import { GlobeAltIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
-import { createServerSideHelpers } from "@trpc/react-query/server";
-import { appRouter } from "~/server/api/root";
-import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 import { ResourceDescription, ResourceInfo } from "~/components/ResourceTable";
 import { type PlatformLink } from "@prisma/client";
@@ -14,47 +10,6 @@ import Header from "~/components/Header";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
 import { AdminActionLink } from "~/components/admin/common";
 import { useRouter } from "next/router";
-
-export const getStaticPaths = async () => {
-  const resources = await prisma.auditoryResource.findMany({
-    select: {
-      id: true,
-    },
-  });
-
-  return {
-    paths: resources.map((resource) => ({
-      params: {
-        id: resource.id,
-      },
-    })),
-    fallback: "blocking",
-  };
-};
-
-export async function getStaticProps(
-  context: GetStaticPropsContext<{ id: string }>
-) {
-  const helpers = createServerSideHelpers({
-    router: appRouter,
-    ctx: {
-      prisma,
-      session: null,
-    },
-  });
-
-  const id = context.params?.id as string;
-
-  await helpers.auditoryResource.byId.prefetch({ id });
-
-  return {
-    props: {
-      trpcState: helpers.dehydrate(),
-      id,
-    },
-    revalidate: 1,
-  };
-}
 
 export const PlatformLinkButton = ({
   platformLink,
@@ -123,12 +78,11 @@ const DownloadButtons = ({
   return <div className="mx-auto flex w-48 flex-col space-y-2">{buttons}</div>;
 };
 
-const ResourceViewPage = (
-  props: InferGetStaticPropsType<typeof getStaticProps>
-) => {
-  const { id } = props;
-  const resourceQuery = api.auditoryResource.byId.useQuery({ id });
+const ResourceViewPage = () => {
   const router = useRouter();
+  const id = router.query["id"]?.toString() ?? "";
+
+  const resourceQuery = api.auditoryResource.byId.useQuery({ id });
 
   const ConditionalView = () => {
     if (!resourceQuery.data) {
