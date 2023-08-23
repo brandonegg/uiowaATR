@@ -5,7 +5,6 @@ import {
   type PlatformLink,
   Platform,
 } from "@prisma/client";
-import Image from "next/image";
 import {
   PencilSquareIcon,
   XCircleIcon as XCircleSolid,
@@ -41,6 +40,7 @@ import {
 import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
 import { PlatformLinkButton } from "~/pages/resources/[id]";
+import { ResourcePhoto } from "~/components/ResourcePhoto";
 
 // Required for accessibility
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
@@ -54,15 +54,13 @@ export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
  * File needs to be path relative to resource_logos/
  */
 const SelectImageInput = ({
-  file,
+  resource,
   setIconFile,
 }: {
-  file?: string;
+  resource?: ResourceUpdateInput;
   setIconFile: (file: File) => void;
 }) => {
-  const [previewImg, setPreviewImg] = useState<string | undefined>(
-    `/resource_logos/${file ?? ""}`
-  );
+  const [previewImg, setPreviewImg] = useState<string | undefined>(undefined);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || !event.target.files[0]) {
@@ -85,13 +83,19 @@ const SelectImageInput = ({
         htmlFor="resource-image-file"
         className="bg-whit group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-400 drop-shadow-lg"
       >
-        <Image
-          className="w-full"
-          src={previewImg ?? ""}
-          alt={`resource logo`}
-          width={512}
-          height={512}
-        />
+        {!previewImg ? (
+          <ResourcePhoto
+            name={resource?.name ?? "n/a"}
+            photo={resource?.photo ?? null}
+            src={resource?.icon}
+          />
+        ) : (
+          <ResourcePhoto
+            photo={null}
+            src={previewImg}
+            name={resource?.name ?? "n/a"}
+          />
+        )}
         <div className="absolute bottom-0 left-0 right-0 top-0 hidden place-items-center group-hover:grid group-hover:bg-white/70">
           <PencilSquareIcon className="w-16 text-black/50" />
         </div>
@@ -346,7 +350,7 @@ function ResourceSummarySubForm({
     <div className="space-y-4 px-4">
       <div className="flex flex-row space-x-4 sm:mt-4">
         <div className="flex w-20 flex-col justify-center space-y-2 sm:w-28">
-          <SelectImageInput file={resource?.icon} setIconFile={setIconFile} />
+          <SelectImageInput resource={resource} setIconFile={setIconFile} />
         </div>
         <div className="flex flex-col justify-center overflow-hidden rounded-xl border border-neutral-400 bg-white drop-shadow-lg sm:w-[300px] md:w-[400px]">
           <h2 className="border-b border-neutral-300 px-2 text-center font-semibold">

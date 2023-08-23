@@ -62,6 +62,12 @@ export const auditoryResourceRouter = createTRPCRouter({
         skills: z.array(z.nativeEnum(Skill)).optional(),
         skill_levels: z.array(z.nativeEnum(SkillLevel)).optional(),
         payment_options: z.array(z.nativeEnum(PaymentType)).optional(),
+        photo: z
+          .object({
+            name: z.string(),
+            data: z.instanceof(Buffer),
+          })
+          .optional(),
         platform_links: z
           .array(
             z.object({

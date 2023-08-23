@@ -6,54 +6,14 @@ import {
   type Manufacturer,
 } from "@prisma/client";
 import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
 import Link from "next/link";
 import { translateEnumPlatform, translateEnumSkill } from "~/utils/enumWordLut";
-import { useEffect, type ChangeEvent, useState } from "react";
+import { type ChangeEvent } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { type ParsedUrlQuery, type ParsedUrlQueryInput } from "querystring";
 import { useRouter } from "next/router";
 import { PriceIcon } from "~/prices/Icons";
-
-export const ResourcePhoto = ({ resource }: { resource: AuditoryResource }) => {
-  const [blobSrc, setBlobSrc] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    if (!resource.photo?.data) {
-      return;
-    }
-
-    const blob = new Blob([resource.photo.data], { type: "image/png" });
-    setBlobSrc(URL.createObjectURL(blob));
-  }, [resource.photo]);
-
-  const commonProps = {
-    width: 512,
-    height: 512,
-  };
-
-  if (blobSrc) {
-    return (
-      // Required because blob image processed by client, not server
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        className="w-full rounded-xl border border-neutral-400 bg-white drop-shadow-lg"
-        src={blobSrc ?? `/resource_logos/${resource.icon}`}
-        alt={`${resource.name} logo`}
-        {...commonProps}
-      />
-    );
-  }
-
-  return (
-    <Image
-      className="w-full rounded-xl border border-neutral-400 bg-white drop-shadow-lg"
-      src={blobSrc ?? `/resource_logos/${resource.icon}`}
-      alt={`${resource.name} logo`}
-      {...commonProps}
-    />
-  );
-};
+import { ResourcePhoto } from "./ResourcePhoto";
 
 export const ResourceInfo = ({
   resource,
@@ -86,7 +46,11 @@ export const ResourceInfo = ({
         {showMoreInfo ? (
           <Link href={`resources/${resource.id}`}>
             <div className="flex w-20 flex-col justify-center space-y-2 sm:w-28">
-              <ResourcePhoto resource={resource} />
+              <ResourcePhoto
+                name={resource.name}
+                photo={resource.photo}
+                src={resource.icon}
+              />
               <span className="block rounded-lg border border-neutral-900 bg-neutral-900 py-[1px] text-center text-white hover:bg-neutral-500 print:hidden">
                 more info
               </span>
@@ -94,12 +58,10 @@ export const ResourceInfo = ({
           </Link>
         ) : (
           <div className="flex w-20 flex-col justify-center space-y-2 sm:w-28">
-            <Image
-              className="w-full rounded-xl border border-neutral-400 bg-white drop-shadow-lg"
-              src={`/resource_logos/${resource.icon}`}
-              alt={`${resource.name} logo`}
-              width={512}
-              height={512}
+            <ResourcePhoto
+              name={resource.name}
+              photo={resource.photo}
+              src={resource.icon}
             />
           </div>
         )}

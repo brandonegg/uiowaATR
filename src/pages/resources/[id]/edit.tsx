@@ -1,16 +1,8 @@
 import { XCircleIcon } from "@heroicons/react/20/solid";
-import { type AuditoryResource } from "@prisma/client";
-import { createServerSideHelpers } from "@trpc/react-query/server";
-import {
-  type GetServerSideProps,
-  type InferGetServerSidePropsType,
-} from "next";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
 import { AdminActionButton, AdminActionLink } from "~/components/admin/common";
-import { appRouter } from "~/server/api/root";
-import { prisma } from "~/server/db";
 import Image from "next/image";
 import {
   ResourceForm,
@@ -19,33 +11,14 @@ import {
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
 
-export const getServerSideProps: GetServerSideProps<{
-  resource: AuditoryResource;
-}> = async (context) => {
-  const helpers = createServerSideHelpers({
-    router: appRouter,
-    ctx: {
-      prisma,
-      session: null,
-    },
-  });
+const EditResourcePage = () => {
+  const router = useRouter();
+  const id = router.query["id"]?.toString() ?? "";
 
-  const id = context.params?.id as string;
+  const { data: resource } = api.auditoryResource.byId.useQuery({ id });
 
-  const resource = await helpers.auditoryResource.byId.fetch({ id });
-
-  return {
-    props: {
-      resource,
-    },
-  };
-};
-
-const EditResourcePage = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) => {
-  const { resource } = props;
   const [updateIconFile, setIconFile] = useState<File | undefined>(undefined);
   const [serverError, setServerError] = useState<string | undefined>(undefined);
   const formMethods = useForm<ResourceUpdateInput>({
@@ -63,6 +36,10 @@ const EditResourcePage = (
     if (updateIconFile) {
       const data = new FormData();
       data.append("photo", updateIconFile);
+
+      if (!resource?.id) {
+        throw Error("Resource data missing for photo to upload");
+      }
 
       const uploadResponse = await fetch(
         `/api/resources/photo/${resource.id}`,
@@ -82,6 +59,11 @@ const EditResourcePage = (
 
     mutate(data);
   };
+
+  if (!resource) {
+    // TODO: Error page if resource does not exist
+    return <></>;
+  }
 
   return (
     <>
