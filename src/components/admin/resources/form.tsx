@@ -53,8 +53,9 @@ export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
  *
  * File needs to be path relative to resource_logos/
  */
-const SelectImageInput = ({ resource }: { resource?: ResourceUpdateInput }) => {
+const SelectImageInput = () => {
   const { setValue, setError, watch } = useFormContext<ResourceUpdateInput>();
+  const name = watch("name");
   const photo = watch("photo");
   const icon = watch("icon");
 
@@ -86,7 +87,7 @@ const SelectImageInput = ({ resource }: { resource?: ResourceUpdateInput }) => {
         className="bg-whit group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-400 drop-shadow-lg"
       >
         <ResourcePhoto
-          name={resource?.name ?? "n/a"}
+          name={name ?? "unknown resource logo"}
           photo={photo ?? null}
           src={icon}
         />
@@ -343,7 +344,7 @@ function ResourceSummarySubForm({
     <div className="space-y-4 px-4">
       <div className="flex flex-row space-x-4 sm:mt-4">
         <div className="flex w-20 flex-col justify-center space-y-2 sm:w-28">
-          <SelectImageInput resource={resource} />
+          <SelectImageInput />
         </div>
         <div className="flex flex-col justify-center overflow-hidden rounded-xl border border-neutral-400 bg-white drop-shadow-lg sm:w-[300px] md:w-[400px]">
           <h2 className="border-b border-neutral-300 px-2 text-center font-semibold">
