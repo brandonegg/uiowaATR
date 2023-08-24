@@ -20,7 +20,6 @@ const EditResourcePage = () => {
   // TODO: Maybe useWait id before querying
   const { data: resource } = api.auditoryResource.byId.useQuery({ id });
 
-  const [updateIconFile, setIconFile] = useState<File | undefined>(undefined);
   const [serverError, setServerError] = useState<string | undefined>(undefined);
   const formMethods = useForm<ResourceUpdateInput>({
     defaultValues: resource as ResourceUpdateInput,
@@ -34,31 +33,6 @@ const EditResourcePage = () => {
       }
 
       setServerError(undefined);
-
-      if (updateIconFile) {
-        const data = new FormData();
-        data.append("photo", updateIconFile);
-
-        if (!resource?.id) {
-          throw Error("Resource data missing for photo to upload");
-        }
-
-        const uploadResponse = await fetch(
-          `/api/resources/photo/${resource.id}`,
-          {
-            method: "POST",
-            body: data,
-          }
-        );
-
-        if (uploadResponse.status !== 200) {
-          setServerError(
-            "Failed uploading resource icon file. Changes did not save!"
-          );
-          throw new Error(JSON.stringify(uploadResponse));
-        }
-      }
-
       await router.push(`/resources/${resource.id}`);
     },
     onError: (error) => setServerError(error.message),
@@ -113,7 +87,6 @@ const EditResourcePage = () => {
       >
         <main className="mb-12">
           <ResourceForm
-            setIconFile={setIconFile}
             methods={formMethods}
             error={serverError}
             resource={resource as ResourceUpdateInput}

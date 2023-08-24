@@ -41,7 +41,6 @@ import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
 import { PlatformLinkButton } from "~/pages/resources/[id]";
 import { ResourcePhoto } from "~/components/ResourcePhoto";
-import Image from "next/image";
 
 // Required for accessibility
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
@@ -54,14 +53,10 @@ export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
  *
  * File needs to be path relative to resource_logos/
  */
-const SelectImageInput = ({
-  resource,
-  setIconFile,
-}: {
-  resource?: ResourceUpdateInput;
-  setIconFile: (file: File) => void;
-}) => {
-  const [previewImg, setPreviewImg] = useState<string | undefined>(undefined);
+const SelectImageInput = ({ resource }: { resource?: ResourceUpdateInput }) => {
+  const { setValue, setError, watch } = useFormContext<ResourceUpdateInput>();
+  const photo = watch("photo");
+  const icon = watch("icon");
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || !event.target.files[0]) {
@@ -71,11 +66,17 @@ const SelectImageInput = ({
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setPreviewImg(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+      if (!reader.result || !(reader.result instanceof ArrayBuffer)) {
+        setError("photo.data", { message: "Failed uploading the photo data." });
+        return;
+      }
 
-    setIconFile(file);
+      setValue("photo", {
+        name: file.name,
+        data: Buffer.from(reader.result),
+      });
+    };
+    reader.readAsArrayBuffer(file);
   };
 
   return (
@@ -84,21 +85,12 @@ const SelectImageInput = ({
         htmlFor="resource-image-file"
         className="bg-whit group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-400 drop-shadow-lg"
       >
-        {!previewImg ? (
-          <ResourcePhoto
-            name={resource?.name ?? "n/a"}
-            photo={resource?.photo ?? null}
-            src={resource?.icon}
-          />
-        ) : (
-          <Image
-            className="w-full"
-            src={previewImg ?? ""}
-            alt={`resource logo`}
-            width={512}
-            height={512}
-          />
-        )}
+        <ResourcePhoto
+          name={resource?.name ?? "n/a"}
+          photo={photo ?? null}
+          src={icon}
+        />
+
         <div className="absolute bottom-0 left-0 right-0 top-0 hidden place-items-center group-hover:grid group-hover:bg-white/70">
           <PencilSquareIcon className="w-16 text-black/50" />
         </div>
@@ -342,10 +334,8 @@ const PaymentTypeOption = ({
  */
 function ResourceSummarySubForm({
   resource,
-  setIconFile,
 }: {
   resource?: ResourceUpdateInput;
-  setIconFile: (file: File) => void;
 }) {
   const { register } = useFormContext<ResourceUpdateInput>();
 
@@ -353,7 +343,7 @@ function ResourceSummarySubForm({
     <div className="space-y-4 px-4">
       <div className="flex flex-row space-x-4 sm:mt-4">
         <div className="flex w-20 flex-col justify-center space-y-2 sm:w-28">
-          <SelectImageInput resource={resource} setIconFile={setIconFile} />
+          <SelectImageInput resource={resource} />
         </div>
         <div className="flex flex-col justify-center overflow-hidden rounded-xl border border-neutral-400 bg-white drop-shadow-lg sm:w-[300px] md:w-[400px]">
           <h2 className="border-b border-neutral-300 px-2 text-center font-semibold">
@@ -473,12 +463,10 @@ const ResourceDescriptionSubForm = () => {
 };
 
 const ResourceForm = ({
-  setIconFile,
   methods,
   resource,
   error,
 }: {
-  setIconFile: (file: File) => void;
   resource?: ResourceUpdateInput;
   methods: UseFormReturn<ResourceUpdateInput>;
   error?: string;
@@ -500,10 +488,7 @@ const ResourceForm = ({
             General
           </h1>
           <div className="justify-left mx-auto flex max-w-lg flex-col space-y-4 pb-5">
-            <ResourceSummarySubForm
-              resource={resource}
-              setIconFile={setIconFile}
-            />
+            <ResourceSummarySubForm resource={resource} />
             <ResourceDescriptionSubForm />
           </div>
         </div>
