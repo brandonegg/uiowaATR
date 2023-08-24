@@ -1,3 +1,8 @@
+/**
+ * @deprecated
+ *
+ * Route replaced by the tRPC resource update handler and serialize function for Buffer data.
+ */
 import { type NextApiHandler } from "next";
 import formidable from "formidable";
 import * as fs from "fs";
