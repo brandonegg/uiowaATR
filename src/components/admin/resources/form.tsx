@@ -41,6 +41,7 @@ import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
 import { PlatformLinkButton } from "~/pages/resources/[id]";
 import { ResourcePhoto } from "~/components/ResourcePhoto";
+import Image from "next/image";
 
 // Required for accessibility
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
@@ -90,10 +91,12 @@ const SelectImageInput = ({
             src={resource?.icon}
           />
         ) : (
-          <ResourcePhoto
-            photo={null}
-            src={previewImg}
-            name={resource?.name ?? "n/a"}
+          <Image
+            className="w-full"
+            src={previewImg ?? ""}
+            alt={`resource logo`}
+            width={512}
+            height={512}
           />
         )}
         <div className="absolute bottom-0 left-0 right-0 top-0 hidden place-items-center group-hover:grid group-hover:bg-white/70">

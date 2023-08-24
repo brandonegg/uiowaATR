@@ -17,6 +17,7 @@ const EditResourcePage = () => {
   const router = useRouter();
   const id = router.query["id"]?.toString() ?? "";
 
+  // TODO: Maybe useWait id before querying
   const { data: resource } = api.auditoryResource.byId.useQuery({ id });
 
   const [updateIconFile, setIconFile] = useState<File | undefined>(undefined);
@@ -26,37 +27,44 @@ const EditResourcePage = () => {
   });
 
   const { mutate } = api.auditoryResource.update.useMutation({
-    onSuccess: (_data) => {
+    onSuccess: async (_data) => {
+      if (!resource) {
+        setServerError("An unexpected error has occured");
+        return;
+      }
+
       setServerError(undefined);
+
+      if (updateIconFile) {
+        const data = new FormData();
+        data.append("photo", updateIconFile);
+
+        if (!resource?.id) {
+          throw Error("Resource data missing for photo to upload");
+        }
+
+        const uploadResponse = await fetch(
+          `/api/resources/photo/${resource.id}`,
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+
+        if (uploadResponse.status !== 200) {
+          setServerError(
+            "Failed uploading resource icon file. Changes did not save!"
+          );
+          throw new Error(JSON.stringify(uploadResponse));
+        }
+      }
+
+      await router.push(`/resources/${resource.id}`);
     },
     onError: (error) => setServerError(error.message),
   });
 
-  const onSubmit: SubmitHandler<ResourceUpdateInput> = async (data) => {
-    if (updateIconFile) {
-      const data = new FormData();
-      data.append("photo", updateIconFile);
-
-      if (!resource?.id) {
-        throw Error("Resource data missing for photo to upload");
-      }
-
-      const uploadResponse = await fetch(
-        `/api/resources/photo/${resource.id}`,
-        {
-          method: "POST",
-          body: data,
-        }
-      );
-
-      if (uploadResponse.status !== 200) {
-        setServerError(
-          "Failed uploading resource icon file. Changes did not save!"
-        );
-        throw new Error(JSON.stringify(uploadResponse));
-      }
-    }
-
+  const onSubmit: SubmitHandler<ResourceUpdateInput> = (data) => {
     mutate(data);
   };
 

@@ -46,7 +46,7 @@ export const ResourcePhoto = (input: ResourcePhotoProps) => {
   return (
     <Image
       className="w-full rounded-xl border border-neutral-400 bg-white drop-shadow-lg"
-      src={blobSrc ?? `/resource_logos/${input.src ?? "logo_not_found.png"}`}
+      src={`/resource_logos/${input.src ?? "logo_not_found.png"}`}
       alt={`${input.name} logo`}
       {...commonProps}
     />
