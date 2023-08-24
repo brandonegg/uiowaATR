@@ -1,6 +1,4 @@
 import { XCircleIcon } from "@heroicons/react/20/solid";
-import Footer from "~/components/Footer";
-import Header from "~/components/Header";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
 import { AdminActionButton, AdminActionLink } from "~/components/admin/common";
 import Image from "next/image";
@@ -12,6 +10,7 @@ import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 
 const EditResourcePage = () => {
   const router = useRouter();
@@ -48,8 +47,7 @@ const EditResourcePage = () => {
   }
 
   return (
-    <>
-      <Header />
+    <HeaderFooterLayout>
       <AdminBarLayout
         actions={[
           <AdminActionButton
@@ -85,16 +83,15 @@ const EditResourcePage = () => {
           />,
         ]}
       >
-        <main className="mb-12">
+        <div className="mb-12">
           <ResourceForm
             methods={formMethods}
             error={serverError}
             resource={resource as ResourceUpdateInput}
           />
-        </main>
+        </div>
       </AdminBarLayout>
-      <Footer />
-    </>
+    </HeaderFooterLayout>
   );
 };
 

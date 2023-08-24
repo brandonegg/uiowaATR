@@ -5,10 +5,9 @@ import { useRouter } from "next/router";
 import ResourceTable from "~/components/ResourceTable";
 import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
-import Footer from "~/components/Footer";
-import Header from "~/components/Header";
 import { LoadingBarChart } from "~/components/LoadingBarChart";
 import { ErrorNotice } from "~/components/notice";
+import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 
 const Resources = () => {
   const router = useRouter();
@@ -38,7 +37,7 @@ const Resources = () => {
 
     if (!resourceQuery.data || resourceQuery.isError) {
       return (
-        <div className="my-28">
+        <div className="my-10 sm:my-16 md:my-28">
           <ErrorNotice
             icon
             header="Unable to pull available resources. Please try again."
@@ -62,9 +61,8 @@ const Resources = () => {
   };
 
   return (
-    <>
-      <Header />
-      <main className="mx-auto my-6 max-w-6xl md:px-4">
+    <HeaderFooterLayout>
+      <div className="mb-12 mt-6 md:px-2">
         <div className="mb-2 flex flex-row justify-between p-2 print:hidden sm:mb-4 sm:p-4">
           <section className="space-y-2">
             <h1 className="text-3xl font-bold">All Resources</h1>
@@ -95,9 +93,8 @@ const Resources = () => {
           </section>
         </div>
         <ConditionalTable />
-      </main>
-      <Footer />
-    </>
+      </div>
+    </HeaderFooterLayout>
   );
 };
 

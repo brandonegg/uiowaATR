@@ -5,11 +5,10 @@ import { ResourceDescription, ResourceInfo } from "~/components/ResourceTable";
 import { type PlatformLink } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "~/components/Footer";
-import Header from "~/components/Header";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
 import { AdminActionLink } from "~/components/admin/common";
 import { useRouter } from "next/router";
+import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 
 export const PlatformLinkButton = ({
   platformLink,
@@ -121,25 +120,21 @@ const ResourceViewPage = () => {
   };
 
   return (
-    <>
-      <div className="min-h-screen">
-        <Header />
-        <AdminBarLayout
-          actions={
-            <AdminActionLink
-              symbol={<PencilSquareIcon className="w-4" />}
-              label="Edit Page"
-              href={`${router.asPath}/edit`}
-            />
-          }
-        >
-          <main className="mb-12">
-            <ConditionalView />
-          </main>
-        </AdminBarLayout>
-        <Footer />
-      </div>
-    </>
+    <HeaderFooterLayout>
+      <AdminBarLayout
+        actions={
+          <AdminActionLink
+            symbol={<PencilSquareIcon className="w-4" />}
+            label="Edit Page"
+            href={`${router.asPath}/edit`}
+          />
+        }
+      >
+        <div className="mb-12">
+          <ConditionalView />
+        </div>
+      </AdminBarLayout>
+    </HeaderFooterLayout>
   );
 };
 
