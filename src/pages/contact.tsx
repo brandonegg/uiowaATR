@@ -1,9 +1,8 @@
 import { type NextPage } from "next/types";
-import Footer from "~/components/Footer";
 import Image from "next/image";
-import Header from "~/components/Header";
 import { TopLabel } from "~/components/Labels";
 import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
+import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 
 interface ContactDetails {
   name: string;
@@ -59,9 +58,8 @@ const ContactForm = ({ details }: { details: ContactDetails }) => {
 
 const Contact: NextPage = () => {
   return (
-    <>
-      <Header />
-      <main>
+    <HeaderFooterLayout>
+      <div>
         <section className="mx-auto mb-4 mt-4 space-y-2 text-center sm:mt-8 sm:space-y-4">
           <h1 className="text-2xl font-bold">
             Have any Suggestions or Feedback?
@@ -98,9 +96,8 @@ const Contact: NextPage = () => {
             })}
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </HeaderFooterLayout>
   );
 };
 

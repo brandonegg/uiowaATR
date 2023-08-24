@@ -1,8 +1,7 @@
 import { type NextPage } from "next/types";
 import Image from "next/image";
 import { HandRaisedIcon } from "@heroicons/react/24/solid";
-import Footer from "~/components/Footer";
-import Header from "~/components/Header";
+import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 
 type Position = "left" | "right";
 interface Biography {
@@ -70,60 +69,56 @@ const biographies: Biography[] = [
 
 const About: NextPage = () => {
   return (
-    <>
-      <Header />
-      <main>
+    <HeaderFooterLayout>
+      <div
+        style={{
+          backgroundImage: `url("/backdrops/uiowa-aerial.jpeg")`,
+          backgroundPosition: `center`,
+        }}
+        className="h-96"
+      >
         <div
           style={{
-            backgroundImage: `url("/backdrops/uiowa-aerial.jpeg")`,
-            backgroundPosition: `center`,
+            WebkitBackdropFilter: `blur(5px) contrast(50%)`,
+            backdropFilter: `blur(5px) contrast(50%)`,
           }}
-          className="h-96"
+          className="grid h-full w-full place-items-center"
         >
-          <div
-            style={{
-              WebkitBackdropFilter: `blur(5px) contrast(50%)`,
-              backdropFilter: `blur(5px) contrast(50%)`,
-            }}
-            className="grid h-full w-full place-items-center"
-          >
-            <div className="space-y-8">
-              <h1 className="mx-auto max-w-lg text-center text-5xl font-extrabold text-yellow-200">
-                About Us
+          <div className="space-y-8">
+            <h1 className="mx-auto max-w-lg text-center text-5xl font-extrabold text-yellow-200">
+              About Us
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div className="w-full">
+        <div className="mx-auto max-w-7xl">
+          <div className="sm:p-8">
+            {/** Small screens */}
+            <div className="w-full border-b-2 border-yellow-400 bg-neutral-900 p-4 sm:hidden">
+              <h1 className="text-center text-4xl font-bold text-white">
+                Meet the Team
+                <HandRaisedIcon className="animate-hand_pop ml-4 inline w-12 rotate-12 animate-hand_wave text-yellow-200" />
               </h1>
             </div>
-          </div>
-        </div>
-        <div className="w-full">
-          <div className="mx-auto max-w-7xl">
-            <div className="sm:p-8">
-              {/** Small screens */}
-              <div className="w-full border-b-2 border-yellow-400 bg-neutral-900 p-4 sm:hidden">
-                <h1 className="text-center text-4xl font-bold text-white">
-                  Meet the Team
-                  <HandRaisedIcon className="animate-hand_pop ml-4 inline w-12 rotate-12 animate-hand_wave text-yellow-200" />
-                </h1>
-              </div>
-              {/** Large screens */}
-              <div className="mx-auto mx-auto mb-20 mt-8 hidden w-max rounded-xl border-2 border-neutral-300 bg-neutral-900 p-4 shadow-xl sm:block">
-                <h1 className="text-center text-4xl font-bold text-white">
-                  Meet the Team
-                  <HandRaisedIcon className="ml-4 inline w-12 rotate-12 animate-hand_wave text-yellow-200" />
-                </h1>
-              </div>
+            {/** Large screens */}
+            <div className="mx-auto mx-auto mb-20 mt-8 hidden w-max rounded-xl border-2 border-neutral-300 bg-neutral-900 p-4 shadow-xl sm:block">
+              <h1 className="text-center text-4xl font-bold text-white">
+                Meet the Team
+                <HandRaisedIcon className="ml-4 inline w-12 rotate-12 animate-hand_wave text-yellow-200" />
+              </h1>
+            </div>
 
-              {/** Biographies (both small & large screens) */}
-              <div className="grid grid-cols-2 sm:my-16 sm:mt-4 sm:space-y-12 lg:grid-cols-3 lg:space-y-24">
-                {biographies.map((biography, index) => {
-                  return <Biopgraphy key={index} {...biography} />;
-                })}
-              </div>
+            {/** Biographies (both small & large screens) */}
+            <div className="grid grid-cols-2 sm:my-16 sm:mt-4 sm:space-y-12 lg:grid-cols-3 lg:space-y-24">
+              {biographies.map((biography, index) => {
+                return <Biopgraphy key={index} {...biography} />;
+              })}
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </HeaderFooterLayout>
   );
 };
 

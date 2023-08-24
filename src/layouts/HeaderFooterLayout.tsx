@@ -6,7 +6,7 @@ export const HeaderFooterLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex h-full min-h-screen flex-col">
       <Header />
-      <main className="mx-auto w-full max-w-6xl grow">{children}</main>
+      <main className="mx-auto w-full grow">{children}</main>
       <Footer />
     </div>
   );

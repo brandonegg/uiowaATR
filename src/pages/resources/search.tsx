@@ -1,10 +1,9 @@
-import Footer from "~/components/Footer";
-import Header from "~/components/Header";
 import {
   GuidedSearch,
   type Question,
   type QuestionTypes,
 } from "~/components/Search";
+import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 
 const questions: Question<QuestionTypes>[] = [
   {
@@ -108,19 +107,11 @@ const questions: Question<QuestionTypes>[] = [
 
 const SearchPage = () => {
   return (
-    <>
-      <div className="snap max-h-screen snap-y snap-mandatory overflow-y-scroll">
-        <div className="snap-start snap-always">
-          <Header />
-        </div>
-        <div className="mx-auto mb-4 mt-4 w-full max-w-xl snap-center snap-always overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 drop-shadow-md">
-          <GuidedSearch questions={questions} />
-        </div>
-        <div className="snap-end snap-always">
-          <Footer />
-        </div>
+    <HeaderFooterLayout>
+      <div className="mx-auto my-8 w-full max-w-xl overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 drop-shadow-md">
+        <GuidedSearch questions={questions} />
       </div>
-    </>
+    </HeaderFooterLayout>
   );
 };
 

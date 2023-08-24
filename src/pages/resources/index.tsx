@@ -62,7 +62,7 @@ const Resources = () => {
 
   return (
     <HeaderFooterLayout>
-      <div className="mb-12 mt-6 md:px-2">
+      <div className="mx-auto mb-12 mt-6 w-full max-w-6xl md:px-2">
         <div className="mb-2 flex flex-row justify-between p-2 print:hidden sm:mb-4 sm:p-4">
           <section className="space-y-2">
             <h1 className="text-3xl font-bold">All Resources</h1>
