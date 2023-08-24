@@ -8,6 +8,7 @@ import { parseQueryData } from "~/utils/parseSearchForm";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import { LoadingBarChart } from "~/components/LoadingBarChart";
+import { ErrorNotice } from "~/components/notice";
 
 const Resources = () => {
   const router = useRouter();
@@ -31,8 +32,15 @@ const Resources = () => {
   const printLink = `${router.route}/print?${printQueryStr}`;
 
   const ConditionalTable = () => {
-    if (!resourceQuery.data) {
+    if (resourceQuery.isLoading) {
       return <LoadingBarChart width={200} height={200} />;
+    }
+    
+    if (!resourceQuery.data || resourceQuery.isError) {
+      return <div className="my-28">
+        <ErrorNotice icon header="Unable to pull available resources. Please try again."
+        body="If this issue persists, please contact a site administrator" />
+        </div>
     }
 
     const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
