@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
+import { LoadingBarChart } from "~/components/LoadingBarChart";
 
 const Resources = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ const Resources = () => {
 
   const ConditionalTable = () => {
     if (!resourceQuery.data) {
-      return <></>;
+      return <LoadingBarChart width={200} height={200} />;
     }
 
     const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
