@@ -67,6 +67,7 @@ export const auditoryResourceRouter = createTRPCRouter({
             name: z.string(),
             data: z.instanceof(Buffer),
           })
+          .nullable()
           .optional(),
         platform_links: z
           .array(
