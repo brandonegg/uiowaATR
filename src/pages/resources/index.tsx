@@ -35,12 +35,17 @@ const Resources = () => {
     if (resourceQuery.isLoading) {
       return <LoadingBarChart width={200} height={200} />;
     }
-    
+
     if (!resourceQuery.data || resourceQuery.isError) {
-      return <div className="my-28">
-        <ErrorNotice icon header="Unable to pull available resources. Please try again."
-        body="If this issue persists, please contact a site administrator" />
+      return (
+        <div className="my-28">
+          <ErrorNotice
+            icon
+            header="Unable to pull available resources. Please try again."
+            body="If this issue persists, please contact a site administrator"
+          />
         </div>
+      );
     }
 
     const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
