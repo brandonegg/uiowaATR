@@ -51,6 +51,13 @@ const handler: NextApiHandler = async (req, res) => {
     }
   );
 
+  try {
+    await uploadPhoto;
+  } catch (error) {
+    res.writeHead(500, JSON.stringify((error as Error).message)).end();
+    return;
+  }
+
   const photoBuffer = fs.readFileSync((await uploadPhoto).filepath);
 
   try {
