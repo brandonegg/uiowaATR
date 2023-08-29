@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 import ResourceTable from "~/components/ResourceTable";
 import { api } from "~/utils/api";
 import { parseQueryData } from "~/utils/parseSearchForm";
-import { LoadingBarChart } from "~/components/LoadingBarChart";
-import { ErrorNotice } from "~/components/notice";
 import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
+import { type AuditoryResource } from "@prisma/client";
+import { QueryWaitWrapper } from "~/components/LoadingWrapper";
 
 const Resources = () => {
   const router = useRouter();
@@ -30,29 +30,16 @@ const Resources = () => {
       : "";
   const printLink = `${router.route}/print?${printQueryStr}`;
 
-  const ConditionalTable = () => {
-    if (resourceQuery.isLoading) {
-      return <LoadingBarChart width={200} height={200} />;
-    }
-
-    if (!resourceQuery.data || resourceQuery.isError) {
-      return (
-        <div className="my-10 sm:my-16 md:my-28">
-          <ErrorNotice
-            icon
-            header="Unable to pull available resources. Please try again."
-            body="If this issue persists, please contact a site administrator"
-          />
-        </div>
-      );
-    }
-
-    const totalPages = Math.ceil(resourceQuery.data.count / queryData.perPage);
+  const ConditionalTable = (data: {
+    count: number;
+    resources: AuditoryResource[];
+  }) => {
+    const totalPages = Math.ceil(data.count / queryData.perPage);
 
     return (
       <ResourceTable
         resourcesPerPage={queryData.perPage}
-        resources={resourceQuery.data.resources}
+        resources={data.resources}
         totalPages={totalPages}
         query={router.query}
         currentPage={currentPage}
@@ -92,7 +79,8 @@ const Resources = () => {
             </Link>
           </section>
         </div>
-        <ConditionalTable />
+
+        <QueryWaitWrapper query={resourceQuery} Render={ConditionalTable} />
       </div>
     </HeaderFooterLayout>
   );
