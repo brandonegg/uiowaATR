@@ -11,43 +11,43 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
+import { QueryWaitWrapper } from "~/components/LoadingWrapper";
 
 const EditResourcePage = () => {
   const router = useRouter();
   const id = router.query["id"]?.toString() ?? "";
 
-  // TODO: Maybe useWait id before querying
-  const { data: resource } = api.auditoryResource.byId.useQuery({ id });
+  const resourceQuery = api.auditoryResource.byId.useQuery(
+    { id },
+    { enabled: router.isReady }
+  );
 
-  const [serverError, setServerError] = useState<string | undefined>(undefined);
-  const formMethods = useForm<ResourceUpdateInput>({
-    defaultValues: resource as ResourceUpdateInput,
-  });
+  const ConditionalView = (data: ResourceUpdateInput) => {
+    const [serverError, setServerError] = useState<string | undefined>(
+      undefined
+    );
+    const formMethods = useForm<ResourceUpdateInput>({
+      defaultValues: data,
+    });
 
-  const { mutate } = api.auditoryResource.update.useMutation({
-    onSuccess: async (_data) => {
-      if (!resource) {
-        setServerError("An unexpected error has occured");
-        return;
-      }
+    const { mutate } = api.auditoryResource.update.useMutation({
+      onSuccess: async (_resData) => {
+        if (!data) {
+          setServerError("An unexpected error has occured");
+          return;
+        }
 
-      setServerError(undefined);
-      await router.push(`/resources/${resource.id}`);
-    },
-    onError: (error) => setServerError(error.message),
-  });
+        setServerError(undefined);
+        await router.push(`/resources/${data.id}`);
+      },
+      onError: (error) => setServerError(error.message),
+    });
 
-  const onSubmit: SubmitHandler<ResourceUpdateInput> = (data) => {
-    mutate(data);
-  };
+    const onSubmit: SubmitHandler<ResourceUpdateInput> = (data) => {
+      mutate(data);
+    };
 
-  if (!resource) {
-    // TODO: Error page if resource does not exist
-    return <></>;
-  }
-
-  return (
-    <HeaderFooterLayout>
+    return (
       <AdminBarLayout
         actions={[
           <AdminActionButton
@@ -79,7 +79,7 @@ const EditResourcePage = () => {
             key="cancel"
             symbol={<XCircleIcon className="w-4" />}
             label="Cancel"
-            href={`/resources/${resource.id}`}
+            href={`/resources/${data.id}`}
           />,
         ]}
       >
@@ -87,10 +87,16 @@ const EditResourcePage = () => {
           <ResourceForm
             methods={formMethods}
             error={serverError}
-            resource={resource as ResourceUpdateInput}
+            resource={data}
           />
         </div>
       </AdminBarLayout>
+    );
+  };
+
+  return (
+    <HeaderFooterLayout>
+      <QueryWaitWrapper query={resourceQuery} Render={ConditionalView} />
     </HeaderFooterLayout>
   );
 };
