@@ -2,13 +2,14 @@ import { GlobeAltIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api";
 import { ResourceDescription, ResourceInfo } from "~/components/ResourceTable";
-import { type PlatformLink } from "@prisma/client";
+import { type AuditoryResource, type PlatformLink } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
 import { AdminActionLink } from "~/components/admin/common";
 import { useRouter } from "next/router";
 import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
+import { QueryWaitWrapper } from "~/components/LoadingWrapper";
 
 export const PlatformLinkButton = ({
   platformLink,
@@ -83,35 +84,27 @@ const ResourceViewPage = () => {
 
   const resourceQuery = api.auditoryResource.byId.useQuery({ id });
 
-  const ConditionalView = () => {
-    if (!resourceQuery.data) {
-      return <></>;
-    }
-
+  const ConditionalView = (data: AuditoryResource) => {
     return (
       <div className="mx-auto flex max-w-2xl flex-col flex-col-reverse divide-x py-4 sm:flex-row">
         <div className="my-5 mr-4 flex flex-col justify-end text-lg font-bold">
           <div className="mx-4">
             <h1 className="mb-2 border-b border-neutral-400">Links</h1>
-            <DownloadButtons
-              platformLinks={resourceQuery.data.platform_links}
-            />
+            <DownloadButtons platformLinks={data.platform_links} />
           </div>
         </div>
         <div className="justify-left flex flex-col pb-5">
-          <ResourceInfo resource={resourceQuery.data} />
+          <ResourceInfo resource={data} />
           <div className="mx-4 overflow-hidden rounded-xl border border-neutral-400 bg-neutral-200 text-left shadow">
             <ResourceDescription
-              manufacturer={resourceQuery.data.manufacturer}
-              description={resourceQuery.data.description}
+              manufacturer={data.manufacturer}
+              description={data.description}
             />
           </div>
           <div className="ml-4 mr-auto mt-4 rounded-lg border-2 border-neutral-900 bg-neutral-600">
             <span className="px-2 py-2 text-sm text-neutral-200">
-              Ages {resourceQuery.data.ages.min}
-              {resourceQuery.data.ages.max >= 100
-                ? "+"
-                : `-${resourceQuery.data.ages.max}`}
+              Ages {data.ages.min}
+              {data.ages.max >= 100 ? "+" : `-${data.ages.max}`}
             </span>
           </div>
         </div>
@@ -131,7 +124,7 @@ const ResourceViewPage = () => {
         }
       >
         <div className="mb-12">
-          <ConditionalView />
+          <QueryWaitWrapper query={resourceQuery} Render={ConditionalView} />
         </div>
       </AdminBarLayout>
     </HeaderFooterLayout>
