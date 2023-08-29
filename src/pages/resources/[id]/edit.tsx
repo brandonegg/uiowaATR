@@ -22,9 +22,8 @@ const EditResourcePage = () => {
     { id },
     {
       enabled: router.isReady,
-      onError(err) {
-        console.log(err);
-        throw err;
+      retry(_failureCount, error) {
+        return error.data?.httpStatus !== 404;
       },
     }
   );

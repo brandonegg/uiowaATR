@@ -82,7 +82,14 @@ const ResourceViewPage = () => {
   const router = useRouter();
   const id = router.query["id"]?.toString() ?? "";
 
-  const resourceQuery = api.auditoryResource.byId.useQuery({ id });
+  const resourceQuery = api.auditoryResource.byId.useQuery(
+    { id },
+    {
+      retry(_failureCount, error) {
+        return error.data?.httpStatus !== 404;
+      },
+    }
+  );
 
   const ConditionalView = (data: AuditoryResource) => {
     return (
