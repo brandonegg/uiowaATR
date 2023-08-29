@@ -12,6 +12,7 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 import { QueryWaitWrapper } from "~/components/LoadingWrapper";
+import { AuditoryResource } from "@prisma/client";
 
 const EditResourcePage = () => {
   const router = useRouter();
@@ -22,12 +23,12 @@ const EditResourcePage = () => {
     { enabled: router.isReady }
   );
 
-  const ConditionalView = (data: ResourceUpdateInput) => {
+  const ConditionalView = (data: AuditoryResource) => {
     const [serverError, setServerError] = useState<string | undefined>(
       undefined
     );
     const formMethods = useForm<ResourceUpdateInput>({
-      defaultValues: data,
+      defaultValues: data as ResourceUpdateInput,
     });
 
     const { mutate } = api.auditoryResource.update.useMutation({
@@ -87,7 +88,7 @@ const EditResourcePage = () => {
           <ResourceForm
             methods={formMethods}
             error={serverError}
-            resource={data}
+            resource={data as ResourceUpdateInput}
           />
         </div>
       </AdminBarLayout>
