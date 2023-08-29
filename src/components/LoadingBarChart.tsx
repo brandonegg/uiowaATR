@@ -12,7 +12,7 @@ export const LoadingBarChart = ({
       <div className="h-fit w-fit animate-pulse rounded-xl border border-stone-400 bg-stone-100 p-4 drop-shadow-xl">
         <Image
           alt="loading content"
-          src="./loading/bar-chart.svg"
+          src="/loading/bar-chart.svg"
           width={width}
           height={height}
         />

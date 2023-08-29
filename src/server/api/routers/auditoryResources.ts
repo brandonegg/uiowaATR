@@ -28,7 +28,7 @@ export const auditoryResourceRouter = createTRPCRouter({
         });
 
         if (!resource) {
-          throw Error('not found');
+          throw Error("not found");
         }
 
         return resource;
