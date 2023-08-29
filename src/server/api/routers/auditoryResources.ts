@@ -28,17 +28,14 @@ export const auditoryResourceRouter = createTRPCRouter({
         });
 
         if (!resource) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: "The resource you are looking for was not found.",
-          });
+          throw Error('not found');
         }
 
         return resource;
       } catch (e) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "The resource you are looking for was not found.",
+          message: "The resource you are looking for does not exist.",
           cause: e,
         });
       }
