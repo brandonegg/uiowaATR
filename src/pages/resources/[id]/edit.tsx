@@ -12,7 +12,7 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 import { QueryWaitWrapper } from "~/components/LoadingWrapper";
-import { AuditoryResource } from "@prisma/client";
+import { type AuditoryResource } from "@prisma/client";
 
 const EditResourcePage = () => {
   const router = useRouter();
@@ -20,7 +20,13 @@ const EditResourcePage = () => {
 
   const resourceQuery = api.auditoryResource.byId.useQuery(
     { id },
-    { enabled: router.isReady }
+    {
+      enabled: router.isReady,
+      onError(err) {
+        console.log(err);
+        throw err;
+      },
+    }
   );
 
   const ConditionalView = (data: AuditoryResource) => {

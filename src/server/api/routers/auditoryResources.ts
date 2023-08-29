@@ -1,10 +1,5 @@
-import {
-  SkillLevel,
-  Skill,
-  Platform,
-  type AuditoryResource,
-  PaymentType,
-} from "@prisma/client";
+import { SkillLevel, Skill, Platform, PaymentType } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import {
@@ -25,13 +20,28 @@ export const auditoryResourceRouter = createTRPCRouter({
   byId: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
-      const resource = await ctx.prisma.auditoryResource.findUnique({
-        where: {
-          id: input.id,
-        },
-      });
+      try {
+        const resource = await ctx.prisma.auditoryResource.findUnique({
+          where: {
+            id: input.id,
+          },
+        });
 
-      return { ...resource } as AuditoryResource;
+        if (!resource) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "The resource you are looking for was not found.",
+          });
+        }
+
+        return resource;
+      } catch (e) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "The resource you are looking for was not found.",
+          cause: e,
+        });
+      }
     }),
 
   getAll: publicProcedure.query(({ ctx }) => {

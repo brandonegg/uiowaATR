@@ -18,6 +18,8 @@ export function QueryWaitWrapper<TData, TError>({
     return <LoadingBarChart width={200} height={200} />;
   }
 
+  console.log(query.data);
+
   if (!query.data || query.isError) {
     return (
       <div className="my-10 sm:my-16 md:my-28">
