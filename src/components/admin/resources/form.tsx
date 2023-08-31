@@ -86,15 +86,22 @@ const SelectImageInput = () => {
         htmlFor="resource-image-file"
         className="bg-whit group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-400 drop-shadow-lg"
       >
-        <ResourcePhoto
-          name={name ?? "unknown resource logo"}
-          photo={photo ?? null}
-          src={icon}
-        />
-
-        <div className="absolute bottom-0 left-0 right-0 top-0 hidden place-items-center group-hover:grid group-hover:bg-white/70">
-          <PencilSquareIcon className="w-16 text-black/50" />
-        </div>
+        {photo ? (
+          <>
+            <ResourcePhoto
+              name={name ?? "unknown resource logo"}
+              photo={photo}
+              src={icon}
+            />
+            <div className="absolute bottom-0 left-0 right-0 top-0 hidden place-items-center group-hover:grid group-hover:bg-white/70">
+              <PencilSquareIcon className="w-16 text-black/50" />
+            </div>
+          </>
+        ) : (
+          <div className="grid aspect-square place-items-center hover:bg-white/70">
+            <PencilSquareIcon className="h-16 w-16 text-black/50" />
+          </div>
+        )}
       </label>
       <input
         onChange={onChange}
@@ -372,9 +379,7 @@ function ResourceSummarySubForm({
       <MultiSelectorMany
         details={register("payment_options", { required: true })}
         label="Price Category"
-        defaultValues={
-          resource?.payment_options ?? [PaymentType.FREE.toString()]
-        }
+        defaultValues={resource?.payment_options ?? []}
       >
         <PaymentTypeOption type={PaymentType.FREE} label="Free" />
         <PaymentTypeOption
