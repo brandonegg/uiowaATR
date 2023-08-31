@@ -25,6 +25,9 @@ const EditResourcePage = () => {
       retry(_failureCount, error) {
         return error.data?.httpStatus !== 404;
       },
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchInterval: false,
     }
   );
 

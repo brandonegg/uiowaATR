@@ -12,7 +12,9 @@ import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 const EditResourcePage = () => {
   const formMethods = useForm<ResourceUpdateInput>();
 
-  const [serverError, _setServerError] = useState<string | undefined>(undefined);
+  const [serverError, _setServerError] = useState<string | undefined>(
+    undefined
+  );
 
   const onSubmit: SubmitHandler<ResourceUpdateInput> = () => {
     // TODO: TRPC request to create resource
