@@ -1,5 +1,5 @@
-export { default } from "next-auth/middleware"
- 
+export { default } from "next-auth/middleware";
+
 export const config = {
-  matcher: '/resources/:id/edit',
-}
+  matcher: "/resources/:id/edit",
+};
