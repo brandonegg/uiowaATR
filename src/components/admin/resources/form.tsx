@@ -266,15 +266,15 @@ const ResourceLinkSubForm = () => {
         <h1 className="text-xl">Links</h1>
         <button
           type="button"
-          className="h-6 rounded-full border border-neutral-900 bg-neutral-200 px-2 leading-tight hover:bg-yellow-400"
+          className="flex h-6 flex-row items-center rounded-full border border-neutral-900 bg-neutral-200 px-2 leading-tight drop-shadow-sm hover:bg-yellow-400"
           onClick={() => {
             setLinkModalOpen(!linkModalOpen);
           }}
         >
-          <span className="my-auto inline-block align-middle text-sm font-normal text-neutral-700">
+          <span className="text-sm font-normal leading-3 text-neutral-700">
             Add
           </span>
-          <PlusIcon className="my-auto inline-block w-4 align-middle" />
+          <PlusIcon className="w-4 leading-3" />
         </button>
       </div>
 
