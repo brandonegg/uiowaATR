@@ -346,7 +346,10 @@ function ResourceSummarySubForm({
 }: {
   resource?: ResourceUpdateInput;
 }) {
-  const { register } = useFormContext<ResourceUpdateInput>();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<ResourceUpdateInput>();
 
   return (
     <div className="space-y-4 px-4">
@@ -360,14 +363,16 @@ function ResourceSummarySubForm({
           </h2>
           <span className="text-md">
             <InfoInputLine
-              details={register("manufacturer.name", { required: true })}
+              details={register("manufacturer.name", {
+                required: "Field required",
+              })}
               placeholder="manufacturer"
               hint="manufacturer"
               value={resource?.name}
             />
           </span>
           <InfoInputLine
-            details={register("name", { required: true })}
+            details={register("name", { required: "Field required" })}
             placeholder="name"
             value={resource?.name}
             hint="name"
@@ -378,7 +383,7 @@ function ResourceSummarySubForm({
         </div>
       </div>
       <MultiSelectorMany
-        details={register("payment_options", { required: true })}
+        details={register("payment_options", { required: "Field required" })}
         label="Price Category"
         defaultValues={resource?.payment_options ?? []}
       >
@@ -394,7 +399,7 @@ function ResourceSummarySubForm({
       </MultiSelectorMany>
 
       <MultiSelectorMany
-        details={register("skill_levels", { required: true })}
+        details={register("skill_levels", { required: "Field required" })}
         label="Skill Level"
         defaultValues={resource?.skill_levels ?? []}
       >
@@ -410,7 +415,7 @@ function ResourceSummarySubForm({
       </MultiSelectorMany>
 
       <MultiSelectorMany
-        details={register("skills", { required: true })}
+        details={register("skills", { required: "Field required" })}
         label="Skills Covered"
         defaultValues={resource?.skills ?? []}
       >
@@ -452,7 +457,7 @@ const ResourceDescriptionSubForm = () => {
           <ChevronDownIcon className="mx-2 my-auto w-4 text-white group-hover:animate-bounce" />
         </button>
         <textarea
-          {...register("description", { required: true })}
+          {...register("description", { required: "Field required" })}
           className={
             "h-48 w-full rounded-b-xl p-2" + (dropdownOpen ? " hidden" : "")
           }

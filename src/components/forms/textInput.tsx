@@ -2,9 +2,7 @@ import { type HTMLInputTypeAttribute, useState } from "react";
 import {
   type UseFormRegisterReturn,
   type InternalFieldName,
-  useFormContext,
 } from "react-hook-form";
-import { ResourceCreateInput } from "../admin/resources/form";
 
 /**
  * Single line input for the fields found to the right of the

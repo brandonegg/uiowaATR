@@ -1,6 +1,6 @@
 import { XCircleIcon, PlusCircleIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   type SubmitHandler,
   useForm,
@@ -45,6 +45,11 @@ const EditResourcePage = () => {
             key="create"
             symbol={<PlusCircleIcon className="w-4" />}
             label="Create"
+            onClick={() => {
+              formMethods
+                .handleSubmit(onSubmit)()
+                .catch((error) => console.error(error));
+            }}
           />,
           <AdminActionLink
             key="cancel"
