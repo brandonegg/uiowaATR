@@ -17,18 +17,13 @@ const emptyStringToUndefined = (val: string | undefined | null) => {
 };
 
 const AuditoryResourceSchema = z.object({
-  id: z.string(),
-  icon: z.string().min(1),
+  icon: z.string().min(1).optional(),
   name: z.string().min(1),
   description: z.string().min(1),
   manufacturer: z.object({
     name: z.string().min(1),
-    required: z.boolean(),
-    notice: z
-      .string()
-
-      .nullable()
-      .transform(emptyStringToUndefined),
+    required: z.boolean().default(false),
+    notice: z.string().nullable().transform(emptyStringToUndefined),
   }),
   ages: z.object({ min: z.number().int(), max: z.number().int() }),
   skills: z.array(z.nativeEnum(Skill)),
@@ -40,12 +35,14 @@ const AuditoryResourceSchema = z.object({
       data: z.instanceof(Buffer),
     })
     .nullable(),
-  platform_links: z.array(
-    z.object({
-      platform: z.nativeEnum(Platform),
-      link: z.string().min(1),
-    })
-  ),
+  platform_links: z
+    .array(
+      z.object({
+        platform: z.nativeEnum(Platform),
+        link: z.string().min(1),
+      })
+    )
+    .default([]),
 });
 
 export const auditoryResourceRouter = createTRPCRouter({
@@ -86,7 +83,7 @@ export const auditoryResourceRouter = createTRPCRouter({
     }),
 
   update: protectedProcedure
-    .input(AuditoryResourceSchema.partial())
+    .input(AuditoryResourceSchema.partial().extend({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.auditoryResource.update({
         where: {

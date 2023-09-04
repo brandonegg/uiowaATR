@@ -346,10 +346,7 @@ function ResourceSummarySubForm({
 }: {
   resource?: ResourceUpdateInput;
 }) {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<ResourceUpdateInput>();
+  const { register } = useFormContext<ResourceUpdateInput>();
 
   return (
     <div className="space-y-4 px-4">

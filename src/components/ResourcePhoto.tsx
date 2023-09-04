@@ -8,7 +8,7 @@ type ResourcePhotoProps = (
       src: string | undefined;
     }
   | {
-      src: string;
+      src: string | undefined;
       photo: null;
     }
 ) & { name: string };
