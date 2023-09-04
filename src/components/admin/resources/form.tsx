@@ -47,6 +47,7 @@ import { ResourcePhoto } from "~/components/ResourcePhoto";
 Modal.setAppElement("#__next");
 
 export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
+export type ResourceCreateInput = RouterInputs["auditoryResource"]["create"];
 
 /**
  * Renders the image selector for resource form.
@@ -361,14 +362,14 @@ function ResourceSummarySubForm({
             <InfoInputLine
               details={register("manufacturer.name", { required: true })}
               placeholder="manufacturer"
-              value={resource?.manufacturer?.name ?? ""}
               hint="manufacturer"
+              value={resource?.name}
             />
           </span>
           <InfoInputLine
             details={register("name", { required: true })}
             placeholder="name"
-            value={resource?.name ?? ""}
+            value={resource?.name}
             hint="name"
           />
           <span className="my-1 block w-full text-center text-xs italic text-neutral-400">

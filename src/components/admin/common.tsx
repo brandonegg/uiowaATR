@@ -42,13 +42,16 @@ const AdminActionButton = ({
   label,
   onClick,
   symbol,
+  type = "button",
 }: {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
   symbol: JSX.Element | undefined;
+  type?: HTMLButtonElement["type"];
 }) => {
   return (
     <button
+      type={type}
       className="py-auto group my-auto h-full space-x-2 rounded-lg border border-neutral-400 bg-neutral-800 px-2 hover:border-neutral-800 hover:bg-white"
       onClick={onClick}
     >

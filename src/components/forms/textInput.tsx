@@ -2,7 +2,9 @@ import { type HTMLInputTypeAttribute, useState } from "react";
 import {
   type UseFormRegisterReturn,
   type InternalFieldName,
+  useFormContext,
 } from "react-hook-form";
+import { ResourceCreateInput } from "../admin/resources/form";
 
 /**
  * Single line input for the fields found to the right of the
@@ -14,7 +16,7 @@ function InfoInputLine<TFieldName extends InternalFieldName>({
   hint,
   details,
 }: {
-  value: string;
+  value?: string | undefined;
   placeholder: string;
   hint?: string;
   details: UseFormRegisterReturn<TFieldName>;

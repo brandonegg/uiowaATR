@@ -40,8 +40,8 @@ const EditResourcePage = () => {
     });
 
     const { mutate } = api.auditoryResource.update.useMutation({
-      onSuccess: async (_resData) => {
-        if (!data) {
+      onSuccess: async (resData) => {
+        if (!resData) {
           setServerError("An unexpected error has occured");
           return;
         }
