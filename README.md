@@ -8,6 +8,7 @@
 There are many auditory training resources that often have unique requirements. A patient may require an Android application, or help with a specific skill. The patient may also already be at a specific skill level, and want a resource that is more challenging or easier depending on age group. The goal of this application is to provide an accessible website for patients and providers to easily find recommendations for auditory training development resources based on their unique requirements.
 
 ## Production Deployment
+### Docker Method
 Currently this is being deployed through docker on a single VPS. Using the included docker-compose you can start the production server with the following command:
 ```sh
 docker-compose up --build -d
@@ -18,11 +19,8 @@ I have this hosted behind a reverse proxy (nginx) which routes traffic from the 
 
 A more permanent hosting solution through the University is in the works.
 
-## Local Deployment
-TODO
-
-## API Access
-Documentation and updates to our RPC backend API are planned for the future. As of now there is no official documentation for accessing our resources database. More information to come!
+### Netlify
+As of recently, the project has been migrated to netlify enabling us to automate the deployment process and provide a more reliable experience for the end user.
 
 ## Directory Breakdown
 Many directories have associated README's to provide related directory information.
