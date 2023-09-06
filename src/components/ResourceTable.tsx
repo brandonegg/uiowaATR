@@ -49,7 +49,7 @@ export const ResourceInfo = ({
               <ResourcePhoto
                 name={resource.name}
                 photo={resource.photo}
-                src={resource.icon}
+                src={resource.icon ?? undefined}
               />
               <span className="block rounded-lg border border-neutral-900 bg-neutral-900 py-[1px] text-center text-white hover:bg-neutral-500 print:hidden">
                 more info
@@ -61,7 +61,7 @@ export const ResourceInfo = ({
             <ResourcePhoto
               name={resource.name}
               photo={resource.photo}
-              src={resource.icon}
+              src={resource.icon ?? undefined}
             />
           </div>
         )}

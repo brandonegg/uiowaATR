@@ -93,7 +93,7 @@ const SelectImageInput = () => {
             <ResourcePhoto
               name={name ?? "unknown resource logo"}
               photo={photo}
-              src={icon}
+              src={icon ?? undefined}
             />
             <div className="absolute bottom-0 left-0 right-0 top-0 hidden place-items-center group-hover:grid group-hover:bg-white/70">
               <PencilSquareIcon className="w-16 text-black/50" />

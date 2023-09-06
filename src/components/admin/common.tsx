@@ -1,6 +1,6 @@
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { type ButtonHTMLAttributes, useEffect, useState } from "react";
 
 const AdminActionBody = ({
   label,
@@ -49,7 +49,7 @@ const AdminActionConfirmButton = ({
   label: string;
   onConfirm?: () => void;
   symbol: JSX.Element | undefined;
-  type?: HTMLButtonElement["type"];
+  type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }) => {
   const [isConfirmView, setConfirmView] = useState(false);
 
@@ -96,7 +96,7 @@ const AdminActionButton = ({
   label: string;
   onClick?: () => void;
   symbol: JSX.Element | undefined;
-  type?: HTMLButtonElement["type"];
+  type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }) => {
   return (
     <button
