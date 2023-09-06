@@ -7,7 +7,10 @@ import {
   type UseFormReturn,
 } from "react-hook-form";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
-import { AdminActionButton, AdminActionLink } from "~/components/admin/common";
+import {
+  AdminActionButton,
+  AdminActionConfirmButton,
+} from "~/components/admin/common";
 import {
   type ResourceCreateInput,
   ResourceForm,
@@ -55,11 +58,15 @@ const EditResourcePage = () => {
                 .catch((error) => console.error(error));
             }}
           />,
-          <AdminActionLink
+          <AdminActionConfirmButton
             key="cancel"
             symbol={<XCircleIcon className="w-4" />}
             label="Cancel"
-            href={`/resources`}
+            onConfirm={() => {
+              router.push("/resources").catch((error) => {
+                console.error(error);
+              });
+            }}
           />,
         ]}
       >

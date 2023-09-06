@@ -1,4 +1,6 @@
+import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const AdminActionBody = ({
   label,
@@ -38,6 +40,53 @@ const AdminActionLink = ({
   );
 };
 
+const AdminActionConfirmButton = ({
+  label,
+  onConfirm,
+  symbol,
+  type = "button",
+}: {
+  label: string;
+  onConfirm?: () => void;
+  symbol: JSX.Element | undefined;
+  type?: HTMLButtonElement["type"];
+}) => {
+  const [isConfirmView, setConfirmView] = useState(false);
+
+  useEffect(() => {
+    if (!isConfirmView) {
+      return;
+    }
+
+    setTimeout(() => {
+      if (isConfirmView) {
+        setConfirmView(false);
+      }
+    }, 5000);
+  }, [isConfirmView]);
+
+  if (isConfirmView) {
+    return (
+      <AdminActionButton
+        symbol={<ExclamationCircleIcon className="w-4 animate-ping" />}
+        label={`Confirm ${label}`}
+        onClick={onConfirm}
+        type={type}
+      />
+    );
+  }
+
+  return (
+    <AdminActionButton
+      symbol={symbol}
+      label={label}
+      onClick={() => {
+        setConfirmView(true);
+      }}
+    />
+  );
+};
+
 const AdminActionButton = ({
   label,
   onClick,
@@ -65,4 +114,4 @@ const AdminActionButton = ({
   );
 };
 
-export { AdminActionLink, AdminActionButton };
+export { AdminActionLink, AdminActionButton, AdminActionConfirmButton };

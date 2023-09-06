@@ -1,6 +1,9 @@
 import { XCircleIcon } from "@heroicons/react/20/solid";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
-import { AdminActionButton, AdminActionLink } from "~/components/admin/common";
+import {
+  AdminActionButton,
+  AdminActionConfirmButton,
+} from "~/components/admin/common";
 import Image from "next/image";
 import {
   ResourceForm,
@@ -87,11 +90,15 @@ const EditResourcePage = () => {
               onSubmit(formMethods.getValues());
             }}
           />,
-          <AdminActionLink
+          <AdminActionConfirmButton
             key="cancel"
             symbol={<XCircleIcon className="w-4" />}
             label="Cancel"
-            href={`/resources/${data.id}`}
+            onConfirm={() => {
+              router.push(`/resources/${data.id}`).catch((error) => {
+                console.error(error);
+              });
+            }}
           />,
         ]}
       >

@@ -6,10 +6,14 @@ import { type AuditoryResource, type PlatformLink } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
-import { AdminActionLink } from "~/components/admin/common";
+import {
+  AdminActionConfirmButton,
+  AdminActionLink,
+} from "~/components/admin/common";
 import { useRouter } from "next/router";
 import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 import { QueryWaitWrapper } from "~/components/LoadingWrapper";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 export const PlatformLinkButton = ({
   platformLink,
@@ -122,13 +126,23 @@ const ResourceViewPage = () => {
   return (
     <HeaderFooterLayout>
       <AdminBarLayout
-        actions={
+        actions={[
           <AdminActionLink
+            key="edit"
             symbol={<PencilSquareIcon className="w-4" />}
             label="Edit Page"
             href={`${router.asPath}/edit`}
-          />
-        }
+          />,
+          <AdminActionConfirmButton
+            key="delete"
+            label="Delete"
+            symbol={<TrashIcon className="w-4" />}
+            onConfirm={() => {
+              // todo
+              console.log("deleting");
+            }}
+          />,
+        ]}
       >
         <div className="mb-12">
           <QueryWaitWrapper query={resourceQuery} Render={ConditionalView} />
