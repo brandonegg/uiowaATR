@@ -386,7 +386,7 @@ function ResourceSummarySubForm({
           heading="Age Range"
           subheading="Specify the minimum and maximum age range supported by the resource"
         />
-        <div className="mt-2 flex flex-row space-x-4">
+        <div className="mt-4 flex flex-row space-x-4">
           <GenericInput
             type="number"
             placeholder="minimum age"
