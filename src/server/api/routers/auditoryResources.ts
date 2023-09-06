@@ -25,7 +25,14 @@ const AuditoryResourceSchema = z.object({
     required: z.boolean().default(false),
     notice: z.string().nullable().transform(emptyStringToUndefined),
   }),
-  ages: z.object({ min: z.number().int(), max: z.number().int() }),
+  ages: z.object({ min: z.number().int(), max: z.number().int() }).refine(
+    (ages) => {
+      return ages.min < ages.max;
+    },
+    {
+      message: "Minimum supported age must be less than maximum supported age.",
+    }
+  ),
   skills: z.array(z.nativeEnum(Skill)),
   skill_levels: z.array(z.nativeEnum(SkillLevel)),
   payment_options: z.array(z.nativeEnum(PaymentType)),

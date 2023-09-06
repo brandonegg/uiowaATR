@@ -41,6 +41,7 @@ import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
 import { PlatformLinkButton } from "~/pages/resources/[id]";
 import { ResourcePhoto } from "~/components/ResourcePhoto";
+import { FieldLabel } from "~/components/forms/inputLabel";
 
 // Required for accessibility
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
@@ -379,6 +380,33 @@ function ResourceSummarySubForm({
           </span>
         </div>
       </div>
+
+      <div>
+        <FieldLabel
+          heading="Age Range"
+          subheading="Specify the minimum and maximum age range supported by the resource"
+        />
+        <div className="mt-2 flex flex-row space-x-4">
+          <GenericInput
+            type="number"
+            placeholder="minimum age"
+            details={register("ages.min", {
+              required: "Field required",
+              valueAsNumber: true,
+            })}
+          />
+          <span className="text-xl">-</span>
+          <GenericInput
+            type="number"
+            placeholder="maximum age"
+            details={register("ages.max", {
+              required: "Field required",
+              valueAsNumber: true,
+            })}
+          />
+        </div>
+      </div>
+
       <MultiSelectorMany
         details={register("payment_options", { required: "Field required" })}
         label="Price Category"
