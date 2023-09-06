@@ -95,6 +95,15 @@ const ResourceViewPage = () => {
     }
   );
 
+  const { mutate: mutateDelete } = api.auditoryResource.delete.useMutation({
+    onSuccess: async () => {
+      await router.push(`/resources`);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
   const ConditionalView = (data: AuditoryResource) => {
     return (
       <div className="mx-auto flex max-w-2xl flex-col flex-col-reverse divide-x py-4 sm:flex-row">
@@ -138,8 +147,9 @@ const ResourceViewPage = () => {
             label="Delete"
             symbol={<TrashIcon className="w-4" />}
             onConfirm={() => {
-              // todo
-              console.log("deleting");
+              mutateDelete({
+                id,
+              });
             }}
           />,
         ]}

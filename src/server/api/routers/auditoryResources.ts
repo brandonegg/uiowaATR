@@ -89,6 +89,20 @@ export const auditoryResourceRouter = createTRPCRouter({
       });
     }),
 
+  delete: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.prisma.auditoryResource.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
+
   update: protectedProcedure
     .input(AuditoryResourceSchema.partial().extend({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
