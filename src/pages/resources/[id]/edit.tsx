@@ -49,7 +49,20 @@ const EditResourcePage = () => {
         setServerError(undefined);
         await router.push(`/resources/${data.id}`);
       },
-      onError: (error) => setServerError(error.message),
+      onError: (error) => {
+        try {
+          const zodErrors = JSON.parse(error.message) as unknown as { message: string }[];
+          setServerError(
+            zodErrors
+              .map((error) => {
+                return error.message;
+              })
+              .join(", ")
+          );
+        } catch {
+          setServerError(error.message);
+        }
+      },
     });
 
     const onSubmit: SubmitHandler<ResourceUpdateInput> = (data) => {
