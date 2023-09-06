@@ -82,7 +82,7 @@ export const auditoryResourceRouter = createTRPCRouter({
   }),
 
   create: protectedProcedure
-    .input(AuditoryResourceSchema)
+    .input(AuditoryResourceSchema.strict())
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.auditoryResource.create({
         data: input,
