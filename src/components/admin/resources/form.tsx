@@ -41,12 +41,14 @@ import Modal from "react-modal";
 import { type RouterInputs } from "~/utils/api";
 import { PlatformLinkButton } from "~/pages/resources/[id]";
 import { ResourcePhoto } from "~/components/ResourcePhoto";
+import { FieldLabel } from "~/components/forms/inputLabel";
 
 // Required for accessibility
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 Modal.setAppElement("#__next");
 
 export type ResourceUpdateInput = RouterInputs["auditoryResource"]["update"];
+export type ResourceCreateInput = RouterInputs["auditoryResource"]["create"];
 
 /**
  * Renders the image selector for resource form.
@@ -86,15 +88,22 @@ const SelectImageInput = () => {
         htmlFor="resource-image-file"
         className="bg-whit group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-400 drop-shadow-lg"
       >
-        <ResourcePhoto
-          name={name ?? "unknown resource logo"}
-          photo={photo ?? null}
-          src={icon}
-        />
-
-        <div className="absolute bottom-0 left-0 right-0 top-0 hidden place-items-center group-hover:grid group-hover:bg-white/70">
-          <PencilSquareIcon className="w-16 text-black/50" />
-        </div>
+        {photo ? (
+          <>
+            <ResourcePhoto
+              name={name ?? "unknown resource logo"}
+              photo={photo}
+              src={icon}
+            />
+            <div className="absolute bottom-0 left-0 right-0 top-0 hidden place-items-center group-hover:grid group-hover:bg-white/70">
+              <PencilSquareIcon className="w-16 text-black/50" />
+            </div>
+          </>
+        ) : (
+          <div className="grid aspect-square place-items-center hover:bg-white/70">
+            <PencilSquareIcon className="h-16 w-16 text-black/50" />
+          </div>
+        )}
       </label>
       <input
         onChange={onChange}
@@ -259,15 +268,15 @@ const ResourceLinkSubForm = () => {
         <h1 className="text-xl">Links</h1>
         <button
           type="button"
-          className="h-6 rounded-full border border-neutral-900 bg-neutral-200 px-2 leading-tight hover:bg-yellow-400"
+          className="flex h-6 flex-row items-center rounded-full border border-neutral-900 bg-neutral-200 px-2 leading-tight drop-shadow-sm hover:bg-yellow-400"
           onClick={() => {
             setLinkModalOpen(!linkModalOpen);
           }}
         >
-          <span className="my-auto inline-block align-middle text-sm font-normal text-neutral-700">
+          <span className="text-sm font-normal leading-3 text-neutral-700">
             Add
           </span>
-          <PlusIcon className="my-auto inline-block w-4 align-middle" />
+          <PlusIcon className="w-4 leading-3" />
         </button>
       </div>
 
@@ -352,16 +361,18 @@ function ResourceSummarySubForm({
           </h2>
           <span className="text-md">
             <InfoInputLine
-              details={register("manufacturer.name", { required: true })}
+              details={register("manufacturer.name", {
+                required: "Field required",
+              })}
               placeholder="manufacturer"
-              value={resource?.manufacturer?.name ?? ""}
               hint="manufacturer"
+              value={resource?.name}
             />
           </span>
           <InfoInputLine
-            details={register("name", { required: true })}
+            details={register("name", { required: "Field required" })}
             placeholder="name"
-            value={resource?.name ?? ""}
+            value={resource?.name}
             hint="name"
           />
           <span className="my-1 block w-full text-center text-xs italic text-neutral-400">
@@ -369,12 +380,37 @@ function ResourceSummarySubForm({
           </span>
         </div>
       </div>
+
+      <div>
+        <FieldLabel
+          heading="Age Range"
+          subheading="Specify the minimum and maximum age range supported by the resource"
+        />
+        <div className="mt-4 flex flex-row space-x-4">
+          <GenericInput
+            type="number"
+            placeholder="minimum age"
+            details={register("ages.min", {
+              required: "Field required",
+              valueAsNumber: true,
+            })}
+          />
+          <span className="text-xl">-</span>
+          <GenericInput
+            type="number"
+            placeholder="maximum age"
+            details={register("ages.max", {
+              required: "Field required",
+              valueAsNumber: true,
+            })}
+          />
+        </div>
+      </div>
+
       <MultiSelectorMany
-        details={register("payment_options", { required: true })}
+        details={register("payment_options", { required: "Field required" })}
         label="Price Category"
-        defaultValues={
-          resource?.payment_options ?? [PaymentType.FREE.toString()]
-        }
+        defaultValues={resource?.payment_options ?? []}
       >
         <PaymentTypeOption type={PaymentType.FREE} label="Free" />
         <PaymentTypeOption
@@ -388,7 +424,7 @@ function ResourceSummarySubForm({
       </MultiSelectorMany>
 
       <MultiSelectorMany
-        details={register("skill_levels", { required: true })}
+        details={register("skill_levels", { required: "Field required" })}
         label="Skill Level"
         defaultValues={resource?.skill_levels ?? []}
       >
@@ -404,7 +440,7 @@ function ResourceSummarySubForm({
       </MultiSelectorMany>
 
       <MultiSelectorMany
-        details={register("skills", { required: true })}
+        details={register("skills", { required: "Field required" })}
         label="Skills Covered"
         defaultValues={resource?.skills ?? []}
       >
@@ -446,7 +482,7 @@ const ResourceDescriptionSubForm = () => {
           <ChevronDownIcon className="mx-2 my-auto w-4 text-white group-hover:animate-bounce" />
         </button>
         <textarea
-          {...register("description", { required: true })}
+          {...register("description", { required: "Field required" })}
           className={
             "h-48 w-full rounded-b-xl p-2" + (dropdownOpen ? " hidden" : "")
           }

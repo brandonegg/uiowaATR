@@ -14,7 +14,7 @@ function InfoInputLine<TFieldName extends InternalFieldName>({
   hint,
   details,
 }: {
-  value: string;
+  value?: string | undefined;
   placeholder: string;
   hint?: string;
   details: UseFormRegisterReturn<TFieldName>;
@@ -50,16 +50,18 @@ function GenericInput<TFieldName extends InternalFieldName>({
   type = "text",
   details,
 }: {
-  label: string;
+  label?: string;
   placeholder?: string;
   type: HTMLInputTypeAttribute;
   details: UseFormRegisterReturn<TFieldName>;
 }) {
   return (
     <section className="w-full space-y-1">
-      <label className="text-md block px-1 font-semibold text-neutral-600">
-        {label}
-      </label>
+      {label ? (
+        <label className="text-md block px-1 font-semibold text-neutral-600">
+          {label}
+        </label>
+      ) : undefined}
       <input
         className="block h-8 w-full rounded-lg border border-neutral-600 px-2 py-1"
         {...details}

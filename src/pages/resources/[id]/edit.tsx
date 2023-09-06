@@ -1,6 +1,9 @@
 import { XCircleIcon } from "@heroicons/react/20/solid";
 import { AdminBarLayout } from "~/components/admin/ControlBar";
-import { AdminActionButton, AdminActionLink } from "~/components/admin/common";
+import {
+  AdminActionButton,
+  AdminActionConfirmButton,
+} from "~/components/admin/common";
 import Image from "next/image";
 import {
   ResourceForm,
@@ -13,6 +16,7 @@ import { useRouter } from "next/router";
 import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 import { QueryWaitWrapper } from "~/components/LoadingWrapper";
 import { type AuditoryResource } from "@prisma/client";
+import { parseTRPCErrorMessage } from "~/utils/parseTRPCError";
 
 const EditResourcePage = () => {
   const router = useRouter();
@@ -25,6 +29,9 @@ const EditResourcePage = () => {
       retry(_failureCount, error) {
         return error.data?.httpStatus !== 404;
       },
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchInterval: false,
     }
   );
 
@@ -37,8 +44,8 @@ const EditResourcePage = () => {
     });
 
     const { mutate } = api.auditoryResource.update.useMutation({
-      onSuccess: async (_resData) => {
-        if (!data) {
+      onSuccess: async (resData) => {
+        if (!resData) {
           setServerError("An unexpected error has occured");
           return;
         }
@@ -46,7 +53,9 @@ const EditResourcePage = () => {
         setServerError(undefined);
         await router.push(`/resources/${data.id}`);
       },
-      onError: (error) => setServerError(error.message),
+      onError: (error) => {
+        setServerError(parseTRPCErrorMessage(error.message));
+      },
     });
 
     const onSubmit: SubmitHandler<ResourceUpdateInput> = (data) => {
@@ -81,11 +90,15 @@ const EditResourcePage = () => {
               onSubmit(formMethods.getValues());
             }}
           />,
-          <AdminActionLink
+          <AdminActionConfirmButton
             key="cancel"
             symbol={<XCircleIcon className="w-4" />}
             label="Cancel"
-            href={`/resources/${data.id}`}
+            onConfirm={() => {
+              router.push(`/resources/${data.id}`).catch((error) => {
+                console.error(error);
+              });
+            }}
           />,
         ]}
       >

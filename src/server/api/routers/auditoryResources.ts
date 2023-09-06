@@ -16,6 +16,42 @@ const emptyStringToUndefined = (val: string | undefined | null) => {
   return val;
 };
 
+const AuditoryResourceSchema = z.object({
+  icon: z.string().min(1).optional().nullable(),
+  name: z.string().min(1),
+  description: z.string().min(1),
+  manufacturer: z.object({
+    name: z.string().min(1),
+    required: z.boolean().default(false),
+    notice: z.string().nullable().transform(emptyStringToUndefined),
+  }),
+  ages: z.object({ min: z.number().int(), max: z.number().int() }).refine(
+    (ages) => {
+      return ages.min < ages.max;
+    },
+    {
+      message: "Minimum supported age must be less than maximum supported age.",
+    }
+  ),
+  skills: z.array(z.nativeEnum(Skill)),
+  skill_levels: z.array(z.nativeEnum(SkillLevel)),
+  payment_options: z.array(z.nativeEnum(PaymentType)),
+  photo: z
+    .object({
+      name: z.string(),
+      data: z.instanceof(Buffer),
+    })
+    .nullable(),
+  platform_links: z
+    .array(
+      z.object({
+        platform: z.nativeEnum(Platform),
+        link: z.string().min(1),
+      })
+    )
+    .default([]),
+});
+
 export const auditoryResourceRouter = createTRPCRouter({
   byId: publicProcedure
     .input(z.object({ id: z.string() }))
@@ -45,47 +81,30 @@ export const auditoryResourceRouter = createTRPCRouter({
     return ctx.prisma.auditoryResource.findMany();
   }),
 
-  update: protectedProcedure
+  create: protectedProcedure
+    .input(AuditoryResourceSchema.strict())
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.prisma.auditoryResource.create({
+        data: input,
+      });
+    }),
+
+  delete: protectedProcedure
     .input(
       z.object({
         id: z.string(),
-        icon: z.string().min(1).optional(),
-        name: z.string().min(1).optional(),
-        description: z.string().min(1).optional(),
-        manufacturer: z
-          .object({
-            name: z.string().min(1),
-            required: z.boolean(),
-            notice: z
-              .string()
-              .optional()
-              .nullable()
-              .transform(emptyStringToUndefined),
-          })
-          .optional(),
-        ages: z
-          .object({ min: z.number().int(), max: z.number().int() })
-          .optional(),
-        skills: z.array(z.nativeEnum(Skill)).optional(),
-        skill_levels: z.array(z.nativeEnum(SkillLevel)).optional(),
-        payment_options: z.array(z.nativeEnum(PaymentType)).optional(),
-        photo: z
-          .object({
-            name: z.string(),
-            data: z.instanceof(Buffer),
-          })
-          .nullable()
-          .optional(),
-        platform_links: z
-          .array(
-            z.object({
-              platform: z.nativeEnum(Platform),
-              link: z.string().min(1),
-            })
-          )
-          .optional(),
       })
     )
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.prisma.auditoryResource.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
+
+  update: protectedProcedure
+    .input(AuditoryResourceSchema.partial().extend({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.auditoryResource.update({
         where: {

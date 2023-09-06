@@ -70,7 +70,7 @@ type Photo {
 
 model AuditoryResource {
   id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  icon            String
+  icon            String?
   name            String
   description     String
   photo           Photo?
