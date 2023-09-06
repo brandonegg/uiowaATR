@@ -17,7 +17,7 @@ const emptyStringToUndefined = (val: string | undefined | null) => {
 };
 
 const AuditoryResourceSchema = z.object({
-  icon: z.string().min(1).optional(),
+  icon: z.string().min(1).optional().nullable(),
   name: z.string().min(1),
   description: z.string().min(1),
   manufacturer: z.object({

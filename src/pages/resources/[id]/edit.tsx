@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 import { QueryWaitWrapper } from "~/components/LoadingWrapper";
 import { type AuditoryResource } from "@prisma/client";
+import { parseTRPCErrorMessage } from "~/utils/parseTRPCError";
 
 const EditResourcePage = () => {
   const router = useRouter();
@@ -50,18 +51,7 @@ const EditResourcePage = () => {
         await router.push(`/resources/${data.id}`);
       },
       onError: (error) => {
-        try {
-          const zodErrors = JSON.parse(error.message) as unknown as { message: string }[];
-          setServerError(
-            zodErrors
-              .map((error) => {
-                return error.message;
-              })
-              .join(", ")
-          );
-        } catch {
-          setServerError(error.message);
-        }
+        setServerError(parseTRPCErrorMessage(error.message));
       },
     });
 

@@ -15,6 +15,7 @@ import {
 } from "~/components/admin/resources/form";
 import { HeaderFooterLayout } from "~/layouts/HeaderFooterLayout";
 import { api } from "~/utils/api";
+import { parseTRPCErrorMessage } from "~/utils/parseTRPCError";
 
 const EditResourcePage = () => {
   const router = useRouter();
@@ -30,6 +31,9 @@ const EditResourcePage = () => {
 
       setServerError(undefined);
       await router.push(`/resources/${resData.id}`);
+    },
+    onError: (error) => {
+      setServerError(parseTRPCErrorMessage(error.message));
     },
   });
 
@@ -61,7 +65,9 @@ const EditResourcePage = () => {
       >
         <div className="mb-12">
           <ResourceForm
-            methods={formMethods as UseFormReturn<ResourceUpdateInput>}
+            methods={
+              formMethods as unknown as UseFormReturn<ResourceUpdateInput>
+            }
             error={serverError}
           />
         </div>
