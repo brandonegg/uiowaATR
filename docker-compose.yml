@@ -5,11 +5,7 @@ services:
     build:
       context: .
       args:
-        - NEXTAUTH_SECRET=arbitrary
-        - JWT_SECRET=arbitrary
-        - NEXTAUTH_URL=http://arbitrary.com
-        - DATABASE_URL=http://arbitrary.com
-        - RUNNER_ENV=production
+        - RUNNER_ENV
     restart: always
     ports:
       - "1234:3000"

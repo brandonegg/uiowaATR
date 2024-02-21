@@ -19,22 +19,14 @@ RUN npm install
 # PRODUCTION BUILDER
 #################################################
 FROM base AS builder-production
-ARG DATABASE_URL
-ARG NEXTAUTH_URL
-ARG NEXTAUTH_SECRET
-ARG JWT_SECRET
 
-ENV DATABASE_URL ${DATABASE_URL}
-ENV NEXTAUTH_URL ${NEXTAUTH_URL}
-ENV NEXTAUTH_SECRET ${NEXTAUTH_SECRET}
-ENV JWT_SECRET ${JWT_SECRET}
 ENV NODE_ENV=production
 
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN npm run build
+RUN SKIP_ENV_VALIDATION=1 npm run build
 
 #################################################
 # PRODUCTION RUNNER
