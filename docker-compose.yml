@@ -4,8 +4,6 @@ services:
   uiowa-atr:
     build:
       context: .
-      args:
-        - RUNNER_ENV
     restart: always
     ports:
       - "1234:3000"
