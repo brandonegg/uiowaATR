@@ -1,7 +1,9 @@
-##### DEPENDENCIES
+FROM node:18-alpine AS base
 
-FROM --platform=linux/amd64 node:20-alpine AS deps
-RUN apk add --no-cache libc6-compat openssl
+# Install dependencies only when needed
+##### DEPENDENCIES
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install Prisma Client - remove if not using Prisma
@@ -21,7 +23,7 @@ RUN \
 
 ##### BUILDER
 
-FROM --platform=linux/amd64 node:20-alpine AS builder
+FROM base AS builder
 ARG DATABASE_URL
 ARG NEXT_PUBLIC_CLIENTVAR
 WORKDIR /app
@@ -39,7 +41,7 @@ RUN \
 
 ##### RUNNER
 
-FROM --platform=linux/amd64 gcr.io/distroless/nodejs20-debian12 AS runner
+FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
