@@ -21,11 +21,5 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true, // Prisma can't generate in PROD build step
-  },
 };
 export default config;
