@@ -24,5 +24,8 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true, // Prisma can't generate in PROD build step
+  },
 };
 export default config;
