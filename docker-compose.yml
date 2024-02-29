@@ -6,7 +6,7 @@ services:
       context: .
     restart: always
     ports:
-      - "1234:3000"
+      - "${PORT}:3000"
     environment:
       - NEXTAUTH_SECRET
       - NEXTAUTH_URL
