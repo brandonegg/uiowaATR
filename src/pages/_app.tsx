@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
 import Head from "next/head";
+import { env } from "~/env.mjs";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -20,6 +21,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
           content="University of Iowa Center for Auditory Training Resources"
         />
         <link rel="icon" href="/favicon.ico" />
+        {env.NODE_ENV === "production" ? (
+          <script
+            defer
+            src="https://analytics.brandonegger.com/script.js"
+            data-website-id="f7d16c5d-f586-4a2f-b439-39fa30a12694"
+          />
+        ) : null}
       </Head>
       <Component {...pageProps} />
     </SessionProvider>
