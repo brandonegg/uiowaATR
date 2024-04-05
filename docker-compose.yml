@@ -5,6 +5,7 @@ services:
     build:
       context: .
     restart: always
+    pull_policy: build
     ports:
       - "${PORT}:3000"
     environment:
