@@ -27,6 +27,7 @@ const server = z.object({
  */
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  NEXT_PUBLIC_ENVIRONMENT: z.enum(["development", "test", "production"]),
 });
 
 /**
@@ -41,6 +42,7 @@ const processEnv = {
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   JWT_SECRET: process.env.JWT_SECRET,
+  NEXT_PUBLIC_ENVIRONMENT: process.env.NODE_ENV,
 };
 
 // Don't touch the part below

@@ -21,7 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           content="University of Iowa Center for Auditory Training Resources"
         />
         <link rel="icon" href="/favicon.ico" />
-        {env.NODE_ENV === "production" ? (
+        {env.NEXT_PUBLIC_ENVIRONMENT === "production" ? (
           <script
             defer
             src="https://analytics.brandonegger.com/script.js"
