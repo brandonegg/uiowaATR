@@ -25,7 +25,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <script
             defer
             src="https://analytics.brandonegger.com/script.js"
-            data-website-id="121b7ea1-1851-437f-9f3d-4e376487bea0"
+            data-website-id="3e1b5a25-9eb9-4dc5-a1d2-259bf73b847f"
           ></script>
         ) : null}
       </Head>
