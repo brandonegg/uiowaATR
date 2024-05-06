@@ -22,11 +22,18 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <link rel="icon" href="/favicon.ico" />
         {env.NEXT_PUBLIC_ENVIRONMENT === "production" ? (
-          <script
-            defer
-            src="https://analytics.brandonegger.com/script.js"
-            data-website-id="3e1b5a25-9eb9-4dc5-a1d2-259bf73b847f"
-          ></script>
+          <>
+            <script
+              defer
+              data-domain="auditorytraining.info"
+              src="https://analytics.brandonegger.com/js/script.js"
+            ></script>
+            <script
+              defer
+              data-domain="auditorytraining.csd.uiowa.edu"
+              src="https://analytics.brandonegger.com/js/script.js"
+            ></script>
+          </>
         ) : null}
       </Head>
       <Component {...pageProps} />
