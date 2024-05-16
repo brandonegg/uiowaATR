@@ -28,11 +28,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
               data-domain="auditorytraining.info"
               src="https://analytics.brandonegger.com/js/script.js"
             ></script>
-            <script
-              defer
-              data-domain="auditorytraining.csd.uiowa.edu"
-              src="https://analytics.brandonegger.com/js/script.js"
-            ></script>
           </>
         ) : null}
       </Head>
