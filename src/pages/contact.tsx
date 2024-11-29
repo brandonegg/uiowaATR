@@ -9,20 +9,23 @@ interface ContactDetails {
   title: string;
   role: string;
   email: string;
+  workplace: string;
 }
 
 const contacts: ContactDetails[] = [
   {
     name: "Olivia Adamson",
-    title: "B.A",
-    role: "Graduate Student Clinician - Audiology",
-    email: "olivia-adamson@uiowa.edu",
+    title: "Au.D",
+    role: "Audiologist",
+    email: "olivia.adamson2@gundersenhealth.org",
+    workplace: "Gundersen (Emplify) Health System",
   },
   {
     name: "Eun Kyung (Julie) Jeon",
     title: "Ph.D. Au.D., CCC-A",
     role: "Clinical Assistant Professor in Audiology",
     email: "eunkyung-jeon@uiowa.edu",
+    workplace: "University of Iowa",
   },
 ];
 
@@ -35,7 +38,7 @@ const ContactForm = ({ details }: { details: ContactDetails }) => {
           {details.title}
         </h2>
         <h2>{details.role}</h2>
-        <h3 className="text-yellow-500">University of Iowa</h3>
+        <h3 className="text-yellow-500">{details.workplace}</h3>
         <a
           className="group mt-4 block w-fit space-x-2 rounded-lg bg-neutral-900 p-2 drop-shadow hover:bg-white"
           href={`mailto:${details.email}?`}
