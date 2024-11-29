@@ -48,8 +48,8 @@ interface ContactInfo {
 const contacts: ContactInfo[] = [
   {
     name: "Olivia Adamson",
-    title: "Audiology Graduate Student Clinician",
-    email: "olivia-adamson@uiowa.edu",
+    title: "Audiologist",
+    email: "olivia.adamson2@gundersenhealth.org",
   },
   {
     name: "Eun Kyung (Julie) Jeon",
