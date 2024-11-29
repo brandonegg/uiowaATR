@@ -52,7 +52,7 @@ const biographies: Biography[] = [
   {
     name: "Olivia Adamson",
     bodyName: "Olivia",
-    title: "B.A",
+    title: "Au.D",
     body: "is currently working as a clinical audiologist at Gundersen Health System (Emplify Health) in La Crosse, Wisconsin. There she works with patients across the lifespan helping them reach their hearing goals. She works with hearing aids, bone conduction devices, and cochlear implants. She earned her Bachelor of Arts in Communication Sciences and Disorders from Augustana University in Sioux Falls, SD, in 2020. She then continued on to receive her Doctorate of Audiology at the University of Iowa in 2024.",
     img: "/profiles/olivia-adamson.jpeg",
     position: "right",
