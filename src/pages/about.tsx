@@ -53,7 +53,7 @@ const biographies: Biography[] = [
     name: "Olivia Adamson",
     bodyName: "Olivia",
     title: "B.A",
-    body: "is a dedicated audiology graduate student at the University of Iowa, originally from a small town in southeast Minnesota. She earned her Bachelor of Arts in Communication Sciences and Disorders from Augustana University in Sioux Falls, SD, in 2020. Olivia Adamson is currently immersed in her fourth-year externship at Gundersen Health System in LaCrosse, WI, where she works with patients of all ages, performs comprehensive diagnostic assessments, provides vestibular assessments, and specializes in hearing aids and cochlear implants. With a passion for aural rehabilitation, particularly for older adults, Olivia is dedicated to enhancing the quality of life for individuals with hearing loss. She aspires to empower patients to take control of their hearing journey through this resource. Upon completing her externship, Olivia will graduate with her Au.D. in May 2024.",
+    body: "is currently working as a clinical audiologist at Gundersen Health System (Emplify Health) in La Crosse, Wisconsin. There she works with patients across the lifespan helping them reach their hearing goals. She works with hearing aids, bone conduction devices, and cochlear implants. She earned her Bachelor of Arts in Communication Sciences and Disorders from Augustana University in Sioux Falls, SD, in 2020. She then continued on to receive her Doctorate of Audiology at the University of Iowa in 2024.",
     img: "/profiles/olivia-adamson.jpeg",
     position: "right",
   },
