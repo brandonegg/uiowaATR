@@ -1,5 +1,3 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/874ce895-0572-4817-a6b3-cdff89966cd4/deploy-status)](https://app.netlify.com/sites/auditorytraining/deploys)
-
 # Auditory Training Resources
 
 <p align="center">
@@ -25,10 +23,6 @@ This should deploy the instance on localhost:1234
 I have this hosted behind a reverse proxy (nginx) which routes traffic from the auditorytraining.info URI to localhost:1234. You can of course change this to any port that works best in your configuration!
 
 A more permanent hosting solution through the University is in the works.
-
-### Netlify
-
-As of recently, the project has been migrated to netlify enabling us to automate the deployment process and provide a more reliable experience for the end user.
 
 ## Directory Breakdown
 
